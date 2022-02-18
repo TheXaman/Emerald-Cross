@@ -98,6 +98,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsUnitSystem = 0;  //tx_optionsPlus
     gSaveBlock2Ptr->optionsHpBarSpeed = 0;  //tx_optionsPlus
     gSaveBlock2Ptr->optionsExpBarSpeed = 0; //tx_optionsPlus
+    gSaveBlock2Ptr->optionsFishReeling = 0;
 }
 
 static void ClearPokedexFlags(void)
