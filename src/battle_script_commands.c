@@ -810,11 +810,11 @@ static const u16 sRarePickupItems[] =
     ITEM_FULL_RESTORE,
     ITEM_ETHER,
     ITEM_WHITE_HERB,
-    ITEM_TM44_REST,
+    ITEM_SUN_STONE,
     ITEM_ELIXIR,
-    ITEM_TM01_FOCUS_PUNCH,
+    ITEM_MOON_STONE,
     ITEM_LEFTOVERS,
-    ITEM_TM26_EARTHQUAKE,
+    ITEM_HEART_SCALE,
 };
 
 static const u8 sPickupProbabilities[] =
@@ -9610,7 +9610,13 @@ static void Cmd_pickup(void)
             GetMonData(&gPlayerParty[index], MON_DATA_NICKNAME, nickname);
             StringCopy_Nickname(gBattleTextBuff1, nickname);
 
-            if(GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ORAN_BERRY || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ASPEAR_BERRY)
+            if (GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ANTIDOTE
+            || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ESCAPE_ROPE
+            || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ELIXIR
+            || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ETHER
+            || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_X_ATTACK
+            || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ULTRA_BALL
+            )
                 StringCopy(gBattleTextBuff2, (u8 *)gText_An);
             else
                 StringCopy(gBattleTextBuff2, (u8 *)gText_A);

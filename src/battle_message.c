@@ -431,7 +431,7 @@ static const u8 sText_SpDef2[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
 static const u8 sText_MonPickedUpItem[] = _("Your POKéMON picked\nup some items!");
-static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_TRAINER2_LOSE_TEXT}!");
+static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_BUFF3}{PAUSE 15}!");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
