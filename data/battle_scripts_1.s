@@ -14,7 +14,7 @@
 	.include "constants/constants.inc"
 
 	.section script_data, "aw", %progbits
-	
+
 .align 2
 gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectHit                    @ EFFECT_HIT
@@ -2823,7 +2823,7 @@ BattleScript_GiveExp::
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_TARGET
 	end2
-	
+
 BattleScript_HandleFaintedMon::
 	checkteamslost BattleScript_LinkHandleFaintedMonMultiple
 	jumpifbyte CMP_NOT_EQUAL, gBattleOutcome, 0, BattleScript_FaintedMonEnd
@@ -2938,6 +2938,16 @@ BattleScript_PayDayMoneyAndPickUpItems::
 	givepaydaymoney
 	pickup
 	end2
+
+BattleScript_PickedUpItem::
+	printstring STRINGID_PICKUP
+	waitmessage 0x40
+	return
+
+BattleScript_PickedUpItemSolo::
+	printstring STRINGID_PICKUPSOLO
+	waitmessage 0x40
+	return
 
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_DOME, BattleScript_CheckDomeDrew
@@ -4043,7 +4053,7 @@ BattleScript_IntimidatePrevented:
 	printstring STRINGID_PREVENTEDFROMWORKING
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_IntimidateActivatesLoopIncrement
-	
+
 BattleScript_DroughtActivates::
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_PKMNSXINTENSIFIEDSUN

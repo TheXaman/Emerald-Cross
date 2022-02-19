@@ -430,6 +430,8 @@ static const u8 sText_SpAtk2[] = _("SP. ATK");
 static const u8 sText_SpDef2[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
+static const u8 sText_MonPickedUpItem[] = _("Your POKéMON picked\nup some items!");
+static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_TRAINER2_LOSE_TEXT}!");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
@@ -885,6 +887,8 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PKMNBOXLANETTESPCFULL - 12] = gText_PkmnTransferredLanettesPCBoxFull,
     [STRINGID_TRAINER1WINTEXT - 12] = sText_Trainer1WinText,
     [STRINGID_TRAINER2WINTEXT - 12] = sText_Trainer2WinText,
+    [STRINGID_PICKUP - 12]  = sText_MonPickedUpItem,
+    [STRINGID_PICKUPSOLO - 12]  = sText_MonPickedUpItemSolo
 };
 
 const u16 gMissStringIds[] =

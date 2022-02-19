@@ -9466,7 +9466,7 @@ static void Cmd_switchoutabilities(void)
     {
     case ABILITY_NATURAL_CURE:
         gBattleMons[gActiveBattler].status1 = 0;
-        BtlController_EmitSetMonData(BUFFER_A, REQUEST_STATUS_BATTLE, 
+        BtlController_EmitSetMonData(BUFFER_A, REQUEST_STATUS_BATTLE,
                                      gBitTable[*(gBattleStruct->battlerPartyIndexes + gActiveBattler)],
                                      sizeof(gBattleMons[gActiveBattler].status1),
                                      &gBattleMons[gActiveBattler].status1);
@@ -9522,11 +9522,18 @@ static void Cmd_getsecretpowereffect(void)
     gBattlescriptCurrInstr++;
 }
 
+static const u8 gText_An[] = _("an");
+static const u8 gText_A[] = _("a");
+
 static void Cmd_pickup(void)
 {
     s32 i;
     u16 species, heldItem;
     u8 ability;
+    u8 nickname[POKEMON_NAME_LENGTH * 2];
+    u32 index = 0;
+    u32 count = 0;
+    u32 pickupSuccess = 0;
 
     if (InBattlePike())
     {
@@ -9584,19 +9591,43 @@ static void Cmd_pickup(void)
                     if (sPickupProbabilities[j] > rand)
                     {
                         SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
+                        pickupSuccess++;
+                        index = i;
                         break;
                     }
                     else if (rand == 99 || rand == 98)
                     {
                         SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (99 - rand)]);
+                        pickupSuccess++;
+                        index = i;
                         break;
                     }
                 }
             }
         }
+        if(pickupSuccess == 1) // only one Pokemon has picked something up, print solo message
+        {
+            GetMonData(&gPlayerParty[index], MON_DATA_NICKNAME, nickname);
+            StringCopy_Nickname(gBattleTextBuff1, nickname);
+
+            if(GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ORAN_BERRY || GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM) == ITEM_ASPEAR_BERRY)
+                StringCopy(gBattleTextBuff2, (u8 *)gText_An);
+            else
+                StringCopy(gBattleTextBuff2, (u8 *)gText_A);
+            CopyItemName(GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM), gBattleTextBuff3);
+            BattleScriptPush(gBattlescriptCurrInstr + 1);
+            gBattlescriptCurrInstr = BattleScript_PickedUpItemSolo;
+        }
+        else if(pickupSuccess > 1) // multiple Pokemon have picked something up, print multi message
+        {
+            BattleScriptPush(gBattlescriptCurrInstr + 1);
+            gBattlescriptCurrInstr = BattleScript_PickedUpItem;
+        }
+        else
+            gBattlescriptCurrInstr++;
     }
 
-    gBattlescriptCurrInstr++;
+    //gBattlescriptCurrInstr++;
 }
 
 static void Cmd_docastformchangeanimation(void)
