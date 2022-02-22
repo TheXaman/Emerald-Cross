@@ -5,7 +5,7 @@ This project aims to bring a vanilla experience with some qol changes.
 Saves from original emerald games are not compatible.
 
 # Check
-- [Credits](https://github.com/Jaizu/Emerald-Cross/blob/master/FEATURES.md)
+- [Credits](https://github.com/Jaizu/Emerald-Cross/blob/master/CREDITS.md)
 - [Feature list](https://github.com/Jaizu/Emerald-Cross/blob/master/FEATURES.md)
 
 # How do I play this game?
