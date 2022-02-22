@@ -1,6 +1,6 @@
 # Pokémon Emerald X
 
-This project aims to vring a vanilla experience with some qol changes.
+This project aims to bring a vanilla experience with some qol changes.
 
 Saves from original emerald games are not compatible.
 
