@@ -1,5 +1,5 @@
 Bag sorting
-Expanded Options: HP bar speed, EXP bar speed, faster text printer, unit system, fishing style (Emerald vs FR)
+Expanded Options: HP bar speed, EXP bar speed, faster text printer, unit system, fishing style (Emerald vs FR), Disable Overworld Match calls
 Running indoors
 Auto-run
 Expanded Pockets
