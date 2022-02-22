@@ -491,7 +491,8 @@ struct SaveBlock2
              u16 optionsHpBarSpeed:4;   //tx_optionsPlus
              u16 optionsExpBarSpeed:4;  //tx_optionsPlus
              u16 optionsFishReeling:1;   //tx_optionsPlus
-             u16 reserved;
+             u16 optionsDisableMatchCall:1;
+             u16 reserved:15;
              u16 reserved2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x98*/ struct Time localTimeOffset;

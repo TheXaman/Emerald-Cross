@@ -25,11 +25,12 @@ enum
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
+    MENUITEM_FRAMETYPE,
+    MENUITEM_MATCHCALL,
+    MENUITEM_FISHREELING,
     MENUITEM_HP_BAR,
     MENUITEM_EXP_BAR,
     MENUITEM_UNIT_SYSTEM,
-    MENUITEM_FRAMETYPE,
-    MENUITEM_FISHREELING,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -65,6 +66,7 @@ static void DrawChoices_HpBar(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_FishReeling(int selection, int y);
+static void DrawChoices_MatchCall(int selection, int y);
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y);
 static void DrawTextOption(void);
 static void DrawOptionMenuTexts(void);
@@ -88,11 +90,12 @@ struct
     [MENUITEM_BATTLESTYLE]  = {DrawChoices_BattleStyle, ProcessInput_Options_Two},
     [MENUITEM_SOUND]        = {DrawChoices_Sound,       ProcessInput_Options_Two},
     [MENUITEM_BUTTONMODE]   = {DrawChoices_ButtonMode,  ProcessInput_Options_Three},
+    [MENUITEM_FRAMETYPE]    = {DrawChoices_FrameType,   ProcessInput_FrameType},
+    [MENUITEM_MATCHCALL]    = {DrawChoices_MatchCall,   ProcessInput_Options_Two},
+    [MENUITEM_FISHREELING]  = {DrawChoices_FishReeling, ProcessInput_Options_Two},
     [MENUITEM_HP_BAR]       = {DrawChoices_HpBar,       ProcessInput_Options_Eleven},
     [MENUITEM_EXP_BAR]      = {DrawChoices_HpBar,       ProcessInput_Options_Eleven},
     [MENUITEM_UNIT_SYSTEM]  = {DrawChoices_UnitSystem,  ProcessInput_Options_Two},
-    [MENUITEM_FRAMETYPE]    = {DrawChoices_FrameType,   ProcessInput_FrameType},
-    [MENUITEM_FISHREELING]  = {DrawChoices_FishReeling, ProcessInput_Options_Two},
     [MENUITEM_CANCEL]       = {NULL, NULL},
 };
 
@@ -107,6 +110,7 @@ static const u8 sText_HpBar[] = _("HP BAR SPEED");
 static const u8 sText_ExpBar[] = _("EXP BAR SPEED");
 static const u8 sText_UnitSystem[] = _("UNIT SYSTEM");
 static const u8 sText_FishReeling[] = _("FISHING STYLE");
+static const u8 sText_MatchCalls[] = _("OVERWORLD CALLS");
 static const u8 sText_FishEmerald[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}RSE");
 static const u8 sText_FishFRLG[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FRLG");
 
@@ -117,11 +121,12 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
     [MENUITEM_SOUND]       = gText_Sound,
     [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
+    [MENUITEM_FRAMETYPE]   = gText_Frame,
+    [MENUITEM_MATCHCALL]   = sText_MatchCalls,
+    [MENUITEM_FISHREELING] = sText_FishReeling,
     [MENUITEM_HP_BAR]      = sText_HpBar,
     [MENUITEM_EXP_BAR]     = sText_ExpBar,
     [MENUITEM_UNIT_SYSTEM] = sText_UnitSystem,
-    [MENUITEM_FRAMETYPE]   = gText_Frame,
-    [MENUITEM_FISHREELING] = sText_FishReeling,
     [MENUITEM_CANCEL]      = gText_OptionMenuSave,
 };
 
@@ -275,11 +280,12 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_BATTLESTYLE] = gSaveBlock2Ptr->optionsBattleStyle;
         sOptions->sel[MENUITEM_SOUND]       = gSaveBlock2Ptr->optionsSound;
         sOptions->sel[MENUITEM_BUTTONMODE]  = gSaveBlock2Ptr->optionsButtonMode;
+        sOptions->sel[MENUITEM_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
+        sOptions->sel[MENUITEM_MATCHCALL]   = gSaveBlock2Ptr->optionsDisableMatchCall;
+        sOptions->sel[MENUITEM_FISHREELING] = gSaveBlock2Ptr->optionsFishReeling;
         sOptions->sel[MENUITEM_HP_BAR]      = gSaveBlock2Ptr->optionsHpBarSpeed;
         sOptions->sel[MENUITEM_EXP_BAR]     = gSaveBlock2Ptr->optionsExpBarSpeed;
         sOptions->sel[MENUITEM_UNIT_SYSTEM] = gSaveBlock2Ptr->optionsUnitSystem;
-        sOptions->sel[MENUITEM_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
-        sOptions->sel[MENUITEM_FISHREELING] = gSaveBlock2Ptr->optionsFishReeling;
 
         for (i = 0; i < 7; i++)
             DrawChoices(i, i * Y_DIFF);
@@ -435,11 +441,12 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsBattleStyle      = sOptions->sel[MENUITEM_BATTLESTYLE];
     gSaveBlock2Ptr->optionsSound            = sOptions->sel[MENUITEM_SOUND];
     gSaveBlock2Ptr->optionsButtonMode       = sOptions->sel[MENUITEM_BUTTONMODE];
+    gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_FRAMETYPE];
+    gSaveBlock2Ptr->optionsDisableMatchCall = sOptions->sel[MENUITEM_MATCHCALL];
+    gSaveBlock2Ptr->optionsFishReeling      = sOptions->sel[MENUITEM_FISHREELING];
     gSaveBlock2Ptr->optionsHpBarSpeed       = sOptions->sel[MENUITEM_HP_BAR];
     gSaveBlock2Ptr->optionsExpBarSpeed      = sOptions->sel[MENUITEM_EXP_BAR];
     gSaveBlock2Ptr->optionsUnitSystem       = sOptions->sel[MENUITEM_UNIT_SYSTEM];
-    gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_FRAMETYPE];
-    gSaveBlock2Ptr->optionsFishReeling      = sOptions->sel[MENUITEM_FISHREELING];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -675,6 +682,16 @@ static void DrawChoices_FishReeling(int selection, int y)
 
     DrawOptionMenuChoice(sText_FishEmerald, 104, y, styles[0]);
     DrawOptionMenuChoice(sText_FishFRLG, GetStringRightAlignXOffset(1, sText_FishFRLG, 198), y, styles[1]);
+}
+
+static void DrawChoices_MatchCall(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
 static int ProcessInput_FrameType(int selection)
