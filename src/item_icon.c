@@ -52,6 +52,18 @@ const struct SpriteTemplate gItemIconSpriteTemplate =
     .callback = SpriteCallbackDummy,
 };
 
+const struct SpriteTemplate gBallIconSpriteTemplate =
+{
+    .tileTag = 0,
+    .paletteTag = 0,
+    .oam = &sOamData_BallIcon,
+    .anims = sSpriteAnimTable_ItemIcon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+
 // code
 bool8 AllocItemIconTemporaryBuffers(void)
 {
@@ -165,4 +177,42 @@ const void *GetItemIconPicOrPalette(u16 itemId, u8 which)
         itemId = 0;
 
     return gItemIconTable[itemId][which];
+}
+
+u8 AddBallIconSprite(u16 tilesTag, u16 paletteTag, u8 ballId)
+{
+    if (!AllocItemIconTemporaryBuffers())
+    {
+        return MAX_SPRITES;
+    }
+    else
+    {
+        u8 spriteId;
+        struct SpriteSheet spriteSheet;
+        struct CompressedSpritePalette spritePalette;
+        struct SpriteTemplate *spriteTemplate;
+
+        LZDecompressWram(gBallIconTable[ballId][0], gItemIconDecompressionBuffer);
+		CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
+
+        spriteSheet.data = gItemIcon4x4Buffer;
+        spriteSheet.size = 0x100;
+        spriteSheet.tag = tilesTag;
+        LoadSpriteSheet(&spriteSheet);
+
+        spritePalette.data = gBallIconTable[ballId][1];
+        spritePalette.tag = paletteTag;
+        LoadCompressedSpritePalette(&spritePalette);
+
+        spriteTemplate = Alloc(sizeof(*spriteTemplate));
+        CpuCopy16(&gBallIconSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
+        spriteTemplate->tileTag = tilesTag;
+        spriteTemplate->paletteTag = paletteTag;
+        spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
+
+        FreeItemIconTemporaryBuffers();
+        Free(spriteTemplate);
+
+        return spriteId;
+    }
 }

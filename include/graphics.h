@@ -5063,4 +5063,19 @@ extern const u8 gMailTilemap_Retro[];
 extern const u8 gMonMarkingsMenu_Gfx[];
 extern const u16 gMonMarkingsMenu_Pal[];
 
+extern const u32 gSummaryScreenTiles[];
+extern const u32 gSummaryScreenBackgroundTilemap[];
+extern const u32 gSummaryScreenPalette[];
+extern const u32 gSummaryExpBar_Tiles[];
+extern const u32 gSummaryHealthBar_Tiles[];
+extern const u16 gExpBarHealthBarGreenPal[];
+extern const u32 gSummaryScreenPageInfoTilemap[];
+extern const u32 gSummaryScreenPageMemoTilemap[];
+extern const u32 gSummaryScreenPageSkillsTilemap[];
+extern const u32 gSummaryScreenPageMovesTilemap[];
+extern const u32 gSummaryScreenPageMoveDetailsTilemap[];
+extern const u32 gSummaryScreenPageContestMovesTilemap[];
+extern const u32 gSummaryScreenPageContestMoveDetailsTilemap[];
+extern const u32 gSummaryScreenPageConditionTilemap[];
+
 #endif //GUARD_GRAPHICS_H
