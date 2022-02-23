@@ -257,7 +257,6 @@ static void HandleAppealJamTilemap(u16 a, s16 b, u16 c);
 static void Task_ShowAppealJamWindow(u8 taskId);
 static void HandleStatusTilemap(u16 a, s16 b);
 static void Task_ShowStatusWindow(u8 taskId);
-static void TilemapFiveMovesDisplay(u16 *dst, u16 palette, bool8 remove);
 static void DrawExperienceProgressBar(struct Pokemon* mon);
 static void DrawContestMoveHearts(u16 move);
 static void ResetWindows(void);
@@ -400,7 +399,7 @@ static const struct TilemapCtrl sBattleMoveTilemapCtrl =
 };
 static const struct TilemapCtrl sContestMoveTilemapCtrl =
 {
-    gSummaryScreenAppealJam_Tilemap, 0, 10, 7, 0, 45
+    //gSummaryScreenAppealJam_Tilemap, 0, 10, 7, 0, 45
 };
 static const s8 sMultiBattleOrder[] = {0, 2, 3, 1, 4, 5};
 static const struct WindowTemplate sSummaryTemplate[] =
@@ -1710,7 +1709,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
-        if (MenuHelpers_CallLinkSomething() == 0 && FuncIsActiveTask(Task_ShowStatusWindow) == 0)
+        if (MenuHelpers_ShouldWaitForLinkRecv() == 0 && FuncIsActiveTask(Task_ShowStatusWindow) == 0)
         {
             data[0] = 0;
             gTasks[taskId].func = Task_HandleInput;
@@ -1916,7 +1915,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != 1)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != 1)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2071,7 +2070,7 @@ static void Task_HandleInput_MovePositionSwitch(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2211,7 +2210,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (gPaletteFade.active != TRUE)
         {
@@ -2487,32 +2486,6 @@ static void Task_ShowStatusWindow(u8 taskId)
             ScheduleBgCopyTilemapToVram(0);
         }
         DestroyTask(taskId);
-    }
-}
-
-static void TilemapFiveMovesDisplay(u16 *dst, u16 palette, bool8 remove)
-{
-    u16 i, id;
-
-    palette *= 0x1000;
-    id = 0x56A;
-    if (!remove)
-    {
-        for (i = 0; i < 20; i++)
-        {
-            dst[id + i] = gSummaryScreenWindow_Tilemap[i] + palette;
-            dst[id + i + 0x20] = gSummaryScreenWindow_Tilemap[i] + palette;
-            dst[id + i + 0x40] = gSummaryScreenWindow_Tilemap[i + 20] + palette;
-        }
-    }
-    else // Remove
-    {
-        for (i = 0; i < 20; i++)
-        {
-            dst[id + i] = gSummaryScreenWindow_Tilemap[i + 20] + palette;
-            dst[id + i + 0x20] = gSummaryScreenWindow_Tilemap[i + 40] + palette;
-            dst[id + i + 0x40] = gSummaryScreenWindow_Tilemap[i + 40] + palette;
-        }
     }
 }
 
@@ -2832,502 +2805,26 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-		DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gRegionNames[WhatRegionWasMonCaughtIn(mon)]);
+		if (sum->metLocation < MAPSEC_NONE)
+        {
+            GetMapNameHandleAquaHideout(metLocationString, sum->metLocation);
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+        }
 
-		if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_SAPPHIRE)
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_AQUA_HIDEOUT);
-		}
-		else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_RUBY)
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_MAGMA_HIDEOUT);
-		}
-		else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY))
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_BATTLE_TOWER);
-		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromRSE() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
-		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromFRLG() && (sum->species == SPECIES_PSYDUCK || sum->species == SPECIES_GOLDUCK || sum->species == SPECIES_MEWTWO) && sum->metLevel > 0)
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
-		}
-		else if (DidMonComeFromCD() && sum->metLocation < KANTO_MAPSEC_START)
-		{
-			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
-		}
-		else if (sum->metGame == VERSION_GAMECUBE && !(sum->fatefulEncounter)) //Colosseum
-		{
-			switch (sum->metLocation)
-			{
-			case 1:
-			case 2:
-			case 200:
-				GetMapNameGeneric(metLocationString, MAPSEC_OUTSKIRT_STAND);
-				break;
-			case 3:
-			case 4:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 119:
-			case 128:
-			case 202:
-				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_CITY);
-				break;
-			case 5:
-			case 6:
-			case 204:
-				GetMapNameGeneric(metLocationString, MAPSEC_MAYORS_HOUSE);
-				break;
-			case 11:
-			case 12:
-			case 203:
-				GetMapNameGeneric(metLocationString, MAPSEC_PRE_GYM);
-				break;
-			case 13:
-			case 14:
-				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_STADIUM);
-				break;
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-			case 19:
-			case 20:
-			case 21:
-			case 22:
-			case 23:
-			case 24:
-			case 205:
-				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_TOWN);
-				break;
-			case 25:
-			case 26:
-			case 27:
-			case 28:
-			case 207:
-				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_BLDG);
-				break;
-			case 29:
-			case 31:
-			case 32:
-			case 33:
-			case 34:
-			case 206:
-				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_CAVE);
-				break;
-			case 30:
-				GetMapNameGeneric(metLocationString, MAPSEC_MIRORS_HIDEOUT);
-				break;
-			case 35:
-			case 120:
-			case 142:
-				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_COLOSSEUM);
-				break;
-			case 36:
-			case 39:
-			case 40:
-			case 41:
-			case 42:
-			case 43:
-			case 44:
-			case 45:
-			case 46:
-			case 208:
-			case 209:
-				GetMapNameGeneric(metLocationString, MAPSEC_AGATE_VILLAGE);
-				break;
-			case 37:
-			case 38:
-			case 210:
-				GetMapNameGeneric(metLocationString, MAPSEC_RELIC_CAVE);
-				break;
-			case 47:
-			case 48:
-			case 49:
-			case 50:
-			case 51:
-			case 52:
-			case 53:
-			case 54:
-			case 55:
-			case 62:
-			case 122:
-			case 127:
-			case 211:
-			case 212:
-				GetMapNameGeneric(metLocationString, MAPSEC_THE_UNDER);
-				break;
-			case 57:
-			case 58:
-			case 59:
-			case 60:
-			case 61:
-			case 138:
-			case 139:
-			case 213:
-				GetMapNameGeneric(metLocationString, MAPSEC_THE_UNDER_SUBWAY);
-				break;
-			case 63:
-			case 121:
-				GetMapNameGeneric(metLocationString, MAPSEC_UNDER_COLOSSEUM);
-				break;
-			case 64:
-			case 125:
-				GetMapNameGeneric(metLocationString, MAPSEC_DEEP_COLOSSEUM);
-				break;
-			case 65:
-			case 214:
-				GetMapNameGeneric(metLocationString, MAPSEC_FRONT_OF_LAB);
-				break;
-			case 66:
-			case 67:
-			case 68:
-			case 69:
-			case 70:
-			case 71:
-			case 72:
-			case 73:
-			case 140:
-			case 141:
-			case 215:
-				GetMapNameGeneric(metLocationString, MAPSEC_LABORATORY);
-				break;
-			case 74:
-			case 75:
-			case 76:
-			case 77:
-			case 78:
-			case 79:
-			case 80:
-			case 81:
-			case 82:
-			case 83:
-			case 84:
-			case 85:
-			case 86:
-			case 87:
-			case 88:
-			case 89:
-			case 90:
-			case 91:
-			case 92:
-			case 93:
-			case 94:
-			case 216:
-			case 217:
-			case 218:
-			case 219:
-			case 220:
-				GetMapNameGeneric(metLocationString, MAPSEC_MT_BATTLE);
-				break;
-			case 95:
-			case 228:
-				GetMapNameGeneric(metLocationString, MAPSEC_MTBTL_COLOSSEUM);
-				break;
-			case 102:
-			case 115:
-			case 116:
-			case 117:
-			case 123:
-			case 124:
-			case 223:
-			case 224:
-				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER);
-				break;
-			case 103:
-			case 104:
-			case 105:
-			case 106:
-			case 107:
-			case 108:
-			case 109:
-			case 110:
-			case 111:
-			case 112:
-			case 113:
-			case 221:
-				GetMapNameGeneric(metLocationString, MAPSEC_REALGAMTWR_DOME);
-				break;
-			case 114:
-			case 222:
-				GetMapNameGeneric(metLocationString, MAPSEC_REALGAMTWR_LOBBY);
-				break;
-			case 118:
-			case 227:
-				GetMapNameGeneric(metLocationString, MAPSEC_TOWER_COLOSSEUM);
-				break;
-			case 126:
-				GetMapNameGeneric(metLocationString, MAPSEC_ORRE_COLOSSEUM);
-				break;
-			case 129:
-			case 130:
-			case 131:
-			case 132:
-			case 133:
-			case 134:
-			case 135:
-			case 136:
-			case 137:
-			case 201:
-				GetMapNameGeneric(metLocationString, MAPSEC_SNAGEM_HIDEOUT);
-				break;
-			case 225:
-			case 226:
-				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER_2F);
-				break;
-			default:
-				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
-			}
-		}
-		else if (sum->metGame == VERSION_GAMECUBE && sum->fatefulEncounter) //XD: Gales of Darkness
-		{
-			switch (sum->metLocation)
-			{
-			case 1:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 11:
-				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_LAB);
-				break;
-			case 12:
-			case 13:
-			case 14:
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-			case 19:
-			case 20:
-			case 21:
-			case 23:
-			case 24:
-			case 25:
-			case 26:
-			case 27:
-			case 28:
-			case 29:
-			case 30:
-			case 31:
-			case 32:
-			case 33:
-			case 34:
-				GetMapNameGeneric(metLocationString, MAPSEC_MT_BATTLE);
-				break;
-			case 35:
-			case 36:
-			case 37:
-			case 38:
-			case 39:
-			case 40:
-			case 41:
-			case 42:
-			case 43:
-			case 44:
-				GetMapNameGeneric(metLocationString, MAPSEC_S_S_LIBRA);
-				break;
-			case 45:
-			case 46:
-			case 49:
-			case 50:
-			case 51:
-			case 57:
-			case 58:
-			case 59:
-			case 60:
-			case 61:
-				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER);
-				break;
-			case 64:
-			case 65:
-			case 66:
-			case 67:
-			case 68:
-			case 69:
-			case 70:
-			case 71:
-				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_KEY_LAIR);
-				break;
-			case 72:
-			case 73:
-			case 74:
-			case 75:
-			case 76:
-			case 77:
-			case 78:
-			case 79:
-			case 80:
-			case 81:
-			case 82:
-			case 83:
-			case 84:
-			case 85:
-			case 86:
-			case 87:
-			case 88:
-			case 89:
-				GetMapNameGeneric(metLocationString, MAPSEC_CITADARK_ISLE);
-				break;
-			case 90:
-				GetMapNameGeneric(metLocationString, MAPSEC_ROCK);
-				break;
-			case 91:
-				GetMapNameGeneric(metLocationString, MAPSEC_OASIS);
-				break;
-			case 92:
-				GetMapNameGeneric(metLocationString, MAPSEC_CAVE);
-				break;
-			case 93:
-			case 94:
-			case 95:
-			case 96:
-			case 97:
-			case 98:
-			case 99:
-			case 100:
-			case 101:
-			case 102:
-			case 103:
-			case 104:
-			case 105:
-			case 106:
-			case 107:
-			case 181:
-				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_CITY);
-				break;
-			case 108:
-			case 109:
-			case 110:
-			case 111:
-			case 112:
-			case 113:
-			case 115:
-			case 116:
-			case 117:
-			case 118:
-			case 119:
-			case 120:
-			case 121:
-			case 122:
-			case 123:
-				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_TOWN);
-				break;
-			case 125:
-			case 126:
-			case 127:
-			case 128:
-			case 129:
-			case 130:
-			case 131:
-			case 132:
-			case 133:
-			case 134:
-			case 135:
-				GetMapNameGeneric(metLocationString, MAPSEC_AGATE_VILLAGE);
-				break;
-			case 138:
-			case 139:
-			case 140:
-			case 141:
-			case 142:
-			case 143:
-				GetMapNameGeneric(metLocationString, MAPSEC_POKEMON_HQ_LAB);
-				break;
-			case 144:
-			case 145:
-			case 146:
-			case 147:
-			case 148:
-			case 149:
-			case 150:
-			case 151:
-			case 152:
-			case 153:
-			case 154:
-			case 155:
-			case 156:
-			case 157:
-			case 158:
-			case 159:
-			case 160:
-			case 161:
-			case 162:
-				GetMapNameGeneric(metLocationString, MAPSEC_GATEON_PORT);
-				break;
-			case 163:
-			case 164:
-				GetMapNameGeneric(metLocationString, MAPSEC_OUTSKIRT_STAND);
-				break;
-			case 165:
-			case 166:
-			case 167:
-			case 168:
-				GetMapNameGeneric(metLocationString, MAPSEC_SNAGEM_HIDEOUT);
-				break;
-			case 169:
-			case 170:
-			case 171:
-			case 172:
-			case 173:
-				GetMapNameGeneric(metLocationString, MAPSEC_KAMINKOS_HOUSE);
-				break;
-			case 174:
-				GetMapNameGeneric(metLocationString, MAPSEC_ORRE_COLOSSEUM);
-				break;
-			default:
-				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
-			}
-		}
-		else if (DidMonComeFromDPPt()) //Sinnoh map for Porygon
-		{
-			GetMapNameGeneric(metLocationString, (sum->metLocation + SINJOH_MAPSEC_START));
-		}
-		else
-		{
-			GetMapNameGeneric(metLocationString, sum->metLocation);
-		}
-
-		if (sum->metGame == VERSION_GAMECUBE)
-		{
-			if (sum->metLocation == METLOC_IN_GAME_TRADE)
-            {
-				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-				if (sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON)
-                    text = gText_OldFriend; //Colosseum starter
-                 else
-                    text = gText_ReceivedFrom; //Duking's Plusle
-			}
-			else if (sum->fatefulEncounter && sum->metLocation == 0 && (sum->species == SPECIES_EEVEE || sum->species == SPECIES_VAPOREON || sum->species == SPECIES_JOLTEON || sum->species == SPECIES_FLAREON || sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON))
-			{
-				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-				text = gText_ObtainedFromDad; //XD starter
-			}
-			else
-			{
-				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-				text = gText_XNatureMetAtYZ;
-			}
-		}
-		else if (sum->metLevel == 0)
-		{
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-			text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+        if (DoesMonOTMatchOwner() == TRUE)
+        {
+            if (sum->metLevel == 0)
+                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+            else
+                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
             text = gText_XNatureFatefulEncounter;
         }
-        else if (sum->metLocation != METLOC_IN_GAME_TRADE)
+        else if (sum->metLocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
         {
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
         else
         {
@@ -3523,42 +3020,24 @@ static void BufferEggMemo(void)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
-			u8 boxOT[17];
-			boxOT[0] = 0xBB; //A
-			boxOT[1] = 0xD4; //Z
-			boxOT[2] = 0xCF; //U
-			boxOT[3] = 0xCD; //S
-			boxOT[4] = 0xBB; //A
-			boxOT[5] = 0xFF;
-			if (!StringCompareWithoutExtCtrlCodes(boxOT, sum->OTName) && sum->OTID == 0)
-				text = gText_EggFromBrigette;
-			else
-				text = gText_PeculiarEggNicePlace;
+			text = gText_PeculiarEggNicePlace;
 		}
 		else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
-			if (sum->species == SPECIES_TYROGUE)
-				text = gText_EggFromPokecomCenter;
-			else if (sum->species == SPECIES_BULBASAUR || sum->species == SPECIES_CHARMANDER || sum->species == SPECIES_SQUIRTLE || sum->species == SPECIES_CHIKORITA || sum->species == SPECIES_CYNDAQUIL || sum->species == SPECIES_TOTODILE || sum->species == SPECIES_TREECKO || sum->species == SPECIES_TORCHIC || sum->species == SPECIES_MUDKIP)
-				text = gText_EggFromTraveler;
-			else if (DidMonComeFromRSE())
+			if (DidMonComeFromRSE())
 				text = gText_EggFromHotSprings;
-			else if (DidMonComeFromCD())
-				text = gText_EggFromElm;
 			else
 				text = gText_EggFromTraveler;
 		}
-		else if (sum->metLocation == (MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START) && DidMonComeFromCD())
-			text = gText_EggFromPokecomCenter;
-		else if (DidMonComeFromFRLG())
-			text = gText_EggFromKanto;
-		else if (DidMonComeFromCD())
-			text= gText_EggFromJohto;
 		else
+		{
 			text = gText_OddEggFoundByCouple;
+		}
 	}
 	else
-		text = gText_BadEggDesc;
+	{
+		text = gText_OddEggFoundByCouple;
+	}
 
     DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
 }
@@ -4259,25 +3738,16 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
             else
             {
                 if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->unk40EF == TRUE)
-                    HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2], sub_806F4F8(0, 1), summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->pid);
                 else
-                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], sub_806F4F8(0, 1), summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->pid);
             }
         }
         (*state)++;
         return 0xFF;
     case 1:
-		if (!summary->isEgg)
-		{
-			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-			LoadCompressedUniqueSpritePalette(pal1, summary->species2, summary->pid, IsMonShiny(mon));
-		}
-		else
-		{
-			pal1 = &gEgg1PaletteTable[gBaseStats[summary->species].type1];
-			pal2 = &gEgg2PaletteTable[gBaseStats[summary->species].type2];
-			LoadCompressedEggSpritePalette(pal1, pal2);
-		}
+		pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
+		LoadCompressedSpritePalette(pal1);
 		SetMultiuseSpriteTemplateToPokemon(pal1->tag, 1);
 		(*state)++;
 		return 0xFF;

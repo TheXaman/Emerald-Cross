@@ -736,3 +736,29 @@ const u32 gItemIconPalette_MagmaEmblem[] = INCBIN_U32("graphics/items/icon_palet
 
 const u32 gItemIcon_OldSeaMap[] = INCBIN_U32("graphics/items/icons/old_sea_map.4bpp.lz");
 const u32 gItemIconPalette_OldSeaMap[] = INCBIN_U32("graphics/items/icon_palettes/old_sea_map.gbapal.lz");
+
+// Poke Ball Summary Icons
+const u32 gBallIcon_Poke[] = INCBIN_U32("graphics/interface/ball_icons/poke.4bpp.lz");
+const u32 gBallIconPalette_Poke[] = INCBIN_U32("graphics/interface/ball_icons/poke.gbapal.lz");
+const u32 gBallIcon_Safari[] = INCBIN_U32("graphics/interface/ball_icons/safari.4bpp.lz");
+const u32 gBallIconPalette_Safari[] = INCBIN_U32("graphics/interface/ball_icons/safari.gbapal.lz");
+const u32 gBallIcon_Great[] = INCBIN_U32("graphics/interface/ball_icons/great.4bpp.lz");
+const u32 gBallIconPalette_Great[] = INCBIN_U32("graphics/interface/ball_icons/great.gbapal.lz");
+const u32 gBallIcon_Ultra[] = INCBIN_U32("graphics/interface/ball_icons/ultra.4bpp.lz");
+const u32 gBallIconPalette_Ultra[] = INCBIN_U32("graphics/interface/ball_icons/ultra.gbapal.lz");
+const u32 gBallIcon_Master[] = INCBIN_U32("graphics/interface/ball_icons/master.4bpp.lz");
+const u32 gBallIconPalette_Master[] = INCBIN_U32("graphics/interface/ball_icons/master.gbapal.lz");
+const u32 gBallIcon_Net[] = INCBIN_U32("graphics/interface/ball_icons/net.4bpp.lz");
+const u32 gBallIconPalette_Net[] = INCBIN_U32("graphics/interface/ball_icons/net.gbapal.lz");
+const u32 gBallIcon_Dive[] = INCBIN_U32("graphics/interface/ball_icons/dive.4bpp.lz");
+const u32 gBallIconPalette_Dive[] = INCBIN_U32("graphics/interface/ball_icons/dive.gbapal.lz");
+const u32 gBallIcon_Nest[] = INCBIN_U32("graphics/interface/ball_icons/nest.4bpp.lz");
+const u32 gBallIconPalette_Nest[] = INCBIN_U32("graphics/interface/ball_icons/nest.gbapal.lz");
+const u32 gBallIcon_Repeat[] = INCBIN_U32("graphics/interface/ball_icons/repeat.4bpp.lz");
+const u32 gBallIconPalette_Repeat[] = INCBIN_U32("graphics/interface/ball_icons/repeat.gbapal.lz");
+const u32 gBallIcon_Timer[] = INCBIN_U32("graphics/interface/ball_icons/timer.4bpp.lz");
+const u32 gBallIconPalette_Timer[] = INCBIN_U32("graphics/interface/ball_icons/timer.gbapal.lz");
+const u32 gBallIcon_Luxury[] = INCBIN_U32("graphics/interface/ball_icons/luxury.4bpp.lz");
+const u32 gBallIconPalette_Luxury[] = INCBIN_U32("graphics/interface/ball_icons/luxury.gbapal.lz");
+const u32 gBallIcon_Premier[] = INCBIN_U32("graphics/interface/ball_icons/premier.4bpp.lz");
+const u32 gBallIconPalette_Premier[] = INCBIN_U32("graphics/interface/ball_icons/premier.gbapal.lz");
