@@ -73,7 +73,7 @@ static const u8 sDarkDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow_alt
 static const u8 sUnusedFRLGBlankedDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_blanked_down_arrow.4bpp");
 static const u8 sUnusedFRLGDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_down_arrow.4bpp");
 static const u8 sDownArrowYCoords[] = { 0, 1, 2, 1 };
-static const u8 sWindowVerticalScrollSpeeds[] = { 
+static const u8 sWindowVerticalScrollSpeeds[] = {
     [OPTIONS_TEXT_SPEED_SLOW] = 1,
     [OPTIONS_TEXT_SPEED_MID] = 2,
     [OPTIONS_TEXT_SPEED_FAST] = 4,
@@ -300,7 +300,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     else
     {
         sTempTextPrinter.textSpeed = 0;
-        
+
         // Render all text (up to limit) at once
         for (j = 0; j < 0x400; ++j)
         {
@@ -572,9 +572,10 @@ static u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u32 *glyphPixels, s32 width, s32 height)
+inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
 {
-    u32 xAdd, yAdd, pixelData, bits, toOrr, dummyX;
+    u32 xAdd, pixelData, bits, toOrr, dummyX, dummyY;
+	s64 yAdd;
     u8 *dst;
 
     xAdd = j + width;
@@ -587,7 +588,10 @@ inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u3
         {
             if ((toOrr = pixelData & 0xF))
             {
-                dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((i / 8) * widthOffset) + ((i % 8) * 4);
+				if (i >= 0)
+				{
+					dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((i / 8) * widthOffset) + ((i % 8) * 4);
+				}
                 bits = ((j & 1) * 4);
                 *dst = (toOrr << bits) | (*dst & (0xF0 >> bits));
             }
@@ -601,8 +605,8 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     struct Window *window;
     struct WindowTemplate *template;
     u32 *glyphPixels;
-    u32 currX, currY, widthOffset;
-    s32 glyphWidth, glyphHeight;
+    u32 currX, widthOffset;
+    s64 currY, glyphWidth, glyphHeight;
     u8 *windowTiles;
 
     window = &gWindows[textPrinter->printerTemplate.windowId];
@@ -615,7 +619,10 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
         glyphHeight = gCurGlyph.height;
 
     currX = textPrinter->printerTemplate.currentX;
-    currY = textPrinter->printerTemplate.currentY;
+	if (textPrinter->printerTemplate.unk)
+		currY = textPrinter->printerTemplate.currentY - (textPrinter->printerTemplate.y * 2);
+	else
+		currY = textPrinter->printerTemplate.currentY;
     glyphPixels = gCurGlyph.gfxBufferTop;
     windowTiles = window->tileData;
     widthOffset = template->width * 32;
