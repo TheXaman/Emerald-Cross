@@ -1,8 +1,20 @@
 - Bag sorting
-- Expanded Options: HP bar speed, EXP bar speed, faster text printer, unit system, fishing style (Emerald vs FR), Disable Overworld Match calls
+- Expanded Options:
+	- HP bar speed
+	- EXP bar speed
+	- Faster text printer
+	- Unit system (Metrical/Imperial)
+	- Fishing style (Emerald vs FR)
+	- Overworld Match calls (ON/OFF)
 - Running indoors
-- Auto-run
+- Auto-run (Press R in the overworld)
 - Expanded Pockets
 - Battle message when someone from your team picks up an item
 - Infinite TMs: This also changes the rare pick up items, replacing tms by Heart Scale, Moon Stone and Sun Stone
-- Natured colored stats in the summary screen. Blue is low, Red is high. To remember this think about temperatures.
+- New summary screen, it includes:
+	- Brand new UI, close to the one from Pokémon DP/PT
+	- Arrows to indicate which nature stats
+	- Name for region and location for traded mons (FR/LG/RSE and Colosseum)
+	- Flavor text
+	- Characteristics text
+	- Fateful encounter indicator
