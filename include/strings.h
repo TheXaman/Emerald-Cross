@@ -3073,4 +3073,7 @@ extern const u8 gText_SummaryTitlePageIVs[];
 extern const u8 gText_SummaryTitlePageEVs[];
 extern const u8 gText_SummaryTitlePageStats[];
 
+extern const u8 gText_AshQty[];
+extern const u8 gText_AshQtyNone[];
+
 #endif // GUARD_STRINGS_H

@@ -1877,3 +1877,6 @@ const u8 gText_SummaryTitlePickSwitch[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}SWITCH"
 const u8 gText_SummaryTitlePageIVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}IVS");
 const u8 gText_SummaryTitlePageEVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}EVS");
 const u8 gText_SummaryTitlePageStats[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}STATS");
+
+const u8 gText_AshQty[] = _("You collected {STR_VAR_1}\nvolcanic ash!{PAUSE_UNTIL_PRESS}");
+const u8 gText_AshQtyNone[] = _("You don't have any volcanic ash!{PAUSE_UNTIL_PRESS}");

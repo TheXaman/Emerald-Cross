@@ -674,6 +674,33 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
     }
 }
 
+static u16 GetAshCount(void)
+{
+	u16 *ashGatherCount;
+	ashGatherCount = GetVarPointer(VAR_ASH_GATHER_COUNT);
+	return *ashGatherCount;
+}
+
+void ItemUseOutOfBattle_SootSack(u8 taskId)
+{
+	ConvertIntToDecimalStringN(gStringVar1, GetAshCount(), STR_CONV_MODE_LEFT_ALIGN, 4);
+	StringExpandPlaceholders(gStringVar4, gText_AshQty);
+	if (!gTasks[taskId].tUsingRegisteredKeyItem)
+	{
+        if(VarGet(VAR_ASH_GATHER_COUNT) == 0)
+		    DisplayItemMessage(taskId, FONT_NORMAL, gText_AshQtyNone, CloseItemMessage);
+        else
+		    DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
+	}
+	else
+	{
+        if(VarGet(VAR_ASH_GATHER_COUNT) == 0)
+		    DisplayItemMessageOnField(taskId, gText_AshQtyNone, Task_CloseCantUseKeyItemMessage);
+        else
+		    DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+	}
+}
+
 void ItemUseOutOfBattle_Berry(u8 taskId)
 {
     if (IsPlayerFacingEmptyBerryTreePatch() == TRUE)

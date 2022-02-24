@@ -3279,7 +3279,7 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
-    [ITEM_SOOT_SACK] =
+[ITEM_SOOT_SACK] =
     {
         .name = _("SOOT SACK"),
         .itemId = ITEM_SOOT_SACK,
@@ -3287,8 +3287,9 @@ const struct Item gItems[] =
         .description = sSootSackDesc,
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_SootSack,
+        .secondaryId = 0,
     },
 
     [ITEM_BASEMENT_KEY] =
