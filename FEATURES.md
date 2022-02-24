@@ -19,3 +19,4 @@
 	- Characteristics text
 	- Fateful encounter indicator
 - Cuttable trees don't reappear after being cut down
+- Breakable rocks don't reappear after being smashed

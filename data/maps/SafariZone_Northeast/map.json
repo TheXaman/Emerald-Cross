@@ -62,7 +62,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_TEMP_15"
+      "flag": "FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_1"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_WOMAN_1",
@@ -88,7 +88,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_TEMP_13"
+      "flag": "FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_2"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -101,7 +101,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_TEMP_11"
+      "flag": "FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_3"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -114,7 +114,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_TEMP_14"
+      "flag": "FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_4"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -127,7 +127,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_TEMP_12"
+      "flag": "FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_5"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",

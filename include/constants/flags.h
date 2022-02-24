@@ -686,48 +686,49 @@
 #define FLAG_CUTTABLE_TRICK_HOUSE_10            0x283
 #define FLAG_CUTTABLE_TRICK_HOUSE_11            0x284
 
-#define FLAG_UNUSED_0x285  0x285 // Unused Flag
-#define FLAG_UNUSED_0x286  0x286 // Unused Flag
-#define FLAG_UNUSED_0x287  0x287 // Unused Flag
-#define FLAG_UNUSED_0x288  0x288 // Unused Flag
-#define FLAG_UNUSED_0x289  0x289 // Unused Flag
-#define FLAG_UNUSED_0x28A  0x28A // Unused Flag
-#define FLAG_UNUSED_0x28B  0x28B // Unused Flag
-#define FLAG_UNUSED_0x28C  0x28C // Unused Flag
-#define FLAG_UNUSED_0x28D  0x28D // Unused Flag
-#define FLAG_UNUSED_0x28E  0x28E // Unused Flag
-#define FLAG_UNUSED_0x28F  0x28F // Unused Flag
-#define FLAG_UNUSED_0x290  0x290 // Unused Flag
-#define FLAG_UNUSED_0x291  0x291 // Unused Flag
-#define FLAG_UNUSED_0x292  0x292 // Unused Flag
-#define FLAG_UNUSED_0x293  0x293 // Unused Flag
-#define FLAG_UNUSED_0x294  0x294 // Unused Flag
-#define FLAG_UNUSED_0x295  0x295 // Unused Flag
-#define FLAG_UNUSED_0x296  0x296 // Unused Flag
-#define FLAG_UNUSED_0x297  0x297 // Unused Flag
-#define FLAG_UNUSED_0x298  0x298 // Unused Flag
-#define FLAG_UNUSED_0x299  0x299 // Unused Flag
-#define FLAG_UNUSED_0x29A  0x29A // Unused Flag
-#define FLAG_UNUSED_0x29B  0x29B // Unused Flag
-#define FLAG_UNUSED_0x29C  0x29C // Unused Flag
-#define FLAG_UNUSED_0x29D  0x29D // Unused Flag
-#define FLAG_UNUSED_0x29E  0x29E // Unused Flag
-#define FLAG_UNUSED_0x29F  0x29F // Unused Flag
-#define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag
-#define FLAG_UNUSED_0x2A1  0x2A1 // Unused Flag
-#define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
-#define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
-#define FLAG_UNUSED_0x2A4  0x2A4 // Unused Flag
-#define FLAG_UNUSED_0x2A5  0x2A5 // Unused Flag
-#define FLAG_UNUSED_0x2A6  0x2A6 // Unused Flag
-#define FLAG_UNUSED_0x2A7  0x2A7 // Unused Flag
-#define FLAG_UNUSED_0x2A8  0x2A8 // Unused Flag
-#define FLAG_UNUSED_0x2A9  0x2A9 // Unused Flag
-#define FLAG_UNUSED_0x2AA  0x2AA // Unused Flag
-#define FLAG_UNUSED_0x2AB  0x2AB // Unused Flag
-#define FLAG_UNUSED_0x2AC  0x2AC // Unused Flag
-#define FLAG_UNUSED_0x2AD  0x2AD // Unused Flag
-#define FLAG_UNUSED_0x2AE  0x2AE // Unused Flag
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_1          0x285
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_2          0x286
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_3          0x287
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_4          0x288
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_5          0x289
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_6          0x28A
+#define FLAG_BREAKABLE_ROCK_GRANITE_CAVE_B2F_7          0x28B
+#define FLAG_BREAKABLE_ROCK_MIRAGE_TOWER_3F_1           0x28C
+#define FLAG_BREAKABLE_ROCK_MIRAGE_TOWER_3F_2           0x28D
+#define FLAG_BREAKABLE_ROCK_MIRAGE_TOWER_4F             0x28E
+#define FLAG_BREAKABLE_ROCK_GRANITE_TRICK_HOUSE_1       0x28F
+#define FLAG_BREAKABLE_ROCK_GRANITE_TRICK_HOUSE_2       0x290
+#define FLAG_BREAKABLE_ROCK_ROUTE_111_1                 0x291
+#define FLAG_BREAKABLE_ROCK_ROUTE_111_2                 0x292
+#define FLAG_BREAKABLE_ROCK_ROUTE_114_1                 0x293
+#define FLAG_BREAKABLE_ROCK_ROUTE_114_2                 0x294
+#define FLAG_BREAKABLE_ROCK_ROUTE_114_3                 0x295
+#define FLAG_BREAKABLE_ROCK_ROUTE_114_4                 0x296
+#define FLAG_BREAKABLE_ROCK_ROUTE_114_5                 0x297
+#define FLAG_BREAKABLE_ROCK_ROUTE_115                   0x298
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_1         0x299
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_2         0x29A
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_3         0x29B
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_4         0x29C
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_5         0x29D
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTH_6         0x29E
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_1     0x29F
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_2     0x2A0
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_3     0x2A1
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_4     0x2A2
+#define FLAG_BREAKABLE_ROCK_SAFARI_ZONE_NORTHEAST_5     0x2A3
+#define FLAG_BREAKABLE_ROCK_SEAFLOOR_CAVERN_ROOM_1      0x2A4
+#define FLAG_BREAKABLE_ROCK_SEAFLOOR_CAVERN_ROOM_2_1    0x2A5
+#define FLAG_BREAKABLE_ROCK_SEAFLOOR_CAVERN_ROOM_2_2    0x2A6
+#define FLAG_BREAKABLE_ROCK_SEAFLOOR_CAVERN_ROOM_5_1    0x2A7
+#define FLAG_BREAKABLE_ROCK_SEAFLOOR_CAVERN_ROOM_5_2    0x2A8
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_1          0x2A9
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_2          0x2AA
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_3          0x2AB
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_4          0x2AC
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_5          0x2AD
+#define FLAG_BREAKABLE_ROCK_VICTORY_ROAD_B1F_6          0x2AE
+
 #define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
 #define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag
 #define FLAG_UNUSED_0x2B1  0x2B1 // Unused Flag
