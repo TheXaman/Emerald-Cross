@@ -3,7 +3,7 @@
 #include "dynamic_placeholder_text_util.h"
 #include "string_util.h"
 
-static EWRAM_DATA const u8 *sStringPointers[8] = {};
+static EWRAM_DATA const u8 *sStringPointers[9] = {};
 
 void DynamicPlaceholderTextUtil_Reset(void)
 {

@@ -36,6 +36,49 @@ static const u8 sFlavorBitter[] = _("Likes {COLOR 5}{SHADOW 6}bitter{COLOR 7}{SH
 static const u8 sFlavorSour[] = _("Likes {COLOR 5}{SHADOW 6}sour{COLOR 7}{SHADOW 8} food.");
 static const u8 sFlavorNeutral[] = _("Happily eats anything.");
 
+static const u8 sRegionName_Unknown[] = _("a distant land");
+static const u8 sRegionName_Kanto[] = _("Kanto");
+static const u8 sRegionName_Hoenn[] = _("Hoenn");
+static const u8 sRegionName_Orre[] = _("Orre");
+
+const u8 *const gRegionNames[] =
+{
+	[REGION_UNKNOWN] = sRegionName_Unknown,
+	[REGION_KANTO]   = sRegionName_Kanto,
+	[REGION_HOENN]   = sRegionName_Hoenn,
+	[REGION_ORRE]    = sRegionName_Orre,
+};
+
+static const u8 sGameName_Unknown[] = _("UNKNOWN");
+static const u8 sGameName_Sapphire[] = _("SAPPHIRE");
+static const u8 sGameName_Ruby[] = _("RUBY");
+static const u8 sGameName_Emerald[] = _("EMERALD");
+static const u8 sGameName_FireRed[] = _("FIRERED");
+static const u8 sGameName_LeafGreen[] = _("LEAFGREEN");
+static const u8 sGameName_Colosseum[] = _("COLOSSEUM");
+static const u8 sGameName_XD[] = _("XD: GALE OF DARKNESS");	//Probably too long
+
+const u8 *const gGameNames[] =
+{
+	[0] = sGameName_Unknown,
+	[VERSION_SAPPHIRE]   = sGameName_Sapphire,
+	[VERSION_RUBY]   = sGameName_Ruby,
+	[VERSION_EMERALD]    = sGameName_Emerald,
+	[VERSION_FIRE_RED]    = sGameName_Emerald,
+	[VERSION_LEAF_GREEN]    = sGameName_Emerald,
+	[6]    = sGameName_Unknown,
+	[7]    = sGameName_Unknown,
+	[8]    = sGameName_Unknown,
+	[9]    = sGameName_Unknown,
+	[10]    = sGameName_Unknown,
+	[11]    = sGameName_Unknown,
+	[12]    = sGameName_Unknown,
+	[13]    = sGameName_Unknown,
+	[14]    = sGameName_Unknown,
+	[VERSION_GAMECUBE]    = sGameName_Colosseum,
+	[VERSION_GAMECUBE + 1]    = sGameName_XD,
+};
+
 const u8 *const gCharacteristicPointers[30] =
 {
     sCharacteristic00,
