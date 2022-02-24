@@ -21,3 +21,4 @@
 - Cuttable trees don't reappear after being cut down
 - Breakable rocks don't reappear after being smashed
 - Soot Sack tells you how much you collected
+- You can forget HM moves
