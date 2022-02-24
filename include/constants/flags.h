@@ -651,39 +651,41 @@
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
 
-#define FLAG_UNUSED_0x264  0x264 // Unused Flag
-#define FLAG_UNUSED_0x265  0x265 // Unused Flag
-#define FLAG_UNUSED_0x266  0x266 // Unused Flag
-#define FLAG_UNUSED_0x267  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
-#define FLAG_UNUSED_0x26C  0x26C // Unused Flag
-#define FLAG_UNUSED_0x26D  0x26D // Unused Flag
-#define FLAG_UNUSED_0x26E  0x26E // Unused Flag
-#define FLAG_UNUSED_0x26F  0x26F // Unused Flag
-#define FLAG_UNUSED_0x270  0x270 // Unused Flag
-#define FLAG_UNUSED_0x271  0x271 // Unused Flag
-#define FLAG_UNUSED_0x272  0x272 // Unused Flag
-#define FLAG_UNUSED_0x273  0x273 // Unused Flag
-#define FLAG_UNUSED_0x274  0x274 // Unused Flag
-#define FLAG_UNUSED_0x275  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
-#define FLAG_UNUSED_0x278  0x278 // Unused Flag
-#define FLAG_UNUSED_0x279  0x279 // Unused Flag
-#define FLAG_UNUSED_0x27A  0x27A // Unused Flag
-#define FLAG_UNUSED_0x27B  0x27B // Unused Flag
-#define FLAG_UNUSED_0x27C  0x27C // Unused Flag
-#define FLAG_UNUSED_0x27D  0x27D // Unused Flag
-#define FLAG_UNUSED_0x27E  0x27E // Unused Flag
-#define FLAG_UNUSED_0x27F  0x27F // Unused Flag
-#define FLAG_UNUSED_0x280  0x280 // Unused Flag
-#define FLAG_UNUSED_0x281  0x281 // Unused Flag
-#define FLAG_UNUSED_0x282  0x282 // Unused Flag
-#define FLAG_UNUSED_0x283  0x283 // Unused Flag
-#define FLAG_UNUSED_0x284  0x284 // Unused Flag
+// Cuttable trees
+#define FLAG_CUTTABLE_TREE_PETALBURG_WOODS_1    0x264
+#define FLAG_CUTTABLE_TREE_PETALBURG_WOODS_2    0x265
+#define FLAG_CUTTABLE_ROUTE_103_1               0x266
+#define FLAG_CUTTABLE_ROUTE_103_2               0x267
+#define FLAG_CUTTABLE_ROUTE_104                 0x268
+#define FLAG_CUTTABLE_ROUTE_111                 0x269
+#define FLAG_CUTTABLE_ROUTE_116_1               0x26A
+#define FLAG_CUTTABLE_ROUTE_116_2               0x26B
+#define FLAG_CUTTABLE_ROUTE_116_3               0x26C
+#define FLAG_CUTTABLE_ROUTE_116_4               0x26D
+#define FLAG_CUTTABLE_ROUTE_116_5               0x26E
+#define FLAG_CUTTABLE_ROUTE_117                 0x26F
+#define FLAG_CUTTABLE_ROUTE_118                 0x270
+#define FLAG_CUTTABLE_ROUTE_120_1               0x271
+#define FLAG_CUTTABLE_ROUTE_120_2               0x272
+#define FLAG_CUTTABLE_ROUTE_120_3               0x273
+#define FLAG_CUTTABLE_ROUTE_121_1               0x274
+#define FLAG_CUTTABLE_ROUTE_121_2               0x275
+#define FLAG_CUTTABLE_ROUTE_121_3               0x276
+#define FLAG_CUTTABLE_ROUTE_123_1               0x277
+#define FLAG_CUTTABLE_ROUTE_123_2               0x278
+#define FLAG_CUTTABLE_ROUTE_123_3               0x279
+#define FLAG_CUTTABLE_TRICK_HOUSE_1             0x27A
+#define FLAG_CUTTABLE_TRICK_HOUSE_2             0x27B
+#define FLAG_CUTTABLE_TRICK_HOUSE_3             0x27C
+#define FLAG_CUTTABLE_TRICK_HOUSE_4             0x27D
+#define FLAG_CUTTABLE_TRICK_HOUSE_5             0x27E
+#define FLAG_CUTTABLE_TRICK_HOUSE_6             0x27F
+#define FLAG_CUTTABLE_TRICK_HOUSE_7             0x280
+#define FLAG_CUTTABLE_TRICK_HOUSE_8             0x281
+#define FLAG_CUTTABLE_TRICK_HOUSE_9             0x282
+#define FLAG_CUTTABLE_TRICK_HOUSE_10            0x283
+#define FLAG_CUTTABLE_TRICK_HOUSE_11            0x284
+
 #define FLAG_UNUSED_0x285  0x285 // Unused Flag
 #define FLAG_UNUSED_0x286  0x286 // Unused Flag
 #define FLAG_UNUSED_0x287  0x287 // Unused Flag
