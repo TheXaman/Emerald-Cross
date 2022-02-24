@@ -1272,7 +1272,7 @@ static bool8 LoadGraphics(void)
 		}
         else
 		{
-			LZDecompressWram(sPageTilemaps[PSS_PAGE_BATTLE_MOVES], sMonSummaryScreen->bgTilemapBufferPage);
+			LZDecompressWram(gSummaryScreenPageNewMoveTilemap, sMonSummaryScreen->bgTilemapBufferPage);
 			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
 			ScheduleBgCopyTilemapToVram(2);
 			DoScheduledBgTilemapCopiesToVram();

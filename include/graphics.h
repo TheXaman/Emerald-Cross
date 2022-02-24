@@ -5074,6 +5074,7 @@ extern const u32 gSummaryScreenPageMemoTilemap[];
 extern const u32 gSummaryScreenPageSkillsTilemap[];
 extern const u32 gSummaryScreenPageMovesTilemap[];
 extern const u32 gSummaryScreenPageMoveDetailsTilemap[];
+extern const u32 gSummaryScreenPageNewMoveTilemap[];
 extern const u32 gSummaryScreenPageContestMovesTilemap[];
 extern const u32 gSummaryScreenPageContestMoveDetailsTilemap[];
 extern const u32 gSummaryScreenPageConditionTilemap[];
