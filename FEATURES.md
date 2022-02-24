@@ -6,6 +6,7 @@
 	- Unit system (Metrical/Imperial)
 	- Fishing style (Emerald vs FR)
 	- Overworld Match calls (ON/OFF)
+	- Battle intro (ON/OFF) (It disables battle intro sliding anims)
 - Running indoors
 - Auto-run (Press R in the overworld)
 - Expanded Pockets

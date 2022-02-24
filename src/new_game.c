@@ -100,6 +100,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsExpBarSpeed = 0; //tx_optionsPlus
     gSaveBlock2Ptr->optionsFishReeling = 0;
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;
+    gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
 }
 
 static void ClearPokedexFlags(void)
