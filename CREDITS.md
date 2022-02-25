@@ -5,5 +5,6 @@
 - Edu: Expanded pockets
 - Ghoulslash: Item images on first pick up
 - Sapphire Jester: Check your much ash your collected with the Soot Sack
+- Citrus Bolt: Summary screen
 
 If someone is missing from the credit list please open an issue.
