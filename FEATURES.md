@@ -8,7 +8,7 @@
 	- Overworld Match calls (ON/OFF)
 	- Battle intro (ON/OFF) (It disables battle intro sliding anims)
 - Running indoors
-- Auto-run (Press R in the overworld)
+- Auto-run (Press R in the overworld). This also applies to surfing
 - Expanded Pockets
 - Battle message when someone from your team picks up an item
 - Infinite TMs: This also changes the rare pick up items, replacing tms by Heart Scale, Moon Stone and Sun Stone
