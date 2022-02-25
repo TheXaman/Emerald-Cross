@@ -19,6 +19,7 @@
 	- Flavor text
 	- Characteristics text
 	- Fateful encounter indicator
+	- Check IVs and EVs (you must beat the champion)
 - Cuttable trees don't reappear after being cut down
 - Breakable rocks don't reappear after being smashed
 - Soot Sack tells you how much you collected
