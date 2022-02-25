@@ -198,12 +198,16 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedLButton)
     {
-        PlaySE(SE_SELECT);
-        if (CheckBagHasItem(MACH_BIKE, 1))
-            GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
-        else if (CheckBagHasItem(ACRO_BIKE, 1))
-            GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
-        return TRUE;
+        if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == 0)
+        {
+            if (CheckBagHasItem(ITEM_MACH_BIKE, 1) || CheckBagHasItem(ITEM_ACRO_BIKE, 1))
+                PlaySE(SE_SELECT);
+            if (CheckBagHasItem(ITEM_MACH_BIKE, 1))
+                GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
+            else if (CheckBagHasItem(ITEM_ACRO_BIKE, 1))
+                GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+        }
+        return FALSE;
     }
 
     return FALSE;

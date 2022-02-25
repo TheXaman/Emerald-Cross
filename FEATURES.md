@@ -24,3 +24,4 @@
 - Breakable rocks don't reappear after being smashed
 - Soot Sack tells you how much you collected
 - You can forget HM moves
+- You can mount/unmount your current bike when pressing L in the overworld
