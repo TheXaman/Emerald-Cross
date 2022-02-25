@@ -81,7 +81,7 @@ void FieldClearPlayerInput(struct FieldInput *input)
     input->tookStep = FALSE;
     input->pressedBButton = FALSE;
     input->pressedRButton = FALSE;
-    input->input_field_1_1 = FALSE;
+    input->pressedLButton = FALSE;
     input->input_field_1_2 = FALSE;
     input->input_field_1_3 = FALSE;
     input->dpadDirection = 0;
@@ -107,6 +107,8 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedBButton = TRUE;
             if (newKeys & R_BUTTON)
                 input->pressedRButton = TRUE;
+            if (newKeys & L_BUTTON)
+                input->pressedLButton = TRUE;
         }
 
         if (heldKeys & (DPAD_UP | DPAD_DOWN | DPAD_LEFT | DPAD_RIGHT))
@@ -193,6 +195,16 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedRButton && EnableAutoRun())
         return TRUE;
+
+    if (input->pressedLButton)
+    {
+        PlaySE(SE_SELECT);
+        if (CheckBagHasItem(MACH_BIKE, 1))
+            GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
+        else if (CheckBagHasItem(ACRO_BIKE, 1))
+            GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+        return TRUE;
+    }
 
     return FALSE;
 }
