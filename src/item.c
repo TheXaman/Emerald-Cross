@@ -18,6 +18,7 @@
 #include "party_menu.h"
 #include "overworld.h"
 #include "party_menu.h"
+#include "gpu_regs.h"
 #include "constants/items.h"
 #include "constants/hold_effects.h"
 
@@ -1123,8 +1124,6 @@ void HideHeaderBox(void)
     }
 }
 
-#include "gpu_regs.h"
-
 #define ITEM_TAG 0x2722 //same as money label
 static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash)
 {
@@ -1180,10 +1179,8 @@ static void DestroyItemIconSprite(void)
     FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
     DestroySprite(&gSprites[sItemIconSpriteId]);
 
-    if (GetFlashLevel() > 1 && sItemIconSpriteId2 != MAX_SPRITES)
+    if (GetFlashLevel() > 0 && sItemIconSpriteId2 != MAX_SPRITES)
     {
-        //FreeSpriteTilesByTag(ITEM_TAG);
-        //FreeSpritePaletteByTag(ITEM_TAG);
         FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId2]);
         DestroySprite(&gSprites[sItemIconSpriteId2]);
     }
