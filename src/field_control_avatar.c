@@ -198,14 +198,28 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedLButton)
     {
-        if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == 0)
+
+        if (CheckBagHasItem(ITEM_MACH_BIKE, 1) || CheckBagHasItem(ITEM_ACRO_BIKE, 1))
         {
-            if (CheckBagHasItem(ITEM_MACH_BIKE, 1) || CheckBagHasItem(ITEM_ACRO_BIKE, 1))
-                PlaySE(SE_SELECT);
-            if (CheckBagHasItem(ITEM_MACH_BIKE, 1))
-                GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
-            else if (CheckBagHasItem(ITEM_ACRO_BIKE, 1))
-                GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+            if (FlagGet(FLAG_SYS_CYCLING_ROAD) == TRUE
+            || MetatileBehavior_IsVerticalRail(metatileBehavior) == TRUE
+            || MetatileBehavior_IsHorizontalRail(metatileBehavior) == TRUE
+            || MetatileBehavior_IsIsolatedVerticalRail(metatileBehavior) == TRUE
+            || MetatileBehavior_IsIsolatedHorizontalRail(metatileBehavior) == TRUE)
+            {
+                PlaySE(SE_FAILURE);
+            }
+            else
+            {
+                if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == 0)
+                {
+                    PlaySE(SE_SELECT);
+                    if (CheckBagHasItem(ITEM_MACH_BIKE, 1))
+                        GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
+                    else if (CheckBagHasItem(ITEM_ACRO_BIKE, 1))
+                        GetOnOffBike(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+                }
+            }
         }
         return FALSE;
     }
