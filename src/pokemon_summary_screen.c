@@ -1594,7 +1594,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
 
 	if (sMonSummaryScreen->maxMonIndex == 0)
 		return;
-	
+
     if (!sMonSummaryScreen->lockMonFlag)
     {
         if (sMonSummaryScreen->isBoxMon == TRUE)
@@ -2527,8 +2527,8 @@ static void PrintNotEggInfo(void)
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 
 	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
-	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
-	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL_NARROW, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
 }
 
 static void PrintEggInfo(void)
@@ -2833,7 +2833,7 @@ static void BufferMonTrainerMemo(void)
             text = gText_TrainerMemo_Trade;
         }
 		#endif
-			
+
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
@@ -3416,7 +3416,7 @@ static void PrintMoveDetails(u16 move)
 			FillBgTilemapBufferRect(1, TILE_EMPTY_HEART, 9, 8, 4, 4, 3);
 
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, POWER_AND_ACCURACY_Y, 0, 1);
-	
+
 			if (gContestEffects[gContestMoves[move].effect].appeal / 10 > 4)
 			{
 				heartRow1 = 4;
