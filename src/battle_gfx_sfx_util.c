@@ -372,20 +372,9 @@ void SpriteCB_TrainerSlideIn(struct Sprite *sprite)
 {
     if (!(gIntroSlideFlags & 1))
     {
-        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+        sprite->x2 += sprite->sSpeedX;
+        if (sprite->x2 == 0)
         {
-            sprite->x2 += sprite->sSpeedX;
-            if (sprite->x2 == 0)
-            {
-                if (sprite->y2 != 0)
-                    sprite->callback = SpriteCB_TrainerSlideVertical;
-                else
-                    sprite->callback = SpriteCallbackDummy;
-            }
-        }
-        else
-        {
-            sprite->x2 = 0;
             if (sprite->y2 != 0)
                 sprite->callback = SpriteCB_TrainerSlideVertical;
             else
