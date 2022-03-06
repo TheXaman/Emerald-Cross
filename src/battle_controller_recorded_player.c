@@ -1233,7 +1233,10 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
         gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = DISPLAY_WIDTH;
         gSprites[gBattlerSpriteIds[gActiveBattler]].y2 = 48;
         gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
-        gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
+        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+            gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
+        else
+            gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSpawn;
         gSprites[gBattlerSpriteIds[gActiveBattler]].oam.affineMode = ST_OAM_AFFINE_OFF;
         gSprites[gBattlerSpriteIds[gActiveBattler]].hFlip = 1;
     }
@@ -1246,7 +1249,10 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
         gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
         gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = DISPLAY_WIDTH;
         gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
-        gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
+        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+            gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
+        else
+            gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSpawn;
     }
 
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
