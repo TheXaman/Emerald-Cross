@@ -28,3 +28,4 @@
 - Fast speed while diving, even faster with autorun ON
 - Reusable Repels
 - FRLG/DP+ white out money calculation
+- Increased max money to 9999999
