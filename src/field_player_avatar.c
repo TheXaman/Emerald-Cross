@@ -627,6 +627,15 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         }
     }
 
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
+    {
+        if (gSaveBlock2Ptr->autoRun == TRUE)
+            PlayerWalkFaster(direction);
+        else
+            PlayerWalkFast(direction);
+        return;
+    }
+
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
         if ((heldKeys & B_BUTTON) && gSaveBlock2Ptr->autoRun == TRUE)
