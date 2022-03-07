@@ -26,3 +26,4 @@
 - You can forget HM moves
 - You can mount/unmount your current bike when pressing L in the overworld
 - Fast speed while diving, even faster with autorun ON
+- Reusable Repels
