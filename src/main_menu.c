@@ -243,6 +243,7 @@ static void MainMenu_FormatSavegamePokedex(void);
 static void MainMenu_FormatSavegameTime(void);
 static void MainMenu_FormatSavegameBadges(void);
 static void NewGameBirchSpeech_CreateDialogueWindowBorder(u8, u8, u8, u8, u8, u8);
+static void PatchSave(void);
 
 // .rodata
 
@@ -638,6 +639,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         switch (gSaveFileStatus)
         {
             case SAVE_STATUS_OK:
+                PatchSave();
                 tMenuType = HAS_SAVED_GAME;
                 if (IsMysteryGiftEnabled())
                     tMenuType++;
@@ -2300,3 +2302,12 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 }
 
 #undef tTimer
+
+static void PatchSave(void)
+{
+	if (VarGet(VAR_SAVE_VER) == 0)
+	{
+        // Pre-release version
+		VarSet(VAR_SAVE_VER, 1);	
+	}
+}
