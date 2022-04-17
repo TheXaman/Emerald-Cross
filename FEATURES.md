@@ -29,3 +29,23 @@
 - Reusable Repels
 - FRLG/DP+ white out money calculation
 - Increased max money to 9999999
+- Randomized mode
+	- Wild Pokémon (OFF/RANDOM): Wild encounters will be random.
+	- Trainer (OFF/RANDOM): Enemy trainer parties will be random.
+	- Similar (OFF/ON): Makes randomized mons the same evolution stage as the base species.
+	- Legendaries (OFF/ON): Legendary Pokémon will be included in the randomization.
+	- Type (OFF/RANDOM): Pokémon types will be random.
+	- Moves (OFF/RANDOM): Pokémon moves will be random.
+	- Abilities (OFF/RANDOM): Pokémon abilities will be random.
+	- Evolutions (OFF/RANDOM): Pokémon evolutions will be random.
+	- Evo methods (OFF/RANDOM): Methods of evolutions will be random.
+	- Effectiveness (OFF/RANDOM): Type effectiveness will be random.
+	- Chaos mode (OFF/CHAOS): Enables a total random mode. This is not recommended.
+- Challenge mode
+	- Evo limit (Off/First/None): Limits evolutions
+	- Party limit (OFF/ 1 - 5): Limits your party size.
+	- Nuzlocke (OFF/ON/HARD): Enables nuzlocke mode. Hard: Deletes save on witheout
+	- Player items (YES/NO): Do you want to use items?
+	- Trainer items (YES/NO): Can enemy trainers use items?
+	- PokéCenter (YES/NO): Let yourself use a Pokémon Center.
+	- One type only(OFF/Choose a type): Allow only one Pokémon type to be captured and used.
