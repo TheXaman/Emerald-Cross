@@ -323,7 +323,7 @@ bool8 MEScrCmd_givepokemon(struct ScriptContext *ctx)
     else
         StringCopyN(gStringVar1, gText_Pokemon, POKEMON_NAME_LENGTH + 1);
 
-    if (gPlayerPartyCount == PARTY_SIZE)
+    if (gPlayerPartyCount == GetPartySize())
     {
         StringExpandPlaceholders(gStringVar4, gText_MysteryEventFullParty);
         ctx->mStatus = MEVENT_STATUS_FAILURE;

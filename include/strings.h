@@ -3078,5 +3078,11 @@ extern const u8 gText_SummaryTitlePageStats[];
 
 extern const u8 gText_AshQty[];
 extern const u8 gText_AshQtyNone[];
+//tx_randomizer_and_challenges
+extern const u8 gText_NuzlockeCantThrowPokeBallRoute[];
+extern const u8 gText_NuzlockeCantThrowPokeBallSpeciesClause[];
+extern const u8 gText_NuzlockeCantThrowPokeBallAlreadyCaught[];
+extern const u8 gText_OneTypeChallengeCantThrowPokeBall[];
+extern const u8 gText_BattleRules_NoItems_Player[];
 
 #endif // GUARD_STRINGS_H

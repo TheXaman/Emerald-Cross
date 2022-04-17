@@ -204,6 +204,9 @@ void CopyPartyAndObjectsToSave(void)
 
 void CopyPartyAndObjectsFromSave(void)
 {
+    RandomizeSpeciesListEWRAM(1);
+    RandomizeTypeEffectivenessListEWRAM(1);
+    PrintTXSaveData();
     LoadPlayerParty();
     LoadObjectEvents();
     DeserializeTmHmItemSlots();

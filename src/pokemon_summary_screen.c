@@ -50,6 +50,8 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/species.h"
+#include "tx_randomizer_and_challenges.h"
 
 // Config options
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
@@ -3571,15 +3573,15 @@ static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
-    if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
+    if (GetTypeBySpecies(summary->species, 1) != GetTypeBySpecies(summary->species, 2))
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 167, 65, SPRITE_ARR_ID_TYPE);
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 201, 65, SPRITE_ARR_ID_TYPE + 1);
+        SetTypeSpritePosAndPal(GetTypeBySpecies(summary->species, 1), 167, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(GetTypeBySpecies(summary->species, 2), 201, 65, SPRITE_ARR_ID_TYPE + 1);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
     }
     else
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 184, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(GetTypeBySpecies(summary->species, 1), 184, 65, SPRITE_ARR_ID_TYPE);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
     }
 }

@@ -2,6 +2,7 @@
 #define GUARD_POKEMON_H
 
 #include "sprite.h"
+#include "constants/species.h" //tx_randomizer_and_challenges
 
 struct PokemonSubstruct0
 {
@@ -292,6 +293,7 @@ extern const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2];
 extern const u16 gLinkPlayerFacilityClasses[];
 extern const struct SpriteTemplate gBattlerSpriteTemplates[];
 extern const s8 gNatureStatTable[][5];
+extern const u16 gEvolutionLines[NUM_SPECIES][EVOS_PER_LINE]; //tx_randomizer_and_challenges
 
 void ZeroBoxMonData(struct BoxPokemon *boxMon);
 void ZeroMonData(struct Pokemon *mon);
@@ -441,5 +443,20 @@ bool8 HasTwoFramesAnimation(u16 species);
 struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode);
 void DestroyMonSpritesGfxManager(u8 managerId);
 u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum);
+
+//tx_randomizer_and_challenges
+void RandomizeSpeciesListEWRAM(u16 seed);
+void RandomizeTypeEffectivenessListEWRAM(u16 seed);
+u16 PickRandomizedSpeciesFromEWRAM(u16 species, u16 depth);
+u16 PickRandomEvo0Species(u16 species);
+u8 GetTypeBySpecies(u16 species, u8 type);
+u16 GetSpeciesRandomSeeded(u16 species, u8 offset, u8 random, u8 seeded);
+u16 GetEvolutionTargetSpeciesRandom(u16 species, u8 random, u8 seeded);
+u8 GetPartySize();
+u16 GetRandomMove(u16 input_move, u16 species);
+void NuzlockeDeletePartyMon(u8 position);
+void NuzlockeDeleteFaintedPartyPokemon(void) ;
+u8 GetPokemonCenterChallenge();
+void PrintTXSaveData(void);
 
 #endif // GUARD_POKEMON_H

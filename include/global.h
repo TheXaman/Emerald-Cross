@@ -1025,7 +1025,32 @@ struct SaveBlock1
     u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
     struct SaveTrainerHill trainerHill;
     struct WaldaPhrase waldaPhrase;
+    u8 NuzlockeEncounterFlags[9]; //tx_randomizer_and_challenges
+    u8 tx_Random_Chaos:1;
+    u8 tx_Random_WildPokemon:1;
+    u8 tx_Random_Similar:1;
+    u8 tx_Random_MapBased:1;
+    u8 tx_Random_IncludeLegendaries:1;
+    u8 tx_Random_Type:1;
+    u8 tx_Random_TypeEffectiveness:1;
+    u8 tx_Random_Abilities:1;
+    //
+    u8 tx_Random_Moves:1;
+    u8 tx_Random_Trainer:1;
+    u8 tx_Random_Evolutions:1;
+    u8 tx_Random_EvolutionMethodes:1;
+    u8 tx_Challenges_EvoLimit:2;
+    u8 tx_Challenges_Nuzlocke:1;
+    u8 tx_Challenges_NuzlockeHardcore:1;
+    //
+    u8 tx_Challenges_OneTypeChallenge:5;
+    u8 tx_Challenges_PartyLimit:3;
+    //
+    u8 tx_Challenges_NoItemPlayer:1;
+    u8 tx_Challenges_NoItemTrainer:1;
+    u8 tx_Challenges_PkmnCenter:2;
 };
+
 
 extern struct SaveBlock1* gSaveBlock1Ptr;
 
@@ -1035,5 +1060,7 @@ struct MapPosition
     s16 y;
     s8 elevation;
 };
+
+#define TX_DIFFICULTY_CHALLENGES_USED
 
 #endif // GUARD_GLOBAL_H

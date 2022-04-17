@@ -23,6 +23,14 @@
 #include "window.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "tx_randomizer_and_challenges.h"
+
+#ifdef GBA_PRINTF
+    //#include "printf.h"
+    //#include "mgba.h"
+    //#include "data.h"                 // for gSpeciesNames, which maps species number to species name.
+    //#include "../gflib/string_util.h" // for ConvertToAscii()
+#endif
 
 #define STARTER_MON_COUNT   3
 
@@ -355,9 +363,46 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
+    //tx_randomizer_and_challenges
+    u16 mon = sStarterMon[chosenStarterId];
+    u8 typeChallenge = gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge;
+    u16 i;
+
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
-    return sStarterMon[chosenStarterId];
+
+    //tx_randomizer_and_challenges
+    if (typeChallenge != TX_CHALLENGE_TYPE_OFF)
+    {
+        #ifdef GBA_PRINTF
+            mgba_printf(MGBA_LOG_DEBUG, "TX_CHALLENGE_TYPE_OFF = %d", TX_CHALLENGE_TYPE_OFF);
+            mgba_printf(MGBA_LOG_DEBUG, "typeChallenge = %d", typeChallenge);
+        #endif
+
+        for (i=1; i<400; i++)
+        {
+            mon = PickRandomizedSpeciesFromEWRAM(mon, chosenStarterId+1);
+            if (GetTypeBySpecies(mon, 1) == typeChallenge || GetTypeBySpecies(mon, 2) == typeChallenge)
+                break;
+        }
+        #ifdef GBA_PRINTF
+            mgba_printf(MGBA_LOG_DEBUG, "i = %d", i + i*chosenStarterId);
+        #endif
+    }
+    else if (gSaveBlock1Ptr->tx_Random_Chaos && gSaveBlock1Ptr->tx_Random_WildPokemon)
+    {
+        mon = PickRandomizedSpeciesFromEWRAM(sStarterMon[chosenStarterId], 3);
+    }
+    else if (gSaveBlock1Ptr->tx_Random_WildPokemon)
+    {
+        mon = PickRandomEvo0Species(sStarterMon[chosenStarterId]);
+    }
+    
+    #ifdef GBA_PRINTF
+        mgba_printf(MGBA_LOG_DEBUG, "species[%d] = %s", mon, ConvertToAscii(gSpeciesNames[mon]));
+    #endif
+
+    return mon;
 }
 
 static void VblankCB_StarterChoose(void)

@@ -1883,3 +1883,9 @@ const u8 gText_SummaryTitlePageStats[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}STATS
 
 const u8 gText_AshQty[] = _("You collected {STR_VAR_1}\nvolcanic ash!{PAUSE_UNTIL_PRESS}");
 const u8 gText_AshQtyNone[] = _("You don't have any volcanic ash!{PAUSE_UNTIL_PRESS}");
+//tx_randomizer_and_challenges
+const u8 gText_NuzlockeCantThrowPokeBallRoute[]             = _("You have already used your encounter\nfor this area!{PAUSE_UNTIL_PRESS}");
+const u8 gText_NuzlockeCantThrowPokeBallSpeciesClause[]     = _("You have already caught a POKéMON\nin this evolution line!{PAUSE_UNTIL_PRESS}");
+const u8 gText_NuzlockeCantThrowPokeBallAlreadyCaught[]     = _("You have already caught this POKéMON!{PAUSE_UNTIL_PRESS}");
+const u8 gText_OneTypeChallengeCantThrowPokeBall[]          = _("One Type Challenge active, capture blocked!{PAUSE_UNTIL_PRESS}");
+const u8 gText_BattleRules_NoItems_Player[]                 = _("Competitive rules!\nNo items in battle!{PAUSE_UNTIL_PRESS}");
