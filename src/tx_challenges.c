@@ -123,7 +123,7 @@ static const u8 *const sChallengesOptionMenuItemNames[MENUITEM_COUNT] =
 
 static const u8 gText_Description_Challenges_Evo_Limit[]        = _("{COLOR 6}{SHADOW 7}Limits evolutions.");
 static const u8 gText_Description_Challenges_Party_Limit[]      = _("{COLOR 6}{SHADOW 7}Limits your party size.");
-static const u8 gText_Description_Nuzlocke[]                    = _("{COLOR 6}{SHADOW 7}Enables nuzlocke mode.\nHard: {COLOR RED}Deletes save on whiteout!{COLOR 6}{SHADOW 7}");
+static const u8 gText_Description_Nuzlocke[]                    = _("{COLOR 6}{SHADOW 7}Enables nuzlocke mode.\nHard: {COLOR 5}Deletes save on whiteout!{COLOR 6}{SHADOW 7}");
 static const u8 gText_Description_Challenges_Items_Player[]     = _("{COLOR 6}{SHADOW 7}Do you want to use items?");
 static const u8 gText_Description_Challenges_Items_Trainer[]    = _("{COLOR 6}{SHADOW 7}Can enemy trainers use items?");
 static const u8 gText_Description_Challenges_Pokecenter[]       = _("{COLOR 6}{SHADOW 7}Let yourself use a Pokémon Center.");
