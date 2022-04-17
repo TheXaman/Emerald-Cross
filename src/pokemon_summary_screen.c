@@ -513,9 +513,9 @@ static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}");
 #define TAG_MON_STATUS      30001
 #define TAG_MOVE_TYPES      30002
 #define TAG_MON_MARKINGS    30003
-#define TAG_HEALTH_BAR      30004
-#define TAG_EXP_BAR         30005
-#define TAG_SPLIT_ICONS     30006
+#define TAG_SPLIT_ICONS     30004
+#define TAG_HEALTH_BAR      30005
+#define TAG_EXP_BAR         30006
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -1356,7 +1356,6 @@ static bool8 DecompressGraphics(void)
 		sMonSummaryScreen->switchCounter++;
 		break;
 	case 10:
-		LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x60);
 		LoadCompressedSpriteSheet(&sSpriteSheet_SplitIcons);
 		LoadSpritePalette(&sSpritePal_SplitIcons);
 		sMonSummaryScreen->switchCounter = 0;
