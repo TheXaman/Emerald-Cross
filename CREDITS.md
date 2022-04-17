@@ -1,4 +1,4 @@
-- TheXaman: Options menus plus
+- TheXaman: Options menus plus, challenge modes, randomize modes.
 - NobodySociety: FR Fishing port
 - Deokishisu: General ideas from FRLG+
 - SBird: Convert TMHMs to bitfields. Faster battle intro
