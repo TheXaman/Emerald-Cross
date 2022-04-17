@@ -1241,6 +1241,7 @@ static bool8 LoadGraphics(void)
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+			StopPokemonAnimations();
 			sMonSummaryScreen->markingsSprite->x = 257;
 			sMonSummaryScreen->markingsSprite->y = 332;
 		}
@@ -1877,6 +1878,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+			StopPokemonAnimations();
 			sMonSummaryScreen->markingsSprite->x = 257;
 			sMonSummaryScreen->markingsSprite->y = 332;
 			ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
@@ -2115,8 +2117,21 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, FALSE);
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
+			CalcCenterToCornerVec(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]], gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.shape, gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.size, gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.affineMode);
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].hFlip = !gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[1];
+			FreeOamMatrix(gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.matrixNum);
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.matrixNum |= (gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].hFlip << 3);
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.affineMode = ST_OAM_AFFINE_OFF;
+			RequestSpriteFrameImageCopy(gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].anims[0][0].frame.imageValue, gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.tileNum, gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].images);
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].x2 = 0;
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].y2 = 0;
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.x = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].x + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecX;
+			gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.y = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].y + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecY;
+
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
 				SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
+
 			CreateSetStatusSprite();
 			sMonSummaryScreen->markingsSprite->x = 57;
 			sMonSummaryScreen->markingsSprite->y = 132;
