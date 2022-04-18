@@ -104,7 +104,7 @@ static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_m
 static const u8 gText_Randomizer[] =                _("RANDOMIZER");
 static const u8 gText_WildPkmn[] =                  _("WILD POKEMON");
 static const u8 gText_Trainer[] =                   _("TRAINER");
-static const u8 gText_SimiliarEvolutionLevel[] =    _("SIMILAR");
+static const u8 gText_SimiliarEvolutionLevel[] =    _("EVO STAGES");
 static const u8 gText_InlcudeLegendaries[]=         _("LEGENDARIES");
 static const u8 gText_Type[] =                      _("TYPE");
 static const u8 gText_Moves[] =                     _("MOVES");
@@ -134,7 +134,7 @@ static const u8 *const sOptionMenuItemNames[MENUITEM_COUNT] =
 
 static const u8 gText_Gray_WildPkmn[] =                  _("{COLOR GREEN}{SHADOW LIGHT_GREEN}WILD POKEMON");
 static const u8 gText_Gray_Trainer[] =                   _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TRAINER");
-static const u8 gText_Gray_SimiliarEvolutionLevel[] =    _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SIMILAR");
+static const u8 gText_Gray_SimiliarEvolutionLevel[] =    _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVO STAGES");
 static const u8 gText_Gray_InlcudeLegendaries[]=         _("{COLOR GREEN}{SHADOW LIGHT_GREEN}LEGENDARIES");
 static const u8 gText_Gray_Type[] =                      _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TYPE");
 static const u8 gText_Gray_Moves[] =                     _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES");
