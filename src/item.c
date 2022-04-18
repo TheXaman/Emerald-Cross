@@ -1074,7 +1074,7 @@ void DrawHeaderBox(void)
 {
     struct WindowTemplate template;
     u16 item = gSpecialVar_0x8006;
-    u8 headerType = gSpecialVar_0x8009;
+    u8 headerType = VarGet(VAR_ITEM_DESC_HEADER_TYPE);
     u8 textY;
     u8 *dst;
     bool8 handleFlash = FALSE;

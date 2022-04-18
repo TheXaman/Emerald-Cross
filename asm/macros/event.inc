@@ -1734,12 +1734,12 @@
     .endm
 
     .macro showitemdesc
-    setvar VAR_0x8009, 0
+    setvar VAR_ITEM_DESC_HEADER_TYPE, 0
     showdescription
     .endm
 
     .macro showberrydesc
-    setvar VAR_0x8009, 1
+    setvar VAR_ITEM_DESC_HEADER_TYPE, 1
     showdescription
     .endm
 
