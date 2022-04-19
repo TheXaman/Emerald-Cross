@@ -59,7 +59,47 @@ static const u32 sTitleScreenRayquazaTilemap[] = INCBIN_U32("graphics/title_scre
 static const u32 sTitleScreenLogoShineGfx[] = INCBIN_U32("graphics/title_screen/logo_shine.4bpp.lz");
 static const u32 sTitleScreenCloudsGfx[] = INCBIN_U32("graphics/title_screen/clouds.4bpp.lz");
 
+static const u32 sSprite_Version[] = INCBIN_U32("graphics/title_screen/version.4bpp.lz");
+static const u32 sPal_Version[] = INCBIN_U32("graphics/title_screen/version.gbapal.lz");
 
+static const struct CompressedSpriteSheet sSpriteSheet_Version[] =
+{
+    {sSprite_Version, 4096, 777},
+    {NULL},
+};
+static const struct CompressedSpritePalette sSpritePal_Version[] =
+{
+    {sPal_Version, 777},
+    {NULL},
+};
+
+static const struct OamData sVersionOamData =
+{
+    .y = 0,
+    .affineMode = 0,
+    .objMode = 0,
+    .mosaic = 0,
+    .bpp = 0,
+    .shape = 0,
+    .x = 0,
+    .matrixNum = 0,
+    .size = 3,
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+    .affineParam = 0,
+};
+
+static const struct SpriteTemplate sVersionSpriteTemplate =
+{
+    .tileTag = 777,
+    .paletteTag = 777,
+    .oam = &sVersionOamData,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
 
 // Used to blend "Emerald Version" as it passes over over the Pokémon banner.
 // Also used by the intro to blend the Game Freak name/logo in and out as they appear and disappear
@@ -565,6 +605,8 @@ void CB2_InitTitleScreen(void)
         LoadCompressedSpriteSheet(&sPokemonLogoShineSpriteSheet[0]);
         LoadPalette(gTitleScreenEmeraldVersionPal, 0x100, 0x20);
         LoadSpritePalette(&sSpritePalette_PressStart[0]);
+        LoadCompressedSpriteSheet(sSpriteSheet_Version);
+        LoadCompressedSpritePalette(sSpritePal_Version);
         gMain.state = 2;
         break;
     case 2:
@@ -705,6 +747,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
                                     | DISPCNT_OBJ_ON);
         CreatePressStartBanner(START_BANNER_X, 108);
         CreateCopyrightBanner(START_BANNER_X, 148);
+        CreateSprite(&sVersionSpriteTemplate, 35, 179, 0);
         gTasks[taskId].data[4] = 0;
         gTasks[taskId].func = Task_TitleScreenPhase3;
     }
