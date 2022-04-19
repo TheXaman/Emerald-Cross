@@ -1983,18 +1983,19 @@ void AddTextPrinterParameterized4Signed(u8 windowId, u8 fontId, u8 left, s8 top,
     printer.fontId = fontId;
     printer.x = left;
     printer.currentX = printer.x;
-	if (top < 0)
-	{
-		printer.y = top * -1;
-		printer.currentY = printer.y;
-		printer.unk = 1;
-	}
-	else
-	{
-		printer.y = top;
-		printer.currentY = printer.y;
-		printer.unk = 0;
-	}
+
+    if (top < 0)
+    {
+        printer.y = top * -1;
+        printer.unk = 1;
+    }
+    else
+    {
+        printer.y = top;
+        printer.unk = 0;
+    }
+
+    printer.currentY = printer.y;
     printer.letterSpacing = letterSpacing;
     printer.lineSpacing = lineSpacing;
     printer.fgColor = color[1];

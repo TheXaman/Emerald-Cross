@@ -210,27 +210,25 @@ u8 AddBallIconSprite(u16 tilesTag, u16 paletteTag, u8 ballId)
         struct CompressedSpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
-        LZDecompressWram(gBallIconTable[ballId][0], gItemIconDecompressionBuffer);
-		CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
+        if (ballId > ARRAY_COUNT(gBallIconTable) - 1)
+            ballId = 0;
 
+        LZDecompressWram(gBallIconTable[ballId][0], gItemIconDecompressionBuffer);
+        CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
         spriteSheet.data = gItemIcon4x4Buffer;
         spriteSheet.size = 0x100;
         spriteSheet.tag = tilesTag;
         LoadSpriteSheet(&spriteSheet);
-
         spritePalette.data = gBallIconTable[ballId][1];
         spritePalette.tag = paletteTag;
         LoadCompressedSpritePalette(&spritePalette);
-
         spriteTemplate = Alloc(sizeof(*spriteTemplate));
         CpuCopy16(&gBallIconSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
         spriteTemplate->tileTag = tilesTag;
         spriteTemplate->paletteTag = paletteTag;
         spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
-
         FreeItemIconTemporaryBuffers();
         Free(spriteTemplate);
-
         return spriteId;
     }
 }

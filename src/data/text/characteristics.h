@@ -36,7 +36,7 @@ static const u8 sFlavorBitter[] = _("Likes {COLOR 5}{SHADOW 6}bitter{COLOR 7}{SH
 static const u8 sFlavorSour[] = _("Likes {COLOR 5}{SHADOW 6}sour{COLOR 7}{SHADOW 8} food.");
 static const u8 sFlavorNeutral[] = _("Happily eats anything.");
 
-const u8 *const gCharacteristicPointers[30] =
+const u8 *const gCharacteristicPointers[30] = 
 {
     sCharacteristic00,
 	sCharacteristic01,
