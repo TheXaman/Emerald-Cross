@@ -2358,4 +2358,10 @@ static void PatchSave(void)
         // Pre-release version
 		VarSet(VAR_SAVE_VER, 1);	
 	}
+	if (VarGet(VAR_SAVE_VER) == 1)
+	{
+        // Fixed party size
+        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
+		VarSet(VAR_SAVE_VER, 2);	
+	}
 }
