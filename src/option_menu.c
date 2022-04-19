@@ -26,6 +26,7 @@ enum
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
+    MENUITEM_FONT,
     MENUITEM_MATCHCALL,
     MENUITEM_FISHREELING,
     MENUITEM_SKIP_BATTLE_INTRO,
@@ -69,6 +70,7 @@ static void DrawChoices_SkipBattleIntro(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_FishReeling(int selection, int y);
 static void DrawChoices_MatchCall(int selection, int y);
+static void DrawChoices_Font(int selection, int y);
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y);
 static void DrawTextOption(void);
 static void DrawOptionMenuTexts(void);
@@ -93,6 +95,7 @@ struct
     [MENUITEM_SOUND]                = {DrawChoices_Sound,           ProcessInput_Options_Two},
     [MENUITEM_BUTTONMODE]           = {DrawChoices_ButtonMode,      ProcessInput_Options_Three},
     [MENUITEM_FRAMETYPE]            = {DrawChoices_FrameType,       ProcessInput_FrameType},
+    [MENUITEM_FONT]                 = {DrawChoices_Font,            ProcessInput_Options_Two}, 
     [MENUITEM_MATCHCALL]            = {DrawChoices_MatchCall,       ProcessInput_Options_Two},
     [MENUITEM_FISHREELING]          = {DrawChoices_FishReeling,     ProcessInput_Options_Two},
     [MENUITEM_SKIP_BATTLE_INTRO]    = {DrawChoices_SkipBattleIntro, ProcessInput_Options_Two},
@@ -124,6 +127,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_SOUND]                = gText_Sound,
     [MENUITEM_BUTTONMODE]           = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]            = gText_Frame,
+    [MENUITEM_FONT]                 = gText_Font,
     [MENUITEM_MATCHCALL]            = sText_MatchCalls,
     [MENUITEM_FISHREELING]          = sText_FishReeling,
     [MENUITEM_SKIP_BATTLE_INTRO]    = sText_SkipBattleIntro,
@@ -284,6 +288,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_SOUND]               = gSaveBlock2Ptr->optionsSound;
         sOptions->sel[MENUITEM_BUTTONMODE]          = gSaveBlock2Ptr->optionsButtonMode;
         sOptions->sel[MENUITEM_FRAMETYPE]           = gSaveBlock2Ptr->optionsWindowFrameType;
+        sOptions->sel[MENUITEM_FONT]                = gSaveBlock2Ptr->optionsCurrentFont;
         sOptions->sel[MENUITEM_MATCHCALL]           = gSaveBlock2Ptr->optionsDisableMatchCall;
         sOptions->sel[MENUITEM_FISHREELING]         = gSaveBlock2Ptr->optionsFishReeling;
         sOptions->sel[MENUITEM_SKIP_BATTLE_INTRO]   = gSaveBlock2Ptr->optionsSkipBattleIntro;
@@ -446,6 +451,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsSound            = sOptions->sel[MENUITEM_SOUND];
     gSaveBlock2Ptr->optionsButtonMode       = sOptions->sel[MENUITEM_BUTTONMODE];
     gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_FRAMETYPE];
+    gSaveBlock2Ptr->optionsCurrentFont      = sOptions->sel[MENUITEM_FONT];
     gSaveBlock2Ptr->optionsDisableMatchCall = sOptions->sel[MENUITEM_MATCHCALL];
     gSaveBlock2Ptr->optionsFishReeling      = sOptions->sel[MENUITEM_FISHREELING];
     gSaveBlock2Ptr->optionsSkipBattleIntro  = sOptions->sel[MENUITEM_SKIP_BATTLE_INTRO];
@@ -707,6 +713,16 @@ static void DrawChoices_MatchCall(int selection, int y)
 
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
+}
+
+static void DrawChoices_Font(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1]);
 }
 
 static int ProcessInput_FrameType(int selection)

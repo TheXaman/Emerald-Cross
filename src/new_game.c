@@ -102,6 +102,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsFishReeling = 0;
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;
     gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
+    gSaveBlock2Ptr->optionsCurrentFont = 0;
 }
 
 static void ClearPokedexFlags(void)

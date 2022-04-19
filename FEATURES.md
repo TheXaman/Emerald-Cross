@@ -7,6 +7,7 @@
 	- Fishing style (Emerald vs FR)
 	- Overworld Match calls (ON/OFF)
 	- Battle intro (ON/OFF) (It disables battle intro sliding anims)
+	- Font (Emerald/FRLG)
 - Running indoors
 - Auto-run (Press R in the overworld). This also applies to surfing
 - Expanded Pockets

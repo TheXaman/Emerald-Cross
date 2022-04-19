@@ -319,6 +319,7 @@ extern const u8 gText_BattleScene[];
 extern const u8 gText_BattleStyle[];
 extern const u8 gText_Sound[];
 extern const u8 gText_Frame[];
+extern const u8 gText_Font[];
 extern const u8 gText_OptionMenuSave[];
 extern const u8 gText_ButtonMode[];
 
@@ -3043,5 +3044,8 @@ extern const u8 gText_NuzlockeCantThrowPokeBallSpeciesClause[];
 extern const u8 gText_NuzlockeCantThrowPokeBallAlreadyCaught[];
 extern const u8 gText_OneTypeChallengeCantThrowPokeBall[];
 extern const u8 gText_BattleRules_NoItems_Player[];
+
+extern const u8 gText_OptionFontFireRed[];
+extern const u8 gText_OptionFontEmerald[];
 
 #endif // GUARD_STRINGS_H
