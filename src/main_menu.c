@@ -2364,4 +2364,9 @@ static void PatchSave(void)
         gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
 		VarSet(VAR_SAVE_VER, 2);	
 	}
+    if (VarGet(VAR_SAVE_VER) == 2)
+    {
+        gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
+        VarSet(VAR_SAVE_VER, 3);
+    }
 }
