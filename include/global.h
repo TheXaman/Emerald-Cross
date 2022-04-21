@@ -1039,7 +1039,7 @@ struct SaveBlock1
     u8 tx_Random_Moves:1;
     u8 tx_Random_Trainer:1;
     u8 tx_Random_Evolutions:1;
-    u8 tx_Random_EvolutionMethodes:1;
+    u8 tx_Random_EvolutionMethods:1;
     u8 tx_Challenges_EvoLimit:2;
     u8 tx_Challenges_Nuzlocke:1;
     u8 tx_Challenges_NuzlockeHardcore:1;

@@ -342,7 +342,7 @@ void CB2_InitRandomizerMenu(void)
         gSaveBlock1Ptr->tx_Random_Moves                 = TX_RANDOM_MOVES;
         gSaveBlock1Ptr->tx_Random_Abilities             = TX_RANDOM_ABILITIES;
         gSaveBlock1Ptr->tx_Random_Evolutions            = TX_RANDOM_EVOLUTION;
-        gSaveBlock1Ptr->tx_Random_EvolutionMethodes     = TX_RANDOM_EVOLUTION_METHODE;
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods     = TX_RANDOM_EVOLUTION_METHODE;
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness     = TX_RANDOM_TYPE_EFFECTIVENESS;
         gSaveBlock1Ptr->tx_Random_Chaos                 = TX_RANDOM_CHAOS_MODE;
 
@@ -356,7 +356,7 @@ void CB2_InitRandomizerMenu(void)
         sRandomizerOptions->sel[MENUITEM_RANDOM_MOVES]                    = gSaveBlock1Ptr->tx_Random_Moves;
         sRandomizerOptions->sel[MENUITEM_RANDOM_ABILITIES]                = gSaveBlock1Ptr->tx_Random_Abilities;
         sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS]               = gSaveBlock1Ptr->tx_Random_Evolutions;
-        sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE]       = gSaveBlock1Ptr->tx_Random_EvolutionMethodes;
+        sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE]       = gSaveBlock1Ptr->tx_Random_EvolutionMethods;
         sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC]               = gSaveBlock1Ptr->tx_Random_TypeEffectiveness;
         sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS]                    = gSaveBlock1Ptr->tx_Random_Chaos;
 
@@ -576,7 +576,7 @@ void tx_randomizer_SaveData(void)
         gSaveBlock1Ptr->tx_Random_Moves              = sRandomizerOptions->sel[MENUITEM_RANDOM_MOVES];
         gSaveBlock1Ptr->tx_Random_Abilities          = sRandomizerOptions->sel[MENUITEM_RANDOM_ABILITIES];
         gSaveBlock1Ptr->tx_Random_Evolutions         = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS];
-        gSaveBlock1Ptr->tx_Random_EvolutionMethodes  = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE];
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods  = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE];
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC];
         gSaveBlock1Ptr->tx_Random_Chaos              = sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS];
     }
@@ -591,7 +591,7 @@ void tx_randomizer_SaveData(void)
         gSaveBlock1Ptr->tx_Random_Moves              = FALSE;
         gSaveBlock1Ptr->tx_Random_Abilities          = FALSE;
         gSaveBlock1Ptr->tx_Random_Evolutions         = FALSE;
-        gSaveBlock1Ptr->tx_Random_EvolutionMethodes  = FALSE;
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods  = FALSE;
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = FALSE;
         gSaveBlock1Ptr->tx_Random_Chaos              = FALSE;
     }

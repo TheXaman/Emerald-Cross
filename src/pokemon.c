@@ -11961,9 +11961,9 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem)
     u16 upperPersonality = personality >> 16;
     u8 holdEffect;
 
-    if (gSaveBlock1Ptr->tx_Random_EvolutionMethodes) //tx_randomizer_and_challenges
+    if (gSaveBlock1Ptr->tx_Random_EvolutionMethods) //tx_randomizer_and_challenges
     {
-        species = GetEvolutionTargetSpeciesRandom(species, gSaveBlock1Ptr->tx_Random_EvolutionMethodes, !gSaveBlock1Ptr->tx_Random_Chaos);
+        species = GetEvolutionTargetSpeciesRandom(species, gSaveBlock1Ptr->tx_Random_EvolutionMethods, !gSaveBlock1Ptr->tx_Random_Chaos);
         if (species == SPECIES_NONE)
             return SPECIES_NONE;
     }
@@ -13916,7 +13916,7 @@ void PrintTXSaveData(void)
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Moves"                , gSaveBlock1Ptr->tx_Random_Moves);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Trainer"              , gSaveBlock1Ptr->tx_Random_Trainer);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Evolutions"           , gSaveBlock1Ptr->tx_Random_Evolutions);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_EvolutionMethodes"    , gSaveBlock1Ptr->tx_Random_EvolutionMethodes);
+    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_EvolutionMethods"    , gSaveBlock1Ptr->tx_Random_EvolutionMethods);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_EvoLimit"         , gSaveBlock1Ptr->tx_Challenges_EvoLimit);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_Nuzlocke"         , gSaveBlock1Ptr->tx_Challenges_Nuzlocke);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_NuzlockeHardcore" , gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore);
