@@ -8,6 +8,7 @@
 	- Overworld Match calls (ON/OFF)
 	- Battle intro (ON/OFF) (It disables battle intro sliding anims)
 	- Font (Emerald/FRLG)
+	- Surf/Bike music (ON/OFF)
 - Running indoors
 - Auto-run (Press R in the overworld). This also applies to surfing
 - Expanded Pockets
