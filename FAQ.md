@@ -15,7 +15,7 @@
   * [Will you add later-generation Pokémon?](#will-you-add-later-generation-pokémon)
   * [How many Pokémon are available? Will *all* Pokémon be catchable?](#how-many-pokémon-are-available-will-all-pokémon-be-catchable)
   * [Can you change wild Pokémon availability/levels? Can you put *x* Pokémon in *y* map? Will you add more Pokémon in the future?](#can-you-change-wild-pokémon-availabilitylevels-can-you-put-x-pokémon-in-y-map-will-you-add-more-pokémon-in-the-future)
-  * [Can I obtain the other Hoenn starters? Can I obtain the unchosen fossil?](#can-i-obtain-the-other-hoenn-starters-can-i-obtain-the-unchosen-fossil)
+  * [Can I obtain the other Hoenn starters?](#can-i-obtain-the-other-hoenn-starters)
   * [Can I evolve trade evolutions without trading?](#can-i-evolve-trade-evolutions-without-trading)
 * Troubleshooting Savefiles, Emulators, and Flashcarts:
   * [Is my vanilla Emerald save compatible with Emerald Cross?](#is-my-vanilla-emerald-save-compatible-with-emerald-cross)
@@ -63,7 +63,7 @@ One of the goals of this hack is to make every Pokémon available to the player 
 If you want more Pokémon, trade with vanilla.
 
 
-### Can I obtain the other Hoenn starters? Can I obtain the unchosen fossil?
+### Can I obtain the other Hoenn starters?
 No, and there are no plans for those at the momment.
 
 ### Can I evolve trade evolutions without trading?
