@@ -31,6 +31,7 @@
 - Reusable Repels
 - FRLG/DP+ white out money calculation
 - Increased max money to 9999999
+- Use SELECT to swap mons in the party menu
 - Randomized mode
 	- Wild Pokémon (OFF/RANDOM): Wild encounters will be random.
 	- Trainer (OFF/RANDOM): Enemy trainer parties will be random.

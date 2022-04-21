@@ -1199,6 +1199,9 @@ void Task_HandleChooseMonInput(u8 taskId)
                 MoveCursorToConfirm();
             }
             break;
+        case 9:
+            DestroyTask(taskId);
+            break;
         }
     }
 }
@@ -1377,6 +1380,7 @@ static void Task_HandleCancelChooseMonYesNoInput(u8 taskId)
 static u16 PartyMenuButtonHandler(s8 *slotPtr)
 {
     s8 movementDir;
+    u8 taskId;
 
     switch (gMain.newAndRepeatedKeys)
     {
@@ -1410,7 +1414,17 @@ static u16 PartyMenuButtonHandler(s8 *slotPtr)
 
     if (JOY_NEW(START_BUTTON))
         return 8;
-
+    if (JOY_NEW(SELECT_BUTTON))
+    {
+        if(gPartyMenu.menuType != PARTY_MENU_TYPE_FIELD)
+            return 8;
+        if(gPartyMenu.action != PARTY_ACTION_SWITCH)
+        {
+            taskId = CreateTask(CursorCb_Switch, 1);
+            return 9;
+        }
+        return 1; //select acts as A button when in switch mode
+    }
     if (movementDir)
     {
         UpdateCurrentPartySelection(slotPtr, movementDir);
