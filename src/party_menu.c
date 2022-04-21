@@ -1418,7 +1418,7 @@ static u16 PartyMenuButtonHandler(s8 *slotPtr)
     {
         if(gPartyMenu.menuType != PARTY_MENU_TYPE_FIELD)
             return 8;
-        if(gPartyMenu.action != PARTY_ACTION_SWITCH)
+        if(gPartyMenu.action != PARTY_ACTION_SWITCH && *slotPtr != PARTY_SIZE + 1)
         {
             taskId = CreateTask(CursorCb_Switch, 1);
             return 9;
