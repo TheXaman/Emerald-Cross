@@ -15,7 +15,7 @@
   * [Will you add later-generation Pokémon?](#will-you-add-later-generation-pokémon)
   * [How many Pokémon are available? Will *all* Pokémon be catchable?](#how-many-pokémon-are-available-will-all-pokémon-be-catchable)
   * [Can you change wild Pokémon availability/levels? Can you put *x* Pokémon in *y* map? Will you add more Pokémon in the future?](#can-you-change-wild-pokémon-availabilitylevels-can-you-put-x-pokémon-in-y-map-will-you-add-more-pokémon-in-the-future)
-  * [Can I obtain the other Kanto starters? Can I obtain the unchosen fossil?](#can-i-obtain-the-other-kanto-starters-can-i-obtain-the-unchosen-fossil)
+  * [Can I obtain the other Hoenn starters? Can I obtain the unchosen fossil?](#can-i-obtain-the-other-hoenn-starters-can-i-obtain-the-unchosen-fossil)
   * [Can I evolve trade evolutions without trading?](#can-i-evolve-trade-evolutions-without-trading)
 * Troubleshooting Savefiles, Emulators, and Flashcarts:
   * [Is my vanilla Emerald save compatible with Emerald Cross?](#is-my-vanilla-emerald-save-compatible-with-emerald-cross)
@@ -55,7 +55,7 @@ I'm still considering this because the Battle Frontier is a big part of Pokémon
 No. This hack aims to maintain link compatibility with the vanilla games and keep all obtainable Pokémon legal in Generation III.
 
 ### How many Pokémon are available? Will *all* Pokémon be catchable?
-At the moment the same as vanilla Emerald. This hack does not add any new Pokémon that were not available in Generation III. To complete the National Dex, trade with the vanilla games. This is not a 386 hack, and not all Pokémon will be obtainable without trading.
+At the momment the same as vanilla Emerald. This hack does not add any new Pokémon that were not available in Generation III. To complete the National Dex, trade with the vanilla games. This is not a 386 hack, and not all Pokémon will be obtainable without trading.
 
 ### Can you change wild Pokémon availability/levels? Can you put *x* Pokémon in *y* map? Will you add more Pokémon in the future?
 One of the goals of this hack is to make every Pokémon available to the player legal in Generation III. This means that modifying existing Pokémon encounters or adding new Pokémon to existing encounter tables would make illegal Pokémon obtainable.
@@ -66,6 +66,8 @@ If you want more Pokémon, trade with vanilla.
 ### Can I obtain the other Hoenn starters? Can I obtain the unchosen fossil?
 No, and there are no plans for those at the momment.
 
+### Can I evolve trade evolutions without trading?
+Not yet.
 ## Troubleshooting Savefiles, Emulators, and Flashcarts:
 
 ### Is my vanilla Emerald save compatible with Emerald Cross?
