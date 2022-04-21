@@ -1416,9 +1416,11 @@ static u16 PartyMenuButtonHandler(s8 *slotPtr)
         return 8;
     if (JOY_NEW(SELECT_BUTTON))
     {
-        if(gPartyMenu.menuType != PARTY_MENU_TYPE_FIELD)
+        if (gPartyMenu.menuType != PARTY_MENU_TYPE_FIELD)
             return 8;
-        if(gPartyMenu.action != PARTY_ACTION_SWITCH && *slotPtr != PARTY_SIZE + 1)
+        if (*slotPtr == PARTY_SIZE + 1)
+            return 8; // do nothing if select is pressed on Cancel
+        if (gPartyMenu.action != PARTY_ACTION_SWITCH)
         {
             taskId = CreateTask(CursorCb_Switch, 1);
             return 9;
