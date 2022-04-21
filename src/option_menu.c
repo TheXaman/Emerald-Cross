@@ -21,19 +21,19 @@
 enum
 {
     MENUITEM_TEXTSPEED,
-    MENUITEM_BATTLESCENE,
-    MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_FONT,
+    MENUITEM_UNIT_SYSTEM,
     MENUITEM_MATCHCALL,
     MENUITEM_FISHREELING,
+    MENUITEM_BIKE_SURF_MUSIC,
+    MENUITEM_BATTLESCENE,
+    MENUITEM_BATTLESTYLE,
     MENUITEM_SKIP_BATTLE_INTRO,
     MENUITEM_HP_BAR,
     MENUITEM_EXP_BAR,
-    MENUITEM_UNIT_SYSTEM,
-    MENUITEM_BIKE_SURF_MUSIC,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -94,19 +94,19 @@ struct
 static const sItemFunctions[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]            = {DrawChoices_TextSpeed,       ProcessInput_Options_Four},
-    [MENUITEM_BATTLESCENE]          = {DrawChoices_BattleScene,     ProcessInput_Options_Two},
-    [MENUITEM_BATTLESTYLE]          = {DrawChoices_BattleStyle,     ProcessInput_Options_Two},
     [MENUITEM_SOUND]                = {DrawChoices_Sound,           ProcessInput_Options_Two},
     [MENUITEM_BUTTONMODE]           = {DrawChoices_ButtonMode,      ProcessInput_Options_Three},
     [MENUITEM_FRAMETYPE]            = {DrawChoices_FrameType,       ProcessInput_FrameType},
     [MENUITEM_FONT]                 = {DrawChoices_Font,            ProcessInput_Options_Two}, 
+    [MENUITEM_UNIT_SYSTEM]          = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
     [MENUITEM_MATCHCALL]            = {DrawChoices_MatchCall,       ProcessInput_Options_Two},
     [MENUITEM_FISHREELING]          = {DrawChoices_FishReeling,     ProcessInput_Options_Two},
+    [MENUITEM_BIKE_SURF_MUSIC]      = {DrawChoices_BikeSurfMusic,   ProcessInput_Options_Two},
+    [MENUITEM_BATTLESCENE]          = {DrawChoices_BattleScene,     ProcessInput_Options_Two},
+    [MENUITEM_BATTLESTYLE]          = {DrawChoices_BattleStyle,     ProcessInput_Options_Two},
     [MENUITEM_SKIP_BATTLE_INTRO]    = {DrawChoices_SkipBattleIntro, ProcessInput_Options_Two},
     [MENUITEM_HP_BAR]               = {DrawChoices_HpBar,           ProcessInput_Options_Eleven},
     [MENUITEM_EXP_BAR]              = {DrawChoices_HpBar,           ProcessInput_Options_Eleven},
-    [MENUITEM_UNIT_SYSTEM]          = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
-    [MENUITEM_BIKE_SURF_MUSIC]      = {DrawChoices_BikeSurfMusic,   ProcessInput_Options_Two},
     [MENUITEM_CANCEL]               = {NULL,                        NULL},
 };
 
@@ -128,19 +128,19 @@ static const u8 sText_BikeSurfMusic[] =_("BIKE/SURF MUSIC");
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]            = gText_TextSpeed,
-    [MENUITEM_BATTLESCENE]          = gText_BattleScene,
-    [MENUITEM_BATTLESTYLE]          = gText_BattleStyle,
     [MENUITEM_SOUND]                = gText_Sound,
     [MENUITEM_BUTTONMODE]           = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]            = gText_Frame,
     [MENUITEM_FONT]                 = gText_Font,
+    [MENUITEM_UNIT_SYSTEM]          = sText_UnitSystem,
     [MENUITEM_MATCHCALL]            = sText_MatchCalls,
     [MENUITEM_FISHREELING]          = sText_FishReeling,
+    [MENUITEM_BIKE_SURF_MUSIC]      = sText_BikeSurfMusic,
+    [MENUITEM_BATTLESCENE]          = gText_BattleScene,
+    [MENUITEM_BATTLESTYLE]          = gText_BattleStyle,
     [MENUITEM_SKIP_BATTLE_INTRO]    = sText_SkipBattleIntro,
     [MENUITEM_HP_BAR]               = sText_HpBar,
     [MENUITEM_EXP_BAR]              = sText_ExpBar,
-    [MENUITEM_UNIT_SYSTEM]          = sText_UnitSystem,
-    [MENUITEM_BIKE_SURF_MUSIC]      = sText_BikeSurfMusic,
     [MENUITEM_CANCEL]               = gText_OptionMenuSave,
 };
 
@@ -290,19 +290,19 @@ void CB2_InitOptionMenu(void)
 
         sOptions = AllocZeroed(sizeof(*sOptions));
         sOptions->sel[MENUITEM_TEXTSPEED]           = gSaveBlock2Ptr->optionsTextSpeed;
-        sOptions->sel[MENUITEM_BATTLESCENE]         = gSaveBlock2Ptr->optionsBattleSceneOff;
-        sOptions->sel[MENUITEM_BATTLESTYLE]         = gSaveBlock2Ptr->optionsBattleStyle;
         sOptions->sel[MENUITEM_SOUND]               = gSaveBlock2Ptr->optionsSound;
         sOptions->sel[MENUITEM_BUTTONMODE]          = gSaveBlock2Ptr->optionsButtonMode;
         sOptions->sel[MENUITEM_FRAMETYPE]           = gSaveBlock2Ptr->optionsWindowFrameType;
         sOptions->sel[MENUITEM_FONT]                = gSaveBlock2Ptr->optionsCurrentFont;
+        sOptions->sel[MENUITEM_UNIT_SYSTEM]         = gSaveBlock2Ptr->optionsUnitSystem;
         sOptions->sel[MENUITEM_MATCHCALL]           = gSaveBlock2Ptr->optionsDisableMatchCall;
         sOptions->sel[MENUITEM_FISHREELING]         = gSaveBlock2Ptr->optionsFishReeling;
+        sOptions->sel[MENUITEM_BIKE_SURF_MUSIC]     = gSaveBlock2Ptr->optionsBikeSurfMusic;
+        sOptions->sel[MENUITEM_BATTLESCENE]         = gSaveBlock2Ptr->optionsBattleSceneOff;
+        sOptions->sel[MENUITEM_BATTLESTYLE]         = gSaveBlock2Ptr->optionsBattleStyle;
         sOptions->sel[MENUITEM_SKIP_BATTLE_INTRO]   = gSaveBlock2Ptr->optionsSkipBattleIntro;
         sOptions->sel[MENUITEM_HP_BAR]              = gSaveBlock2Ptr->optionsHpBarSpeed;
         sOptions->sel[MENUITEM_EXP_BAR]             = gSaveBlock2Ptr->optionsExpBarSpeed;
-        sOptions->sel[MENUITEM_UNIT_SYSTEM]         = gSaveBlock2Ptr->optionsUnitSystem;
-        sOptions->sel[MENUITEM_BIKE_SURF_MUSIC]     = gSaveBlock2Ptr->optionsBikeSurfMusic;
 
         AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
           MENUITEM_COUNT - 1, 110, 110, 0);
