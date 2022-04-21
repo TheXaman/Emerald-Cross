@@ -21,6 +21,7 @@
 #include "battle_main.h"
 #include "tx_randomizer_and_challenges.h"
 #include "pokemon.h"
+#include "event_data.h"
 
 #define Y_DIFF 16 // Difference in pixels between items.
 
@@ -190,6 +191,21 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
 
 // code
+void IsChallengesActivated(void)
+{
+    if (gSaveBlock1Ptr->tx_Challenges_EvoLimit != 0
+        || gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0
+        || gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore != 0
+        || gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge != 31
+        || gSaveBlock1Ptr->tx_Challenges_PartyLimit < 6
+        || gSaveBlock1Ptr->tx_Challenges_NoItemPlayer != 0
+        || gSaveBlock1Ptr->tx_Challenges_NoItemTrainer != 0
+        || gSaveBlock1Ptr->tx_Challenges_PkmnCenter != 0)
+        gSpecialVar_Result = TRUE;
+    else
+        gSpecialVar_Result = FALSE;
+}
+
 static void MainCB2(void)
 {
     RunTasks();

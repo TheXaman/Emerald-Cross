@@ -21,6 +21,7 @@
 #include "battle_main.h"
 #include "tx_randomizer_and_challenges.h"
 #include "pokemon.h"
+#include "event_data.h"
 
 #define Y_DIFF 16 // Difference in pixels between items.
 
@@ -240,6 +241,25 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
 
 // code
+void IsRandomizerActivated(void)
+{
+    if (gSaveBlock1Ptr->tx_Random_Chaos != 0
+        || gSaveBlock1Ptr->tx_Random_WildPokemon != 0
+        || gSaveBlock1Ptr->tx_Random_Similar != 0
+        || gSaveBlock1Ptr->tx_Random_MapBased != 0
+        || gSaveBlock1Ptr->tx_Random_IncludeLegendaries != 0
+        || gSaveBlock1Ptr->tx_Random_Type != 0
+        || gSaveBlock1Ptr->tx_Random_TypeEffectiveness != 0
+        || gSaveBlock1Ptr->tx_Random_Abilities != 0
+        || gSaveBlock1Ptr->tx_Random_Moves != 0
+        || gSaveBlock1Ptr->tx_Random_Trainer != 0
+        || gSaveBlock1Ptr->tx_Random_Evolutions != 0
+        || gSaveBlock1Ptr->tx_Random_EvolutionMethods != 0)
+            gSpecialVar_Result = TRUE;
+    else
+        gSpecialVar_Result = FALSE;
+}
+
 static void MainCB2(void)
 {
     RunTasks();
