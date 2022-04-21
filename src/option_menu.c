@@ -33,6 +33,7 @@ enum
     MENUITEM_HP_BAR,
     MENUITEM_EXP_BAR,
     MENUITEM_UNIT_SYSTEM,
+    MENUITEM_BIKE_SURF_MUSIC,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -48,7 +49,7 @@ enum
 
 struct OptionMenu
 {
-    u8 sel[MENUITEM_COUNT];
+    u16 sel[MENUITEM_COUNT];
     int menuCursor;
     int visibleCursor;
 };
@@ -66,6 +67,7 @@ static void DrawChoices_Sound(int selection, int y);
 static void DrawChoices_ButtonMode(int selection, int y);
 static void DrawChoices_HpBar(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
+static void DrawChoices_BikeSurfMusic(int selection, int y);
 static void DrawChoices_SkipBattleIntro(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_FishReeling(int selection, int y);
@@ -87,7 +89,9 @@ struct
 {
     void (*drawChoices)(int selection, int y);
     int (*processInput)(int selection);
-} static const sItemFunctions[MENUITEM_COUNT] =
+}
+
+static const sItemFunctions[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]            = {DrawChoices_TextSpeed,       ProcessInput_Options_Four},
     [MENUITEM_BATTLESCENE]          = {DrawChoices_BattleScene,     ProcessInput_Options_Two},
@@ -102,6 +106,7 @@ struct
     [MENUITEM_HP_BAR]               = {DrawChoices_HpBar,           ProcessInput_Options_Eleven},
     [MENUITEM_EXP_BAR]              = {DrawChoices_HpBar,           ProcessInput_Options_Eleven},
     [MENUITEM_UNIT_SYSTEM]          = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
+    [MENUITEM_BIKE_SURF_MUSIC]      = {DrawChoices_BikeSurfMusic,   ProcessInput_Options_Two},
     [MENUITEM_CANCEL]               = {NULL,                        NULL},
 };
 
@@ -118,6 +123,7 @@ static const u8 sText_MatchCalls[] = _("OVERWORLD CALLS");
 static const u8 sText_SkipBattleIntro[] = _("BATTLE INTRO");
 static const u8 sText_FishEmerald[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}RSE");
 static const u8 sText_FishFRLG[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FRLG");
+static const u8 sText_BikeSurfMusic[] =_("BIKE/SURF MUSIC");
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -134,6 +140,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_HP_BAR]               = sText_HpBar,
     [MENUITEM_EXP_BAR]              = sText_ExpBar,
     [MENUITEM_UNIT_SYSTEM]          = sText_UnitSystem,
+    [MENUITEM_BIKE_SURF_MUSIC]      = sText_BikeSurfMusic,
     [MENUITEM_CANCEL]               = gText_OptionMenuSave,
 };
 
@@ -295,6 +302,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_HP_BAR]              = gSaveBlock2Ptr->optionsHpBarSpeed;
         sOptions->sel[MENUITEM_EXP_BAR]             = gSaveBlock2Ptr->optionsExpBarSpeed;
         sOptions->sel[MENUITEM_UNIT_SYSTEM]         = gSaveBlock2Ptr->optionsUnitSystem;
+        sOptions->sel[MENUITEM_BIKE_SURF_MUSIC]     = gSaveBlock2Ptr->optionsBikeSurfMusic;
 
         AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
           MENUITEM_COUNT - 1, 110, 110, 0);
@@ -437,7 +445,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     else if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
     {
         int cursor = sOptions->menuCursor;
-        u8 previousOption = sOptions->sel[cursor];
+        u16 previousOption = sOptions->sel[cursor];
         if (sItemFunctions[cursor].processInput != NULL)
             sOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
 
@@ -461,6 +469,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsHpBarSpeed       = sOptions->sel[MENUITEM_HP_BAR];
     gSaveBlock2Ptr->optionsExpBarSpeed      = sOptions->sel[MENUITEM_EXP_BAR];
     gSaveBlock2Ptr->optionsUnitSystem       = sOptions->sel[MENUITEM_UNIT_SYSTEM];
+    gSaveBlock2Ptr->optionsBikeSurfMusic    = sOptions->sel[MENUITEM_BIKE_SURF_MUSIC];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -535,7 +544,7 @@ static int ProcessInput_Options_Eleven(int selection)
 }
 
 // Draw Choices functions
-static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
+static void DrawOptionMenuChoice(const u8 *text, u8 x, u16 y, u8 style)
 {
     u8 dst[16];
     u16 i;
@@ -688,6 +697,16 @@ static void DrawChoices_UnitSystem(int selection, int y)
     DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1]);
 }
 
+static void DrawChoices_BikeSurfMusic(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
+}
+
 static void DrawChoices_SkipBattleIntro(int selection, int y)
 {
     u8 styles[2] = {0};
@@ -793,7 +812,7 @@ static void DrawTextOption(void)
 
 static void DrawOptionMenuTexts(void)
 {
-    u8 i;
+    u16 i;
 
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
     for (i = 0; i < MENUITEM_COUNT; i++)

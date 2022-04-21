@@ -103,6 +103,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsDisableMatchCall = 0;
     gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
     gSaveBlock2Ptr->optionsCurrentFont = 0;
+    gSaveBlock2Ptr->optionsBikeSurfMusic = 0;
 }
 
 static void ClearPokedexFlags(void)
