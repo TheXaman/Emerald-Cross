@@ -244,6 +244,10 @@ CableClub_Movement_PlayerApproachCounter:
 	step_end
 
 CableClub_EventScript_WelcomeToCableClub::
+	special IsRandomizerActivated
+	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithRandomizer
+	special IsChallengesActivated
+	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithChallenges
 	message CableClub_Text_WelcomeWhichCableClubService
 	waitmessage
 	delay 28
@@ -854,6 +858,10 @@ EventScript_DoLinkRoomExit::
 CableClub_EventScript_UnionRoomAttendant::
 	lock
 	faceplayer
+	special IsRandomizerActivated
+	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithRandomizer
+	special IsChallengesActivated
+	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithChallenges
 	setvar VAR_FRONTIER_FACILITY, FACILITY_UNION_ROOM
 	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements
 	specialvar VAR_RESULT, IsBadEggInParty
@@ -1259,6 +1267,18 @@ EventScript_CloseMossdeepGameCornerBarrier::
 
 CableClub_OnResume:
 	special InitUnionRoom
+	end
+
+CableClub_EventScript_CantBeUsedWithChallenges::
+	msgbox CableClub_Text_CantBeUsedWithChallenges, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+CableClub_EventScript_CantBeUsedWithRandomizer::
+	msgbox CableClub_Text_CantBeUsedWithRandomizer, MSGBOX_DEFAULT
+	closemessage
+	release
 	end
 
 MossdeepCity_GameCorner_1F_EventScript_InfoMan2::

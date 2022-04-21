@@ -485,3 +485,13 @@ CableClub_Text_ExplainWirelessClub:
 CableClub_Text_HopeYouEnjoyWirelessSystem:
 	.string "I hope you enjoy the Wireless\n"
 	.string "Communication System.$"
+
+CableClub_Text_CantBeUsedWithChallenges:
+	.string "I'm sorry but you can't use our\n"
+	.string "sevices when playing with\l"
+	.string "with challenges activated.$"
+
+CableClub_Text_CantBeUsedWithRandomizer:
+	.string "I'm sorry but you can't use our\n"
+	.string "our sevices when playing with\l"
+	.string "randomizer mode activated.$"
