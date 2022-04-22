@@ -6,6 +6,7 @@
 # Table of Contents:
 * Mechanics:
   * [Will later-generation battle mechanics be implemented? What about the physical/special split?](#will-later-generation-battle-mechanics-be-implemented-what-about-the-physicalspecial-split)
+  * [Will you add Fairy type?](#will-you-add-fairy-type)
   * [Will new moves be implemented? New held items?](#will-new-moves-be-implemented-new-held-items)
   * [Will the Generation VI+ Experience Share be implemented?](#will-the-generation-vi-experience-share-be-implemented)
   * [Will you improve breeding mechanics?](#will-you-improve-breeding-mechanics)
@@ -33,6 +34,9 @@
 
 ### Will later-generation battle mechanics be implemented? What about the physical/special split?
 No. This hack aims to preserve the original battle mechanics and maintain link compatibility with the vanilla games. Changing the battle mechanics runs contrary to those goals.
+
+### Will you add Fairy type?
+No. Same reply as the question above.
 
 ### Will new moves be implemented? New held items?
 No. This hack aims to preserve the original battle mechanics and maintain link compatibility with the vanilla games. Adding new moves or held items runs contrary to those goals.
