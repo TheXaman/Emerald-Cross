@@ -10855,14 +10855,17 @@ void CopyMon(void *dest, void *src, size_t size)
     memcpy(dest, src, size);
 }
 
-u8 GiveMonToPlayer(struct Pokemon *mon)
+u8 GiveMonToPlayer(struct Pokemon *mon, bool8 isStevensBeldum)
 {
     s32 i;
     u8 typeChallenge = gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge;
 
-    SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
-    SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
-    SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+    if (!isStevensBeldum)
+    {
+        SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+        SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+        SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+    }
 
     for (i = 0; i < GetPartySize(); i++) //tx_randomizer_and_challenges
     {

@@ -1747,6 +1747,10 @@
     .byte 0xe4
     .endm
 
+	.macro givebeldum
+	.byte 0xe5
+	.endm
+
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req
