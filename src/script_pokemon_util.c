@@ -69,7 +69,7 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 u
     heldItem[0] = item;
     heldItem[1] = item >> 8;
     SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
-    sentToPc = GiveMonToPlayer(&mon);
+    sentToPc = GiveMonToPlayer(&mon, FALSE);
     nationalDexNum = SpeciesToNationalPokedexNum(species);
 
     // Don't set Pokédex flag for MON_CANT_GIVE
@@ -89,32 +89,14 @@ u8 ScriptGiveBeldum()
     u16 nationalDexNum;
     int sentToPc;
     struct Pokemon mon;
-	u32 personality;
-	u8 ivs[6];
-	u8 otName[PLAYER_NAME_LENGTH + 1];
-	u8 otGender;
-	u32 otId;
-	u8 version;
-	u8 language;
-	u16 item;
-	u16 checksum;
-	u8 encounterType;
-	
-	personality = 0xC8693992u;
-	otName[0] = 0xD4; //Z
-	otName[1] = 0xBB; //A
-	otName[2] = 0xBD; //C
-	otName[3] = 0xFF;
-	otGender = MALE;
-	otId = 0x13166B33u; //27443:04886
-	item = ITEM_NONE;
+	u8 otGender = MALE;
+	u32 otId = 61266;
+	u8 otName[PLAYER_NAME_LENGTH + 1] = _("STEVEN");
 
-	CreateMon(&mon, SPECIES_BELDUM, 5, USE_RANDOM_IVS, TRUE, personality, OT_ID_PRESET, otId);
+	CreateMon(&mon, SPECIES_BELDUM, 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PRESET, otId);
 	SetMonData(&mon, MON_DATA_OT_NAME, &otName);
 	SetMonData(&mon, MON_DATA_OT_GENDER, &otGender);
-    SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
-    CalculateMonStats(&mon);
-    sentToPc = GiveMonToPlayer(&mon);
+    sentToPc = GiveMonToPlayer(&mon, TRUE);
     nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_BELDUM);
 
     // Don't set Pokédex flag for MON_CANT_GIVE
@@ -138,7 +120,7 @@ u8 ScriptGiveEgg(u16 species)
     isEgg = TRUE;
     SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
 
-    return GiveMonToPlayer(&mon);
+    return GiveMonToPlayer(&mon, FALSE);
 }
 
 void HasEnoughMonsForDoubleBattle(void)

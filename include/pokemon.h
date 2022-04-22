@@ -351,7 +351,7 @@ u32 GetBoxMonData();
 void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg);
 void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg);
 void CopyMon(void *dest, void *src, size_t size);
-u8 GiveMonToPlayer(struct Pokemon *mon);
+u8 GiveMonToPlayer(struct Pokemon *mon, bool8 isStevensBeldum);
 u8 CalculatePlayerPartyCount(void);
 u8 CalculateEnemyPartyCount(void);
 u8 GetMonsStateToDoubles(void);
