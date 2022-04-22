@@ -3886,6 +3886,8 @@ u8 GetMoveTarget(u16 move, u8 setTarget)
 
 static bool32 IsMonEventLegal(u8 battlerId)
 {
+    if (gSaveBlock1Ptr->tx_Random_IncludeLegendaries == 1)
+        return TRUE;
     if (GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
         return TRUE;
     if (GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES, NULL) != SPECIES_DEOXYS
