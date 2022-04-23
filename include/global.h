@@ -1065,6 +1065,7 @@ struct MapPosition
     s8 elevation;
 };
 
-#define TX_RANDOMIZER_AND_CHALLENGES TRUE
+#define TX_RANDOMIZER_AND_CHALLENGES    TRUE
+#define EMERALD_CROSS_INTERNAL_VERSION  4
 
 #endif // GUARD_GLOBAL_H

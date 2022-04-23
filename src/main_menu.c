@@ -2353,6 +2353,7 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    u32 initial_save_version = VarGet(VAR_SAVE_VER);
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
         // Pre-release version
@@ -2369,4 +2370,17 @@ static void PatchSave(void)
         gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
         VarSet(VAR_SAVE_VER, 3);
     }
+    if (VarGet(VAR_SAVE_VER) == 3) //Merge of WIP branch
+    {
+        //set new options in old saves to OFF
+        gSaveBlock1Ptr->tx_Random_OneForOne = 0;
+        gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer = 0;
+        //change new party limit counter
+        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit;
+        VarSet(VAR_SAVE_VER, 4);
+    }
+    #ifdef GBA_PRINTF
+    if (initial_save_version != VarGet(VAR_SAVE_VER))
+        mgba_printf(MGBA_LOG_DEBUG, "Save version patched from V%d to V%d", initial_save_version, VarGet(VAR_SAVE_VER));
+    #endif
 }
