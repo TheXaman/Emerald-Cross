@@ -540,3 +540,4 @@ gSpecials::
 	def_special BufferUnitSystemText
 	def_special IsRandomizerActivated
 	def_special IsChallengesActivated
+	def_special IsNuzlockeActivated

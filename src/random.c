@@ -50,6 +50,28 @@ u16 RandomSeeded(u16 value, u8 seeded)
     }
     return result;
 }
+#define I_MAX 5
+u16 RandomSeededModulo(u32 value, u16 modulo)
+{
+    u32 otId;
+    u32 RAND_MAX;
+    u32 result = 0;
+    u8 i = 0;
+
+    if (gSaveBlock1Ptr->tx_Random_Chaos)
+        value = Random();
+
+    otId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
+    RAND_MAX = 0xFFFFFFFF - (0xFFFFFFFF % modulo);
+
+    do
+    {
+        result = ISO_RANDOMIZE1(otId * value + result);
+    }
+    while ((result >= RAND_MAX) && (++i != I_MAX));
+
+    return (result % modulo);
+}
 void ShuffleListU8(u8 *list, u8 count, u8 seed)
 {
     u16 i;
