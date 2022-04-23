@@ -38,6 +38,11 @@
 #include "mystery_gift_menu.h"
 #include "tx_randomizer_and_challenges.h"
 
+#ifdef GBA_PRINTF //tx_randomizer_and_challenges
+    //#include "printf.h"
+    //#include "mgba.h"
+#endif
+
 /*
  * Main menu state machine
  * -----------------------
@@ -2362,7 +2367,8 @@ static void PatchSave(void)
 	if (VarGet(VAR_SAVE_VER) == 1)
 	{
         // Fixed party size
-        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
+        if (gSaveBlock1Ptr->tx_Challenges_PartyLimit == 0)
+            gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
 		VarSet(VAR_SAVE_VER, 2);	
 	}
     if (VarGet(VAR_SAVE_VER) == 2)
@@ -2381,6 +2387,12 @@ static void PatchSave(void)
     }
     #ifdef GBA_PRINTF
     if (initial_save_version != VarGet(VAR_SAVE_VER))
+    {
+        mgba_printf(MGBA_LOG_DEBUG, "****** SAVE FILE PATCHING ******");
+        PrintTXSaveData();
+        mgba_printf(MGBA_LOG_DEBUG, "");
         mgba_printf(MGBA_LOG_DEBUG, "Save version patched from V%d to V%d", initial_save_version, VarGet(VAR_SAVE_VER));
+        mgba_printf(MGBA_LOG_DEBUG, "");
+    }
     #endif
 }
