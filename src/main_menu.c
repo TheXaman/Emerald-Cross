@@ -2386,14 +2386,29 @@ static void PatchSave(void)
         gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit;
         VarSet(VAR_SAVE_VER, 4);
     }
-    #ifdef GBA_PRINTF
-    if (initial_save_version != VarGet(VAR_SAVE_VER))
+    if (VarGet(VAR_SAVE_VER == 4))
     {
-        mgba_printf(MGBA_LOG_DEBUG, "****** SAVE FILE PATCHING ******");
-        PrintTXSaveData();
-        mgba_printf(MGBA_LOG_DEBUG, "");
-        mgba_printf(MGBA_LOG_DEBUG, "Save version patched from V%d to V%d", initial_save_version, VarGet(VAR_SAVE_VER));
-        mgba_printf(MGBA_LOG_DEBUG, "");
+        // All of this flags were Rock Smash Rocks. Those were restored to get Rock Smash encounters
+        FlagClear(FLAG_UNUSED_0x285);
+        FlagClear(FLAG_UNUSED_0x286);
+        FlagClear(FLAG_UNUSED_0x287);
+        FlagClear(FLAG_UNUSED_0x288);
+        FlagClear(FLAG_UNUSED_0x289);
+        FlagClear(FLAG_UNUSED_0x28A);
+        FlagClear(FLAG_UNUSED_0x28C);
+        FlagClear(FLAG_UNUSED_0x291);
+        FlagClear(FLAG_UNUSED_0x294);
+        FlagClear(FLAG_UNUSED_0x299);
+        FlagClear(FLAG_UNUSED_0x29A);
+        FlagClear(FLAG_UNUSED_0x29B);
+        FlagClear(FLAG_UNUSED_0x29C);
+        FlagClear(FLAG_UNUSED_0x29D);
+        FlagClear(FLAG_UNUSED_0x29E);
+        FlagClear(FLAG_UNUSED_0x29F);
+        FlagClear(FLAG_UNUSED_0x2A0);
+        FlagClear(FLAG_UNUSED_0x2A1);
+        FlagClear(FLAG_UNUSED_0x2A2);
+        FlagClear(FLAG_UNUSED_0x2A3);
+        VarSet(VAR_SAVE_VER, 5);
     }
-    #endif
 }
