@@ -2373,7 +2373,8 @@ static void PatchSave(void)
 	}
     if (VarGet(VAR_SAVE_VER) == 2)
     {
-        gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
+        if (gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge == 0) //normal type or very old save with none choosen
+            gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
         VarSet(VAR_SAVE_VER, 3);
     }
     if (VarGet(VAR_SAVE_VER) == 3) //Merge of WIP branch
