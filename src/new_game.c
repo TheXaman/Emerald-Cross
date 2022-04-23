@@ -218,7 +218,7 @@ void NewGameInitData(void)
     gSaveBlock2Ptr->autoRun = FALSE;
     gSaveBlock2Ptr->reserved = 0;
     gSaveBlock2Ptr->reserved2 = 0;
-    VarSet(VAR_SAVE_VER, 1);
+    VarSet(VAR_SAVE_VER, EMERALD_CROSS_INTERNAL_VERSION);
 }
 
 static void ResetMiniGamesRecords(void)

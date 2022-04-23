@@ -38,6 +38,11 @@
 #include "mystery_gift_menu.h"
 #include "tx_randomizer_and_challenges.h"
 
+#ifdef GBA_PRINTF //tx_randomizer_and_challenges
+    //#include "printf.h"
+    //#include "mgba.h"
+#endif
+
 /*
  * Main menu state machine
  * -----------------------
@@ -2353,6 +2358,7 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    u32 initial_save_version = VarGet(VAR_SAVE_VER);
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
         // Pre-release version
@@ -2361,12 +2367,33 @@ static void PatchSave(void)
 	if (VarGet(VAR_SAVE_VER) == 1)
 	{
         // Fixed party size
-        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
+        if (gSaveBlock1Ptr->tx_Challenges_PartyLimit == 0)
+            gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
 		VarSet(VAR_SAVE_VER, 2);	
 	}
     if (VarGet(VAR_SAVE_VER) == 2)
     {
-        gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
+        if (gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge == 0) //normal type or very old save with none choosen
+            gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
         VarSet(VAR_SAVE_VER, 3);
     }
+    if (VarGet(VAR_SAVE_VER) == 3) //Merge of WIP branch
+    {
+        //set new options in old saves to OFF
+        gSaveBlock1Ptr->tx_Random_OneForOne = 0;
+        gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer = 0;
+        //change new party limit counter
+        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit;
+        VarSet(VAR_SAVE_VER, 4);
+    }
+    #ifdef GBA_PRINTF
+    if (initial_save_version != VarGet(VAR_SAVE_VER))
+    {
+        mgba_printf(MGBA_LOG_DEBUG, "****** SAVE FILE PATCHING ******");
+        PrintTXSaveData();
+        mgba_printf(MGBA_LOG_DEBUG, "");
+        mgba_printf(MGBA_LOG_DEBUG, "Save version patched from V%d to V%d", initial_save_version, VarGet(VAR_SAVE_VER));
+        mgba_printf(MGBA_LOG_DEBUG, "");
+    }
+    #endif
 }

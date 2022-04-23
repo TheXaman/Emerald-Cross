@@ -37,7 +37,7 @@ enum
     MENUITEM_RANDOM_MOVES,
     MENUITEM_RANDOM_ABILITIES,
     MENUITEM_RANDOM_EVOLUTIONS,
-    MENUITEM_RANDOM_EVOLUTIONS_METHODE,
+    MENUITEM_RANDOM_EVOLUTIONS_METHODS,
     MENUITEM_RANDOM_TYPE_EFFEC,
     MENUITEM_RANDOM_CHAOS,
     MENUITEM_SAVE,
@@ -90,7 +90,7 @@ struct
     [MENUITEM_RANDOM_MOVES]                   = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_ABILITIES]               = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_EVOLUTIONS]              = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
-    [MENUITEM_RANDOM_EVOLUTIONS_METHODE]      = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
+    [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_TYPE_EFFEC]              = {DrawChoices_Random_OffRandom, tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_CHAOS]                   = {DrawChoices_Random_OffChaos, tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_SAVE] = {NULL, NULL},
@@ -111,7 +111,7 @@ static const u8 gText_Type[] =                      _("TYPE");
 static const u8 gText_Moves[] =                     _("MOVES");
 static const u8 gText_Abilities[] =                 _("ABILTIES");
 static const u8 gText_Evolutions[] =                _("EVOLUTIONS");
-static const u8 gText_EvolutionMethodes[] =         _("EVO METHODS");
+static const u8 gText_EvolutionMethods[] =          _("EVO METHODS");
 static const u8 gText_TypeEff[] =                   _("EFFECTIVENESS");
 static const u8 gText_Chaos[] =                     _("CHAOS MODE");
 static const u8 gText_Save[] =                      _("SAVE");
@@ -127,7 +127,7 @@ static const u8 *const sOptionMenuItemNames[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_MOVES]                   = gText_Moves,
     [MENUITEM_RANDOM_ABILITIES]               = gText_Abilities,
     [MENUITEM_RANDOM_EVOLUTIONS]              = gText_Evolutions,
-    [MENUITEM_RANDOM_EVOLUTIONS_METHODE]      = gText_EvolutionMethodes,
+    [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = gText_EvolutionMethods,
     [MENUITEM_RANDOM_TYPE_EFFEC]              = gText_TypeEff,
     [MENUITEM_RANDOM_CHAOS]                   = gText_Chaos,
     [MENUITEM_SAVE]                           = gText_Save,
@@ -141,7 +141,7 @@ static const u8 gText_Gray_Type[] =                      _("{COLOR GREEN}{SHADOW
 static const u8 gText_Gray_Moves[] =                     _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES");
 static const u8 gText_Gray_Abilities[] =                 _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ABILTIES");
 static const u8 gText_Gray_Evolutions[] =                _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVOLUTIONS");
-static const u8 gText_Gray_EvolutionMethodes[] =         _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVO METHODES");
+static const u8 gText_Gray_EvolutionMethods[] =          _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVO METHODS");
 static const u8 gText_Gray_TypeEff[] =                   _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EFFECTIVENESS");
 static const u8 gText_Gray_Chaos[] =                     _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CHAOS MODE");
 
@@ -156,7 +156,7 @@ static const u8 *const sOptionMenuItemNamesGray[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_MOVES]                   = gText_Gray_Moves,
     [MENUITEM_RANDOM_ABILITIES]               = gText_Gray_Abilities,
     [MENUITEM_RANDOM_EVOLUTIONS]              = gText_Gray_Evolutions,
-    [MENUITEM_RANDOM_EVOLUTIONS_METHODE]      = gText_Gray_EvolutionMethodes,
+    [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = gText_Gray_EvolutionMethods,
     [MENUITEM_RANDOM_TYPE_EFFEC]              = gText_Gray_TypeEff,
     [MENUITEM_RANDOM_CHAOS]                   = gText_Gray_Chaos,
     [MENUITEM_SAVE]                           = gText_Save,
@@ -171,7 +171,7 @@ static const u8 gText_Description_Random_Types[]            = _("{COLOR 6}{SHADO
 static const u8 gText_Description_Random_Moves[]            = _("{COLOR 6}{SHADOW 7}POKéMON moves will be random.");
 static const u8 gText_Description_Random_Abilities[]        = _("{COLOR 6}{SHADOW 7}POKéMON abilities will be random.");
 static const u8 gText_Description_Random_Evos[]             = _("{COLOR 6}{SHADOW 7}POKéMON evolutions will be random.");
-static const u8 gText_Description_Random_Evo_Methodes[]     = _("{COLOR 6}{SHADOW 7}Methods of evolutions will be random.");
+static const u8 gText_Description_Random_Evo_Methods[]      = _("{COLOR 6}{SHADOW 7}Methods of evolutions will be random.");
 static const u8 gText_Description_Random_Effectiveness[]    = _("{COLOR 6}{SHADOW 7}Type effectiveness will be random.");
 static const u8 gText_Description_Chaos_Mode[]              = _("{COLOR 6}{SHADOW 7}Enables a total random mode.\nThis is not recommended.");
 static const u8 gText_Description_Save[]                    = _("{COLOR 6}{SHADOW 7}Save choices and continue to\nthe challenge options.");
@@ -187,7 +187,7 @@ static const u8 *const sOptionMenuItemDescriptions[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_MOVES]                   = gText_Description_Random_Moves,
     [MENUITEM_RANDOM_ABILITIES]               = gText_Description_Random_Abilities,
     [MENUITEM_RANDOM_EVOLUTIONS]              = gText_Description_Random_Evos,
-    [MENUITEM_RANDOM_EVOLUTIONS_METHODE]      = gText_Description_Random_Evo_Methodes,
+    [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = gText_Description_Random_Evo_Methods,
     [MENUITEM_RANDOM_TYPE_EFFEC]              = gText_Description_Random_Effectiveness,
     [MENUITEM_RANDOM_CHAOS]                   = gText_Description_Chaos_Mode,
     [MENUITEM_SAVE]                           = gText_Description_Save,
@@ -362,9 +362,10 @@ void CB2_InitRandomizerMenu(void)
         gSaveBlock1Ptr->tx_Random_Moves                 = TX_RANDOM_MOVES;
         gSaveBlock1Ptr->tx_Random_Abilities             = TX_RANDOM_ABILITIES;
         gSaveBlock1Ptr->tx_Random_Evolutions            = TX_RANDOM_EVOLUTION;
-        gSaveBlock1Ptr->tx_Random_EvolutionMethods     = TX_RANDOM_EVOLUTION_METHODE;
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods      = TX_RANDOM_EVOLUTION_METHODS;
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness     = TX_RANDOM_TYPE_EFFECTIVENESS;
         gSaveBlock1Ptr->tx_Random_Chaos                 = TX_RANDOM_CHAOS_MODE;
+        gSaveBlock1Ptr->tx_Random_OneForOne             = TX_RANDOM_ONE_FOR_ONE;
 
         sRandomizerOptions = AllocZeroed(sizeof(*sRandomizerOptions));
         sRandomizerOptions->sel[MENUITEM_RANDOM_OFF_ON] = FALSE;
@@ -376,7 +377,7 @@ void CB2_InitRandomizerMenu(void)
         sRandomizerOptions->sel[MENUITEM_RANDOM_MOVES]                    = gSaveBlock1Ptr->tx_Random_Moves;
         sRandomizerOptions->sel[MENUITEM_RANDOM_ABILITIES]                = gSaveBlock1Ptr->tx_Random_Abilities;
         sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS]               = gSaveBlock1Ptr->tx_Random_Evolutions;
-        sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE]       = gSaveBlock1Ptr->tx_Random_EvolutionMethods;
+        sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODS]       = gSaveBlock1Ptr->tx_Random_EvolutionMethods;
         sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC]               = gSaveBlock1Ptr->tx_Random_TypeEffectiveness;
         sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS]                    = gSaveBlock1Ptr->tx_Random_Chaos;
 
@@ -431,7 +432,7 @@ static void ScrollAll(int direction) // to bottom or top
     int i, y, menuItem, pos;
     int scrollCount = MENUITEM_COUNT - 4;
     // Move items up/down
-    ScrollWindow(WIN_OPTIONS, direction, Y_DIFF * scrollCount, PIXEL_FILL(0));
+    ScrollWindow(WIN_OPTIONS, direction, Y_DIFF * scrollCount, PIXEL_FILL(1));
 
     // Clear moved items
     // if (direction == 0)
@@ -596,7 +597,7 @@ void tx_randomizer_SaveData(void)
         gSaveBlock1Ptr->tx_Random_Moves              = sRandomizerOptions->sel[MENUITEM_RANDOM_MOVES];
         gSaveBlock1Ptr->tx_Random_Abilities          = sRandomizerOptions->sel[MENUITEM_RANDOM_ABILITIES];
         gSaveBlock1Ptr->tx_Random_Evolutions         = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS];
-        gSaveBlock1Ptr->tx_Random_EvolutionMethods  = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODE];
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods   = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODS];
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC];
         gSaveBlock1Ptr->tx_Random_Chaos              = sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS];
     }
@@ -611,14 +612,18 @@ void tx_randomizer_SaveData(void)
         gSaveBlock1Ptr->tx_Random_Moves              = FALSE;
         gSaveBlock1Ptr->tx_Random_Abilities          = FALSE;
         gSaveBlock1Ptr->tx_Random_Evolutions         = FALSE;
-        gSaveBlock1Ptr->tx_Random_EvolutionMethods  = FALSE;
+        gSaveBlock1Ptr->tx_Random_EvolutionMethods   = FALSE;
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = FALSE;
         gSaveBlock1Ptr->tx_Random_Chaos              = FALSE;
     }
 
     FREE_AND_SET_NULL(sRandomizerOptions);
-    RandomizeSpeciesListEWRAM(1);
-    RandomizeTypeEffectivenessListEWRAM(1);
+    
+    if (gSaveBlock1Ptr->tx_Random_OneForOne)
+        RandomizeSpeciesListEWRAM(1);
+    
+    if (gSaveBlock1Ptr->tx_Random_TypeEffectiveness)
+        RandomizeTypeEffectivenessListEWRAM(1);
 }
 
 static void tx_randomizer_Task_OptionMenuFadeOut(u8 taskId)
@@ -730,19 +735,19 @@ static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, u8 textSp
     for (i = 0; *text != EOS && i <= 14; i++)
         dst[i] = *(text++);
 
-    if (style != 0)
+    if (style != 0) //choosen option text color
     {
-        dst[2] = 4;
-        dst[5] = 5;
+        dst[2] = 4; //color
+        dst[5] = 5; //shawow
     }
 
     dst[i] = EOS;
     AddTextPrinterParameterized(WIN_OPTIONS, 1, dst, x, y + 1, textSpeed, NULL);
 }
 
-static const u8 gText_Off[]  = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}OFF");
-static const u8 gText_On[]   = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}ON");
-static const u8 gText_None[] = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}NONE");
+static const u8 gText_Off[]  = _("{COLOR 6}{SHADOW 7}OFF");
+static const u8 gText_On[]   = _("{COLOR 6}{SHADOW 7}ON");
+static const u8 gText_None[] = _("{COLOR 6}{SHADOW 7}NONE");
 static void DrawChoices_Random_OffOn(int selection, int y, u8 textSpeed)
 {
     u8 styles[2] = {0};
@@ -752,7 +757,7 @@ static void DrawChoices_Random_OffOn(int selection, int y, u8 textSpeed)
     DrawOptionMenuChoice(gText_On, GetStringRightAlignXOffset(1, gText_On, 198), y, styles[1], textSpeed);
 }
 
-static const u8 gText_Random_Chaos[] = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}CHAOS");
+static const u8 gText_Random_Chaos[] = _("{COLOR 6}{SHADOW 7}CHAOS");
 static void DrawChoices_Random_OffChaos(int selection, int y, u8 textSpeed)
 {
     u8 styles[2] = {0};
@@ -762,7 +767,7 @@ static void DrawChoices_Random_OffChaos(int selection, int y, u8 textSpeed)
     DrawOptionMenuChoice(gText_Random_Chaos, GetStringRightAlignXOffset(1, gText_Random_Chaos, 198), y, styles[1], textSpeed);
 }
 
-static const u8 gText_Random[]  = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}RANDOM");
+static const u8 gText_Random[]  = _("{COLOR 6}{SHADOW 7}RANDOM");
 static void DrawChoices_Random_OffRandom(int selection, int y, u8 textSpeed)
 {
     u8 styles[2] = {0};

@@ -1051,6 +1051,8 @@ struct SaveBlock1
     u8 tx_Challenges_NoItemPlayer:1;
     u8 tx_Challenges_NoItemTrainer:1;
     u8 tx_Challenges_PkmnCenter:2;
+    u8 tx_Random_OneForOne:1;
+    u8 tx_Challenges_BaseStatEqualizer:2;
 };
 
 
@@ -1063,6 +1065,7 @@ struct MapPosition
     s8 elevation;
 };
 
-#define TX_RANDOMIZER_AND_CHALLENGES TRUE
+#define TX_RANDOMIZER_AND_CHALLENGES    TRUE
+#define EMERALD_CROSS_INTERNAL_VERSION  4
 
 #endif // GUARD_GLOBAL_H
