@@ -1075,7 +1075,7 @@ void BerryTreeTimeUpdate(s32 minutes)
     {
         tree = &gSaveBlock1Ptr->berryTrees[i];
 
-        if (tree->berry && tree->stage && !tree->growthSparkle && (tree->stage != BERRY_STAGE_BERRIES))
+        if (tree->berry && tree->stage && !tree->stopGrowth && (tree->stage != BERRY_STAGE_BERRIES))
         {
             s32 time = minutes;
 
