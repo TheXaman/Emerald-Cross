@@ -676,10 +676,11 @@ void InitHostRfuGameData(struct RfuGameData *data, u8 activity, bool32 startedAc
     data->compatibility.version = GAME_VERSION;
     data->compatibility.hasNews = FALSE;
     data->compatibility.hasCard = FALSE;
-    data->compatibility.unknown = FALSE;
+    data->compatibility.isCrystalDust = FALSE;
     data->compatibility.isChampion = FlagGet(FLAG_IS_CHAMPION);
     data->compatibility.hasNationalDex = IsNationalPokedexEnabled();
     data->compatibility.gameClear = FlagGet(FLAG_SYS_GAME_CLEAR);
+    data->versionModifier = VERSION_MODIFIER;
 }
 
 bool8 Rfu_GetCompatiblePlayerData(struct RfuGameData *gameData, u8 *username, u8 idx)

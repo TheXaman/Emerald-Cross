@@ -504,6 +504,7 @@ void SpawnLinkPartnerObjectEvent(void)
     u8 playerFacingDirection;
     u8 linkSpriteId;
     u8 i;
+    bool8 foundMatch;
 
     myLinkPlayerNumber = GetMultiplayerId();
     playerFacingDirection = GetPlayerFacingDirection();
@@ -530,29 +531,56 @@ void SpawnLinkPartnerObjectEvent(void)
     }
     for (i = 0; i < gSpecialVar_0x8004; i++)
     {
+        foundMatch = FALSE;
         if (myLinkPlayerNumber != i)
         {
-            switch ((u8)gLinkPlayers[i].version)
+            switch ((u8)gLinkPlayers[i].versionModifier)
             {
-            case VERSION_RUBY:
-            case VERSION_SAPPHIRE:
-                if (gLinkPlayers[i].gender == 0)
-                    linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                //case DEV_SOLITAIRI:
+                //    if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+                //    {
+                //        foundMatch = TRUE;
+                //        if (gLinkPlayers[i].gender == 0)
+                //            linkSpriteId = OBJ_EVENT_GFX_LINK_H_BRENDAN;
+                //        else
+                //            linkSpriteId = OBJ_EVENT_GFX_LINK_H_MAY;
+                //    }
+                //    break;
+                //case DEV_SOLITAIRI_2:
+                //    if ((u8)gLinkPlayers[i].version == VERSION_FIRE_RED)
+                //    {
+                //        foundMatch = TRUE;
+                //        if (gLinkPlayers[i].gender == 0)
+                //            linkSpriteId = OBJ_EVENT_GFX_LINK_GOLD;
+                //        else
+                //            linkSpriteId = OBJ_EVENT_GFX_LINK_KRIS;
+                //    }
+                //    break;
+                case DEV_TEST:
+                    foundMatch = TRUE;
+                    if (gLinkPlayers[i].gender == 0)
+                        linkSpriteId = OBJ_EVENT_GFX_WALLY;
+                    else
+                        linkSpriteId = OBJ_EVENT_GFX_STEVEN;
+                    break;
+            }
+            
+            if (!foundMatch)
+            {
+                if ((u8)gLinkPlayers[i].version == VERSION_RUBY || (u8)gLinkPlayers[i].version == VERSION_SAPPHIRE)
+                {
+                    if (gLinkPlayers[i].gender == 0)
+                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                    else
+                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
+                }
                 else
-                    linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
-                break;
-            case VERSION_EMERALD:
-                if (gLinkPlayers[i].gender == 0)
-                    linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
-                else
-                    linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
-                break;
-            default:
-                if (gLinkPlayers[i].gender == 0)
-                    linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
-                else
-                    linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
-                break;
+                {
+                    if (gLinkPlayers[i].gender == 0)
+                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+                    else
+                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+                }
             }
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + MAP_OFFSET, coordOffsets[j][1] + y + MAP_OFFSET, 0);
             LoadLinkPartnerObjectEventSpritePalette(linkSpriteId, 240 - i, i);
@@ -572,6 +600,12 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
         graphicsId == OBJ_EVENT_GFX_LINK_RS_MAY ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL)
+        //graphicsId == OBJ_EVENT_GFX_LINK_H_BRENDAN ||
+        //graphicsId == OBJ_EVENT_GFX_LINK_H_MAY ||
+        //graphicsId == OBJ_EVENT_GFX_LINK_GOLD ||
+        //graphicsId == OBJ_EVENT_GFX_LINK_KRIS ||
+        //graphicsId == OBJ_EVENT_GFX_WALLY ||
+        //graphicsId == OBJ_EVENT_GFX_STEVEN)
     {
         u8 obj = GetObjectEventIdByLocalIdAndMap(localEventId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
         if (obj != OBJECT_EVENTS_COUNT)
@@ -593,6 +627,24 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
                 break;
             case OBJ_EVENT_GFX_RIVAL_MAY_NORMAL:
                 LoadPalette(gObjectEventPal_May, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            //case OBJ_EVENT_GFX_LINK_H_BRENDAN:
+            //    LoadPalette(gObjectEventPal_HeliodorBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            //    break;
+            //case OBJ_EVENT_GFX_LINK_H_MAY:
+            //    LoadPalette(gObjectEventPal_HeliodorMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            //    break;
+            //case OBJ_EVENT_GFX_LINK_GOLD:
+            //    LoadPalette(gObjectEventPal_Gold, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            //    break;
+            //case OBJ_EVENT_GFX_LINK_KRIS:
+            //    LoadPalette(gObjectEventPal_Kris, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            //    break;
+            case OBJ_EVENT_GFX_WALLY:
+                LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                break;
+            case OBJ_EVENT_GFX_STEVEN:
+                LoadPalette(gObjectEventPal_RubySapphireMay, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
                 break;
             }
         }
@@ -2694,12 +2746,49 @@ void ShowGlassWorkshopMenu(void)
 void SetBattleTowerLinkPlayerGfx(void)
 {
     u8 i;
+    bool8 foundMatch;
+
     for (i = 0; i < 2; i++)
     {
-        if (gLinkPlayers[i].gender == MALE)
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
-        else
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+        foundMatch = FALSE;
+        switch ((u8)gLinkPlayers[i].versionModifier)
+        {
+            //case DEV_SOLITAIRI:
+            //    if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+            //    {
+            //        foundMatch = TRUE;
+            //        if (gLinkPlayers[i].gender == MALE)
+            //            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_H_BRENDAN);
+            //        else
+            //            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_H_MAY);
+            //    }
+            //    break;
+            //case DEV_SOLITAIRI_2:
+            //    if ((u8)gLinkPlayers[i].version == VERSION_FIRE_RED)
+            //    {
+            //        foundMatch = TRUE;
+            //        if (gLinkPlayers[i].gender == MALE)
+            //            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_GOLD);
+            //        else
+            //            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_KRIS);
+            //    }
+            //    break;
+            case DEV_TEST:
+                foundMatch = TRUE;
+                if (gLinkPlayers[i].gender == MALE)
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_WALLY);
+                else
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_STEVEN);
+                break;
+        }
+        
+        if (!foundMatch)
+        {
+            if (gLinkPlayers[i].gender == MALE)
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
+            else
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+        }
     }
 }
 

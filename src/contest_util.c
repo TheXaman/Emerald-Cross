@@ -2475,18 +2475,51 @@ void ShowContestPainting(void)
 void SetLinkContestPlayerGfx(void)
 {
     int i;
+    bool8 foundMatch;
 
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
     {
         for (i = 0; i < gNumLinkContestPlayers; i++)
         {
             int version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+			foundMatch = FALSE;
+            switch ((u8)gLinkPlayers[i].versionModifier)
             {
-                if (gLinkPlayers[i].gender == MALE)
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                //case DEV_SOLITAIRI:
+                //    if (version == VERSION_EMERALD)
+                //    {
+                //        foundMatch = TRUE;
+                //        if (gLinkPlayers[i].gender == MALE)
+                //            gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_H_BRENDAN;
+                //        else
+                //            gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_H_MAY;
+                //    }
+                //    break;
+                case DEV_TEST:
+                    foundMatch = TRUE;
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_WALLY;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_STEVEN;
+                    break;
+            }
+            
+            if (!foundMatch)
+            {
+                if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+                {
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+                }
                 else
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+                {
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+                }
             }
         }
 
@@ -2504,6 +2537,7 @@ void LoadLinkContestPlayerPalettes(void)
     int version;
     struct Sprite *sprite;
     static const u8 sContestantLocalIds[CONTESTANT_COUNT] = { 3, 4, 5, 14 };
+    bool8 foundMatch;
 
     gReservedSpritePaletteCount = 12;
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
@@ -2514,20 +2548,45 @@ void LoadLinkContestPlayerPalettes(void)
             sprite = &gSprites[gObjectEvents[objectEventId].spriteId];
             sprite->oam.paletteNum = 6 + i;
             version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-            {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
-                else
-                    LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
-            }
-            else
-            {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
-                else
-                    LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
-            }
+			foundMatch = FALSE;
+			switch ((u8)gLinkPlayers[i].versionModifier)
+			{
+				//case DEV_SOLITAIRI:
+				//	if (version == VERSION_EMERALD)
+				//	{
+				//		foundMatch = TRUE;
+				//		if (gLinkPlayers[i].gender == MALE)
+				//			LoadPalette(gObjectEventPal_HeliodorBrendan, 0x160 + i * 0x10, 0x20);
+				//		else
+				//			LoadPalette(gObjectEventPal_HeliodorMay, 0x160 + i * 0x10, 0x20);
+				//	}
+				//	break;
+				case DEV_TEST:
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+					else
+						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+					break;
+			}
+			
+			if (!foundMatch)
+			{
+				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
+					else
+						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
+				}
+				else
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
+					else
+						LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
+				}
+			}
         }
     }
 }

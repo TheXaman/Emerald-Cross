@@ -321,6 +321,7 @@ static void InitLocalLinkPlayer(void)
     gLocalLinkPlayer.linkType = gLinkType;
     gLocalLinkPlayer.language = gGameLanguage;
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
+	gLocalLinkPlayer.versionModifier = VERSION_MODIFIER;
     gLocalLinkPlayer.lp_field_2 = 0x8000;
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
     if (FlagGet(FLAG_IS_CHAMPION))
@@ -594,10 +595,9 @@ static void ProcessRecvCmds(u8 unused)
                         block = (struct LinkPlayerBlock *)&gBlockRecvBuffer[i];
                         linkPlayer = &gLinkPlayers[i];
                         *linkPlayer = block->linkPlayer;
-                        if ((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE)
+                        if (((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE) && linkPlayer->versionModifier == DEV_GAME_FREAK)
                         {
                             linkPlayer->progressFlagsCopy = 0;
-                            linkPlayer->neverRead = 0;
                             linkPlayer->progressFlags = 0;
                         }
                         ConvertLinkPlayerName(linkPlayer);
@@ -1847,6 +1847,8 @@ u8 GetWirelessCommType(void)
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)
 {
+	if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_HEART_GOLD)
+		player->versionModifier = DEV_SOLITAIRI_2;  // Forcing CrystalDust to conform with our system
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }

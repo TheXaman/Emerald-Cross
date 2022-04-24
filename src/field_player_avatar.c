@@ -268,6 +268,24 @@ static const u8 sRSAvatarGfxIds[GENDER_COUNT] =
     [FEMALE] = OBJ_EVENT_GFX_LINK_RS_MAY
 };
 
+static const u8 sHeliodorAvatarGfxIds[] =
+{
+//    [MALE]   = OBJ_EVENT_GFX_LINK_H_BRENDAN,
+//    [FEMALE] = OBJ_EVENT_GFX_LINK_H_MAY
+};
+
+static const u8 sCDAvatarGfxIds[] =
+{
+//    [MALE]   = OBJ_EVENT_GFX_LINK_GOLD,
+//    [FEMALE] = OBJ_EVENT_GFX_LINK_KRIS
+};
+
+static const u8 sTestAvatarGfxIds[] =
+{
+    [MALE]   = OBJ_EVENT_GFX_WALLY,
+    [FEMALE] = OBJ_EVENT_GFX_STEVEN
+};
+
 static const u8 sPlayerAvatarGfxToStateFlag[GENDER_COUNT][5][2] =
 {
     [MALE] =
@@ -1252,6 +1270,21 @@ u8 GetFRLGAvatarGraphicsIdByGender(u8 gender)
 u8 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
     return sRSAvatarGfxIds[gender];
+}
+
+u8 GetHeliodorAvatarGraphicsIdByGender(u8 gender)
+{
+	return sHeliodorAvatarGfxIds[gender];
+}
+
+u8 GetCDAvatarGraphicsIdByGender(u8 gender)
+{
+	return sCDAvatarGfxIds[gender];
+}
+
+u8 GetTestAvatarGraphicsIdByGender(u8 gender)
+{
+	return sTestAvatarGfxIds[gender];
 }
 
 u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)

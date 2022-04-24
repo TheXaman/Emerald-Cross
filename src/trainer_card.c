@@ -67,6 +67,7 @@ struct TrainerCardData
     u16 monIconPal[16 * PARTY_SIZE];
     s8 flipBlendY;
     bool8 timeColonNeedDraw;
+    u8 trainerPair;
     u8 cardType;
     bool8 isHoenn;
     u16 blendColor;
@@ -291,22 +292,37 @@ static const u8 sTrainerPicOffset[2][GENDER_COUNT][2] =
     },
 };
 
-static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
+static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] = 
 {
-    [CARD_TYPE_FRLG] =
+    [TRAINER_FRLG] = 
     {
-        [MALE]   = FACILITY_CLASS_RED,
+        [MALE]   = FACILITY_CLASS_RED, 
         [FEMALE] = FACILITY_CLASS_LEAF
-    },
-    [CARD_TYPE_RS] =
+    }, 
+    [TRAINER_RS] = 
     {
-        [MALE]   = FACILITY_CLASS_RS_BRENDAN,
+        [MALE]   = FACILITY_CLASS_RS_BRENDAN, 
         [FEMALE] = FACILITY_CLASS_RS_MAY
-    },
-    [CARD_TYPE_EMERALD] =
+    }, 
+    [TRAINER_EMERALD] = 
     {
-        [MALE]   = FACILITY_CLASS_BRENDAN,
+        [MALE]   = FACILITY_CLASS_BRENDAN, 
         [FEMALE] = FACILITY_CLASS_MAY
+    }, 
+    //[TRAINER_HELIODOR] = 
+    //{
+    //    [MALE]   = FACILITY_CLASS_H_BRENDAN, 
+    //    [FEMALE] = FACILITY_CLASS_H_MAY
+    //},
+    //[TRAINER_CRYSTALDUST] = 
+    //{
+    //    [MALE]   = FACILITY_CLASS_GOLD, 
+    //    [FEMALE] = FACILITY_CLASS_KRIS
+    //},
+    [TRAINER_TEST] = 
+    {
+        [MALE]   = FACILITY_CLASS_WALLY, 
+        [FEMALE] = FACILITY_CLASS_STEVEN
     }
 };
 
@@ -1826,7 +1842,7 @@ static void InitTrainerCardData(void)
     sData->timeColonInvisible = FALSE;
     sData->onBack = FALSE;
     sData->flipBlendY = 0;
-    sData->cardType = GetSetCardType();
+    sData->trainerPair = GetSetCardType();
     for (i = 0; i < TRAINER_CARD_PROFILE_LENGTH; i++)
         CopyEasyChatWord(sData->easyChatProfile[i], sData->trainerCard.easyChatProfile[i]);
 }
@@ -1836,28 +1852,73 @@ static u8 GetSetCardType(void)
     if (sData == NULL)
     {
         if (gGameVersion == VERSION_FIRE_RED || gGameVersion == VERSION_LEAF_GREEN)
-            return CARD_TYPE_FRLG;
+        {
+            sData->isHoenn = FALSE;
+            return TRAINER_FRLG;
+        }
         else if (gGameVersion == VERSION_EMERALD)
-            return CARD_TYPE_EMERALD;
+        {
+            sData->isHoenn = TRUE;
+            return TRAINER_EMERALD;
+        }
         else
-            return CARD_TYPE_RS;
+        {
+            sData->isHoenn = TRUE;
+            return TRAINER_RS;
+        }
     }
     else
     {
+        switch (sData->trainerCard.versionModifier)
+        {
+            case DEV_SOLITAIRI:
+                if (sData->trainerCard.version == VERSION_EMERALD)
+                {
+                    sData->isHoenn = TRUE;
+					sData->cardType = CARD_TYPE_EMERALD;
+                    return TRAINER_HELIODOR;
+                }
+                break;
+            case DEV_SOLITAIRI_2:
+                if (sData->trainerCard.version == VERSION_FIRE_RED)
+                {
+                    sData->isHoenn = FALSE;
+					sData->cardType = CARD_TYPE_FRLG;
+                    return TRAINER_CRYSTALDUST;
+                }
+                break;
+            case DEV_TEST:
+            {
+                sData->isHoenn = TRUE;
+				sData->cardType = CARD_TYPE_EMERALD;
+                return TRAINER_TEST;
+            }
+        }
+        
         if (sData->trainerCard.version == VERSION_FIRE_RED || sData->trainerCard.version == VERSION_LEAF_GREEN)
         {
             sData->isHoenn = FALSE;
-            return CARD_TYPE_FRLG;
+			sData->cardType = CARD_TYPE_FRLG;
+            if (sData->trainerCard.crystalDustVersion == VERSION_HEART_GOLD)
+            {
+                return TRAINER_CRYSTALDUST;
+            }
+            else
+            {
+                return TRAINER_FRLG;
+            }
         }
         else if (sData->trainerCard.version == VERSION_EMERALD)
         {
             sData->isHoenn = TRUE;
-            return CARD_TYPE_EMERALD;
+            sData->cardType = CARD_TYPE_EMERALD;
+            return TRAINER_EMERALD;
         }
         else
         {
             sData->isHoenn = TRUE;
-            return CARD_TYPE_RS;
+			sData->cardType = CARD_TYPE_RS;
+            return TRAINER_RS;
         }
     }
 }
@@ -1885,7 +1946,7 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->trainerPair][sData->trainerCard.gender]),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],

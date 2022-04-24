@@ -8701,6 +8701,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality;
     u32 value;
     u16 checksum;
+    u8 versionModifier = VERSION_MODIFIER;;
 
     ZeroBoxMonData(boxMon);
 
@@ -8753,6 +8754,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     value = ITEM_POKE_BALL;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+    SetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
 
     if (fixedIV < USE_RANDOM_IVS)
     {
@@ -10595,6 +10597,9 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->worldRibbon << 26);
         }
         break;
+    case MON_DATA_VERSION_MODIFIER:
+        retVal = substruct0->versionModifier;
+        break;
     default:
         break;
     }
@@ -10913,6 +10918,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3->spDefenseIV = (ivs >> 25) & MAX_IV_MASK;
         break;
     }
+    case MON_DATA_VERSION_MODIFIER:
+        SET8(substruct0->versionModifier);
+        break;
     default:
         break;
     }
