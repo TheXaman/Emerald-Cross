@@ -2358,7 +2358,6 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
-    u32 initial_save_version = VarGet(VAR_SAVE_VER);
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
         // Pre-release version
@@ -2410,5 +2409,11 @@ static void PatchSave(void)
         FlagClear(FLAG_UNUSED_0x2A2);
         FlagClear(FLAG_UNUSED_0x2A3);
         VarSet(VAR_SAVE_VER, 5);
+    }
+    if (VarGet(VAR_SAVE_VER == 5))
+    {
+        // Let's give people who update a random table rather than making them wait 1 day
+        RandomAlteringCaveTable();
+        VarSet(VAR_SAVE_VER, 6);
     }
 }

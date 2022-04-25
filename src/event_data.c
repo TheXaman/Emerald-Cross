@@ -1,6 +1,7 @@
 #include "global.h"
 #include "event_data.h"
 #include "pokedex.h"
+#include "random.h"
 
 #define NUM_SPECIAL_FLAGS (SPECIAL_FLAGS_END - SPECIAL_FLAGS_START + 1)
 #define NUM_TEMP_FLAGS    (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
@@ -56,6 +57,12 @@ void ClearTempFieldEventData(void)
 void ClearDailyFlags(void)
 {
     memset(gSaveBlock1Ptr->flags + (DAILY_FLAGS_START / 8), 0, DAILY_FLAGS_SIZE);
+}
+
+void RandomAlteringCaveTable(void)
+{
+    u8 id = (Random() % 9);
+    VarSet(VAR_ALTERING_CAVE_WILD_SET, id);
 }
 
 void DisableNationalPokedex(void)
