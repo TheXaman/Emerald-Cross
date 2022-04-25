@@ -5179,8 +5179,7 @@ static void HandleEndTurn_FinishBattle(void)
         //ty_difficulty_challenges
         if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke && FlagGet(FLAG_SYS_POKEMON_GET))
         {
-            if (FlagGet(FLAG_SYS_POKEMON_GET))
-                NuzlockeDeleteFaintedPartyPokemon();
+            NuzlockeDeleteFaintedPartyPokemon();
             if (!(gBattleTypeFlags & (BATTLE_TYPE_DOUBLE
                                         | BATTLE_TYPE_LINK
                                         | BATTLE_TYPE_TRAINER
