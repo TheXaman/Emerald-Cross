@@ -48,6 +48,7 @@ void IsRandomizerActivated(void);
 void IsRandomizerActivated(void);
 void IsChallengesActivated(void);
 bool8 IsNuzlockeActivated(void);
+bool8 IsPokecenterChallengeActivated(void);
 
 // constants
 #define TX_MENU_ITEMS_PER_PAGE 6
