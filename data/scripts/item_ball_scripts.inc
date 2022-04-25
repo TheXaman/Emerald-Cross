@@ -26,6 +26,10 @@ Route104_EventScript_ItemPotion::
 	finditem ITEM_POTION
 	end
 
+SafariZone_EventScript_ItemLuckyEgg::
+	finditem ITEM_LUCKY_EGG
+	end
+
 Route105_EventScript_ItemIron::
 	finditem ITEM_IRON
 	end
