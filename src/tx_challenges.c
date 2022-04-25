@@ -217,6 +217,11 @@ bool8 IsNuzlockeActivated(void)
     return gSaveBlock1Ptr->tx_Challenges_Nuzlocke;
 }
 
+bool8 IsPokecenterChallengeActivated(void)
+{
+    return gSaveBlock1Ptr->tx_Challenges_PkmnCenter;
+}
+
 static void MainCB2(void)
 {
     RunTasks();
