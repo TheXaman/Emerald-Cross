@@ -254,7 +254,7 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
 
 // code
-void IsRandomizerActivated(void)
+void IsTradeRestrictedByRandomizer(void)
 {
     if (gSaveBlock1Ptr->tx_Random_Chaos != 0
         || gSaveBlock1Ptr->tx_Random_WildPokemon != 0
@@ -267,7 +267,8 @@ void IsRandomizerActivated(void)
         || gSaveBlock1Ptr->tx_Random_Moves != 0
         || gSaveBlock1Ptr->tx_Random_Trainer != 0
         || gSaveBlock1Ptr->tx_Random_Evolutions != 0
-        || gSaveBlock1Ptr->tx_Random_EvolutionMethods != 0)
+        || gSaveBlock1Ptr->tx_Random_EvolutionMethods != 0
+        || gSaveBlock1Ptr->tx_Random_OneForOne != 0)
             gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;

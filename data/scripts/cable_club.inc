@@ -244,9 +244,9 @@ CableClub_Movement_PlayerApproachCounter:
 	step_end
 
 CableClub_EventScript_WelcomeToCableClub::
-	special IsRandomizerActivated
+	special IsTradeRestrictedByRandomizer
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithRandomizer
-	special IsChallengesActivated
+	special IsTradeRestrictedByChallenges
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithChallenges
 	message CableClub_Text_WelcomeWhichCableClubService
 	waitmessage
@@ -858,9 +858,9 @@ EventScript_DoLinkRoomExit::
 CableClub_EventScript_UnionRoomAttendant::
 	lock
 	faceplayer
-	special IsRandomizerActivated
+	special IsTradeRestrictedByRandomizer
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithRandomizer
-	special IsChallengesActivated
+	special IsTradeRestrictedByChallenges
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_CantBeUsedWithChallenges
 	setvar VAR_FRONTIER_FACILITY, FACILITY_UNION_ROOM
 	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements

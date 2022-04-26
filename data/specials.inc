@@ -538,6 +538,6 @@ gSpecials::
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
 	def_special BufferUnitSystemText
-	def_special IsRandomizerActivated
-	def_special IsChallengesActivated
+	def_special IsTradeRestrictedByRandomizer
+	def_special IsTradeRestrictedByChallenges
 	def_special IsNuzlockeActivated

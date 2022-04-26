@@ -43,11 +43,9 @@ void CB2_InitRandomizerMenu(void);
 void CB2_InitChallengesMenu(void);
 void tx_randomizer_SaveData(void);
 void tx_challenges_SaveData(void);
-void IsChallengesActivated(void);
-void IsRandomizerActivated(void);
+void IsTradeRestrictedByChallenges(void);
+void IsTradeRestrictedByRandomizer(void);
 
-void IsRandomizerActivated(void);
-void IsChallengesActivated(void);
 bool8 IsNuzlockeActivated(void);
 bool8 IsPokecenterChallengeActivated(void);
 
