@@ -292,7 +292,7 @@
       "x": 14,
       "y": 27,
       "elevation": 3,
-      "movement_type": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
