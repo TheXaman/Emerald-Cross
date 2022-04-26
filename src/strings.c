@@ -524,6 +524,7 @@ const u8 gText_EggWillTakeALongTime[] = _("It looks like this EGG will\ntake a l
 const u8 gText_EggWillTakeSomeTime[] = _("What will hatch from this?\nIt will take some time.");
 const u8 gText_EggWillHatchSoon[] = _("It moves occasionally.\nIt should hatch soon.");
 const u8 gText_EggAboutToHatch[] = _("It's making sounds.\nIt's about to hatch!");
+const u8 gText_EggReadyToHatch_Nuzlocke[] = _("Ready to hatch, but blocked\nby Nuzlocke encounter!");
 const u8 gText_HMMovesCantBeForgotten2[] = _("HM moves can't be\nforgotten now.");
 const u8 gText_XNatureMetAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature\n\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}\nMet at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
 const u8 gText_XNatureHatchedAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature.\n\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}\nHatched at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
