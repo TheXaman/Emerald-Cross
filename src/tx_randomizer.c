@@ -579,8 +579,10 @@ static void tx_randomizer_Task_OptionMenuProcessInput(u8 taskId)
         int cursor = sRandomizerOptions->menuCursor;
         u8 previousOption = sRandomizerOptions->sel[cursor];
         if (sItemFunctions[cursor].processInput != NULL)
+        {
             sRandomizerOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
             tx_randomizer_DrawDescriptions();
+        }
 
         if (previousOption != sRandomizerOptions->sel[cursor])
             DrawChoices(cursor, sRandomizerOptions->visibleCursor * Y_DIFF, 0);
