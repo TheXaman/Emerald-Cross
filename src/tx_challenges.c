@@ -223,11 +223,7 @@ void IsTradeRestrictedByChallenges(void)
         || gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0
         || gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore != 0
         || gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge != TX_CHALLENGE_TYPE_OFF
-        || gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer != 0
-        || gSaveBlock1Ptr->tx_Challenges_PartyLimit != 0
-        || gSaveBlock1Ptr->tx_Challenges_NoItemPlayer != 0
-        || gSaveBlock1Ptr->tx_Challenges_NoItemTrainer != 0
-        || gSaveBlock1Ptr->tx_Challenges_PkmnCenter != 0)
+        || gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer != 0)
         gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;
