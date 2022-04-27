@@ -3901,8 +3901,3 @@ static void Task_MoveDeoxysRock(u8 taskId)
             break;
     }
 }
-
-void ChangeIntoMay(void)
-{
-    gSaveBlock2Ptr->playerGender = FEMALE;
-}
