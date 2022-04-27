@@ -26,6 +26,7 @@ enum
     MENUITEM_FRAMETYPE,
     MENUITEM_FONT,
     MENUITEM_UNIT_SYSTEM,
+    MENUITEM_FOLLOWER_POKEMON,
     MENUITEM_MATCHCALL,
     MENUITEM_FISHREELING,
     MENUITEM_BIKE_SURF_MUSIC,
@@ -67,6 +68,7 @@ static void DrawChoices_Sound(int selection, int y);
 static void DrawChoices_ButtonMode(int selection, int y);
 static void DrawChoices_HpBar(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
+static void DrawChoices_FollowerPkmn(int selection, int y);
 static void DrawChoices_BikeSurfMusic(int selection, int y);
 static void DrawChoices_SkipBattleIntro(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
@@ -99,6 +101,7 @@ static const sItemFunctions[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]            = {DrawChoices_FrameType,       ProcessInput_FrameType},
     [MENUITEM_FONT]                 = {DrawChoices_Font,            ProcessInput_Options_Two}, 
     [MENUITEM_UNIT_SYSTEM]          = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
+    [MENUITEM_FOLLOWER_POKEMON]     = {DrawChoices_FollowerPkmn,    ProcessInput_Options_Two},
     [MENUITEM_MATCHCALL]            = {DrawChoices_MatchCall,       ProcessInput_Options_Two},
     [MENUITEM_FISHREELING]          = {DrawChoices_FishReeling,     ProcessInput_Options_Two},
     [MENUITEM_BIKE_SURF_MUSIC]      = {DrawChoices_BikeSurfMusic,   ProcessInput_Options_Two},
@@ -124,6 +127,7 @@ static const u8 sText_SkipBattleIntro[] = _("BATTLE INTRO");
 static const u8 sText_FishEmerald[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}RSE");
 static const u8 sText_FishFRLG[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FRLG");
 static const u8 sText_BikeSurfMusic[] =_("BIKE/SURF MUSIC");
+static const u8 sText_FollowerPokemon[] =_("FOLLOWER {PKMN}");
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -133,6 +137,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]            = gText_Frame,
     [MENUITEM_FONT]                 = gText_Font,
     [MENUITEM_UNIT_SYSTEM]          = sText_UnitSystem,
+    [MENUITEM_FOLLOWER_POKEMON]     = sText_FollowerPokemon,
     [MENUITEM_MATCHCALL]            = sText_MatchCalls,
     [MENUITEM_FISHREELING]          = sText_FishReeling,
     [MENUITEM_BIKE_SURF_MUSIC]      = sText_BikeSurfMusic,
@@ -295,6 +300,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_FRAMETYPE]           = gSaveBlock2Ptr->optionsWindowFrameType;
         sOptions->sel[MENUITEM_FONT]                = gSaveBlock2Ptr->optionsCurrentFont;
         sOptions->sel[MENUITEM_UNIT_SYSTEM]         = gSaveBlock2Ptr->optionsUnitSystem;
+        sOptions->sel[MENUITEM_FOLLOWER_POKEMON]    = gSaveBlock2Ptr->optionsShowFollowerPokemon;
         sOptions->sel[MENUITEM_MATCHCALL]           = gSaveBlock2Ptr->optionsDisableMatchCall;
         sOptions->sel[MENUITEM_FISHREELING]         = gSaveBlock2Ptr->optionsFishReeling;
         sOptions->sel[MENUITEM_BIKE_SURF_MUSIC]     = gSaveBlock2Ptr->optionsBikeSurfMusic;
@@ -456,20 +462,21 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
 static void Task_OptionMenuSave(u8 taskId)
 {
-    gSaveBlock2Ptr->optionsTextSpeed        = sOptions->sel[MENUITEM_TEXTSPEED];
-    gSaveBlock2Ptr->optionsBattleSceneOff   = sOptions->sel[MENUITEM_BATTLESCENE];
-    gSaveBlock2Ptr->optionsBattleStyle      = sOptions->sel[MENUITEM_BATTLESTYLE];
-    gSaveBlock2Ptr->optionsSound            = sOptions->sel[MENUITEM_SOUND];
-    gSaveBlock2Ptr->optionsButtonMode       = sOptions->sel[MENUITEM_BUTTONMODE];
-    gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_FRAMETYPE];
-    gSaveBlock2Ptr->optionsCurrentFont      = sOptions->sel[MENUITEM_FONT];
-    gSaveBlock2Ptr->optionsDisableMatchCall = sOptions->sel[MENUITEM_MATCHCALL];
-    gSaveBlock2Ptr->optionsFishReeling      = sOptions->sel[MENUITEM_FISHREELING];
-    gSaveBlock2Ptr->optionsSkipBattleIntro  = sOptions->sel[MENUITEM_SKIP_BATTLE_INTRO];
-    gSaveBlock2Ptr->optionsHpBarSpeed       = sOptions->sel[MENUITEM_HP_BAR];
-    gSaveBlock2Ptr->optionsExpBarSpeed      = sOptions->sel[MENUITEM_EXP_BAR];
-    gSaveBlock2Ptr->optionsUnitSystem       = sOptions->sel[MENUITEM_UNIT_SYSTEM];
-    gSaveBlock2Ptr->optionsBikeSurfMusic    = sOptions->sel[MENUITEM_BIKE_SURF_MUSIC];
+    gSaveBlock2Ptr->optionsTextSpeed            = sOptions->sel[MENUITEM_TEXTSPEED];
+    gSaveBlock2Ptr->optionsBattleSceneOff       = sOptions->sel[MENUITEM_BATTLESCENE];
+    gSaveBlock2Ptr->optionsBattleStyle          = sOptions->sel[MENUITEM_BATTLESTYLE];
+    gSaveBlock2Ptr->optionsSound                = sOptions->sel[MENUITEM_SOUND];
+    gSaveBlock2Ptr->optionsButtonMode           = sOptions->sel[MENUITEM_BUTTONMODE];
+    gSaveBlock2Ptr->optionsWindowFrameType      = sOptions->sel[MENUITEM_FRAMETYPE];
+    gSaveBlock2Ptr->optionsCurrentFont          = sOptions->sel[MENUITEM_FONT];
+    gSaveBlock2Ptr->optionsDisableMatchCall     = sOptions->sel[MENUITEM_MATCHCALL];
+    gSaveBlock2Ptr->optionsFishReeling          = sOptions->sel[MENUITEM_FISHREELING];
+    gSaveBlock2Ptr->optionsSkipBattleIntro      = sOptions->sel[MENUITEM_SKIP_BATTLE_INTRO];
+    gSaveBlock2Ptr->optionsHpBarSpeed           = sOptions->sel[MENUITEM_HP_BAR];
+    gSaveBlock2Ptr->optionsExpBarSpeed          = sOptions->sel[MENUITEM_EXP_BAR];
+    gSaveBlock2Ptr->optionsUnitSystem           = sOptions->sel[MENUITEM_UNIT_SYSTEM];
+    gSaveBlock2Ptr->optionsBikeSurfMusic        = sOptions->sel[MENUITEM_BIKE_SURF_MUSIC];
+    gSaveBlock2Ptr->optionsShowFollowerPokemon  = sOptions->sel[MENUITEM_FOLLOWER_POKEMON];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -695,6 +702,16 @@ static void DrawChoices_UnitSystem(int selection, int y)
 
     DrawOptionMenuChoice(gText_UnitSystemImperial, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1]);
+}
+
+static void DrawChoices_FollowerPkmn(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(1, gText_BattleSceneOn, 198), y, styles[1]);
 }
 
 static void DrawChoices_BikeSurfMusic(int selection, int y)

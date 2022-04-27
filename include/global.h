@@ -495,7 +495,8 @@ struct SaveBlock2
              u16 optionsSkipBattleIntro:1;
              u16 optionsCurrentFont:1;
              u16 optionsBikeSurfMusic:1;
-             u16 reserved:12;
+             u16 optionsShowFollowerPokemon:1;
+             u16 reserved:11;
              u16 reserved2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x98*/ struct Time localTimeOffset;
@@ -516,6 +517,8 @@ struct SaveBlock2
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
+
+extern bool8 IsAccurateGBA(void);
 
 struct SecretBaseParty
 {

@@ -1751,6 +1751,13 @@
 	.byte 0xe5
 	.endm
 
+  @ Like callnative, but function expects a ctx
+  .macro callfunc func:req
+  .byte 0xe6
+  .4byte \func
+  .endm
+
+
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req
