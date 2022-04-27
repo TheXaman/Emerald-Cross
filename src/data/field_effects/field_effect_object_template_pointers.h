@@ -6,7 +6,9 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_TallGrass;
 const struct SpriteTemplate gFieldEffectObjectTemplate_Ripple;
 const struct SpriteTemplate gFieldEffectObjectTemplate_Ash;
 const struct SpriteTemplate gFieldEffectObjectTemplate_SurfBlob;
+const struct SpriteTemplate gFieldEffectObjectTemplate_SurfBlobMay;
 const struct SpriteTemplate gFieldEffectObjectTemplate_Arrow;
+const struct SpriteTemplate gFieldEffectObjectTemplate_ArrowMay;
 const struct SpriteTemplate gFieldEffectObjectTemplate_GroundImpactDust;
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpTallGrass;
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandFootprints;
@@ -25,6 +27,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_DeepSandFootprints;
 const struct SpriteTemplate gFieldEffectObjectTemplate_TreeDisguise;
 const struct SpriteTemplate gFieldEffectObjectTemplate_MountainDisguise;
 const struct SpriteTemplate gFieldEffectObjectTemplate_Bird;
+const struct SpriteTemplate gFieldEffectObjectTemplate_BirdMay;
 const struct SpriteTemplate gFieldEffectObjectTemplate_BikeTireTracks;
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandDisguisePlaceholder;
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandPile;
@@ -80,4 +83,7 @@ const struct SpriteTemplate *const gFieldEffectObjectTemplatePointers[] = {
     [FLDEFFOBJ_TRACKS_SLITHER]        = &gFieldEffectObjectTemplate_SlitherTracks,
     [FLDEFFOBJ_TRACKS_SPOT]           = &gFieldEffectObjectTemplate_SpotTracks,
     [FLDEFFOBJ_TRACKS_BUG]            = &gFieldEffectObjectTemplate_BugTracks,
+    [FLDEFFOBJ_BIRD_MAY]              = &gFieldEffectObjectTemplate_BirdMay,
+    [FLDEFFOBJ_ARROW_MAY]             = &gFieldEffectObjectTemplate_ArrowMay,
+    [FLDEFFOBJ_SURF_BLOB_MAY]         = &gFieldEffectObjectTemplate_SurfBlobMay,
 };

@@ -3119,8 +3119,13 @@ u8 FldEff_RayquazaSpotlight(void)
 
 u8 FldEff_NPCFlyOut(void)
 {
-    u8 spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
+    u8 spriteId;
     struct Sprite *sprite = &gSprites[spriteId];
+
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD_MAY], 0x78, 0, 1);
+    else
+        spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);    
 
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_NPCFlyOut;
@@ -3301,7 +3306,12 @@ static u8 CreateFlyBirdSprite(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
-    spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
+
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD_MAY], 0xff, 0xb4, 0x1);
+    else
+        spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);   
+
     sprite = &gSprites[spriteId];
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_FlyBirdLeaveBall;
@@ -3890,4 +3900,9 @@ static void Task_MoveDeoxysRock(u8 taskId)
             }
             break;
     }
+}
+
+void ChangeIntoMay(void)
+{
+    gSaveBlock2Ptr->playerGender = FEMALE;
 }
