@@ -184,7 +184,7 @@ static const u8 sText_Description_Random_Evo_Methods_Off[]     = _("{COLOR 6}{SH
 static const u8 sText_Description_Random_Evo_Methods_On[]      = _("{COLOR 6}{SHADOW 7}POKéMON will have random\nevolution methods.");
 static const u8 sText_Description_Random_Effectiveness_Off[]   = _("{COLOR 6}{SHADOW 7}Type effectiveness chart will\nremain the same.");
 static const u8 sText_Description_Random_Effectiveness_On[]    = _("{COLOR 6}{SHADOW 7}Type effectiveness will get\nrandomized.");
-static const u8 sText_Description_Chaos_Mode_Off[]             = _("{COLOR 6}{SHADOW 7}Chaos mod is not enabled.");
+static const u8 sText_Description_Chaos_Mode_Off[]             = _("{COLOR 6}{SHADOW 7}Chaos mode is not enabled.");
 static const u8 sText_Description_Chaos_Mode_On[]              = _("{COLOR 6}{SHADOW 7}Everything will be really random\nand chaotic! Not recommended.");
 static const u8 sText_Description_Save[]                       = _("{COLOR 6}{SHADOW 7}Save choices and continue to\nthe challenge options.");
 
