@@ -42,6 +42,7 @@
 #include "random.h"
 #include "roamer.h"
 #include "rotating_gate.h"
+#include "rtc.h"
 #include "safari_zone.h"
 #include "save.h"
 #include "save_location.h"
@@ -194,6 +195,8 @@ bool8 (*gFieldCallback2)(void);
 u8 gLocalLinkPlayerId; // This is our player id in a multiplayer mode.
 u8 gFieldLinkPlayerCount;
 
+
+// EWRAM vars
 EWRAM_DATA static u8 sObjectEventLoadFlag = 0;
 EWRAM_DATA struct WarpData gLastUsedWarp = {0};
 EWRAM_DATA static struct WarpData sWarpDestination = {0};  // new warp position
@@ -204,6 +207,8 @@ EWRAM_DATA static struct InitialPlayerAvatarState sInitialPlayerAvatarState = {0
 EWRAM_DATA static u16 sAmbientCrySpecies = 0;
 EWRAM_DATA static bool8 sIsAmbientCryWaterMon = FALSE;
 EWRAM_DATA struct LinkPlayerObjectEvent gLinkPlayerObjectEvents[4] = {0};
+EWRAM_DATA struct Coords16 gLightMetatiles[32] = {0};
+
 
 static const struct WarpData sDummyWarpData =
 {
@@ -597,6 +602,23 @@ struct MapHeader const *const GetDestinationWarpMapHeader(void)
     return Overworld_GetMapHeaderByGroupAndId(sWarpDestination.mapGroup, sWarpDestination.mapNum);
 }
 
+// Caches light metatile coordinates
+static void CacheLightMetatiles(void) { // TODO: Better way to dynamically generate lights
+  u8 i = 0;
+  s16 x, y;
+  for (x = 0; x < gBackupMapLayout.width; x++) {
+    for (y = 0; y < gBackupMapLayout.height; y++) {
+      if (MapGridGetMetatileBehaviorAt(x, y) == 0x04) {
+        gLightMetatiles[i].x = x;
+        gLightMetatiles[i].y = y;
+        i++;
+      }
+    }
+  }
+  gLightMetatiles[i].x = -1;
+  gLightMetatiles[i].y = -1;
+}
+
 static void LoadCurrentMapData(void)
 {
     sLastMapSectionId = gMapHeader.regionMapSectionId;
@@ -817,6 +839,7 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     Overworld_ClearSavedMusic();
     RunOnTransitionMapScript();
     InitMap();
+    CacheLightMetatiles();
     CopySecondaryTilesetToVramUsingHeap(gMapHeader.mapLayout);
     LoadSecondaryTilesetPalette(gMapHeader.mapLayout);
 
@@ -1502,12 +1525,15 @@ void CB2_OverworldBasic(void)
 
 void CB2_Overworld(void)
 {
+    u32 *debugPtr = (u32*) 0x0203de00;
     bool32 fading = (gPaletteFade.active != 0);
     if (fading)
         SetVBlankCallback(NULL);
     OverworldBasic();
-    if (fading)
-        SetFieldVBlankCallback();
+    if (fading) {
+      SetFieldVBlankCallback();
+      return;
+    }
 }
 
 void SetMainCallback1(MainCallback cb)
@@ -1770,6 +1796,7 @@ void CB2_ContinueSavedGame(void)
     }
     else
     {
+        CacheLightMetatiles();
         TryPutTodaysRivalTrainerOnAir();
         gFieldCallback = FieldCB_FadeTryShowMapPopup;
         SetMainCallback1(CB1_Overworld);
@@ -1929,6 +1956,7 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
         (*state)++;
         break;
     case 3:
+        CacheLightMetatiles();
         InitObjectEventsLocal();
         SetCameraToTrackPlayer();
         (*state)++;
@@ -1991,6 +2019,10 @@ static bool32 ReturnToFieldLocal(u8 *state)
         ResetScreenForMapLoad();
         ResumeMap(FALSE);
         InitObjectEventsReturnToField();
+        if (gFieldCallback == FieldCallback_Fly)
+          RemoveFollowingPokemon();
+        else
+          UpdateFollowingPokemon();
         SetCameraToTrackPlayer();
         (*state)++;
         break;
@@ -2006,7 +2038,6 @@ static bool32 ReturnToFieldLocal(u8 *state)
     case 3:
         return TRUE;
     }
-
     return FALSE;
 }
 
@@ -2161,10 +2192,7 @@ static void ResumeMap(bool32 a1)
     ResetAllPicSprites();
     ResetCameraUpdateInfo();
     InstallCameraPanAheadCallback();
-    if (!a1)
-        InitObjectEventPalettes(0);
-    else
-        InitObjectEventPalettes(1);
+    FreeAllSpritePalettes();
 
     FieldEffectActiveListClear();
     StartWeather();
@@ -2198,6 +2226,7 @@ static void InitObjectEventsLocal(void)
     SetPlayerAvatarTransitionFlags(player->transitionFlags);
     ResetInitialPlayerAvatarState();
     TrySpawnObjectEvents(0, 0);
+    UpdateFollowingPokemon();
     TryRunOnWarpIntoMapScript();
 }
 
