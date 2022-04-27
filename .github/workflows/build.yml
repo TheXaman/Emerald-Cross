@@ -2,7 +2,7 @@ name: Build ROM
 
 on:
   push:
-    branches: [ romhack ]
+    branches: [ master ]
   pull_request:
 
 jobs:
