@@ -762,3 +762,6 @@ const u32 gBallIcon_Luxury[] = INCBIN_U32("graphics/interface/ball_icons/luxury.
 const u32 gBallIconPalette_Luxury[] = INCBIN_U32("graphics/interface/ball_icons/luxury.gbapal.lz");
 const u32 gBallIcon_Premier[] = INCBIN_U32("graphics/interface/ball_icons/premier.4bpp.lz");
 const u32 gBallIconPalette_Premier[] = INCBIN_U32("graphics/interface/ball_icons/premier.gbapal.lz");
+
+const u32 gItemIcon_LinkingCord[] = INCBIN_U32("graphics/items/icons/link_bracelet.4bpp.lz");
+const u32 gItemIconPalette_LinkingCord[] = INCBIN_U32("graphics/items/icon_palettes/link_bracelet.gbapal.lz");

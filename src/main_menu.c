@@ -2416,4 +2416,19 @@ static void PatchSave(void)
         RandomAlteringCaveTable();
         VarSet(VAR_SAVE_VER, 6);
     }
+    /*
+    if (VarGet(VAR_SAVE_VER == 6))
+    {
+        if (HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_MUDKIP)
+            || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TORCHIC)
+            || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TREECKO)
+            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_MUDKIP)
+            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TORCHIC)
+            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TREECKO))
+        {
+            AddBagItem(ITEM_LINK_BRACELET, 1);
+        }
+        VarSet(VAR_SAVE_VER, 7);
+    }
+    */
 }

@@ -3509,6 +3509,8 @@ extern const u32 gItemIcon_Nugget[];
 extern const u32 gItemIconPalette_Nugget[];
 extern const u32 gItemIcon_HeartScale[];
 extern const u32 gItemIconPalette_HeartScale[];
+extern const u32 gItemIcon_LinkingCord[];
+extern const u32 gItemIconPalette_LinkingCord[];
 // Mail
 extern const u32 gItemIcon_OrangeMail[];
 extern const u32 gItemIconPalette_OrangeMail[];
