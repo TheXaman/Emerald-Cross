@@ -115,10 +115,6 @@
 #define FLDEFFOBJ_TRACKS_SPOT           38
 #define FLDEFFOBJ_TRACKS_BUG            39
 
-#define FLDEFFOBJ_BIRD_MAY              40
-#define FLDEFFOBJ_ARROW_MAY             41
-#define FLDEFFOBJ_SURF_BLOB_MAY         42
-
 #define FLDEFF_PAL_TAG_CUT_GRASS          0x1000
 #define FLDEFF_PAL_TAG_SECRET_POWER_TREE  0x1003
 #define FLDEFF_PAL_TAG_GENERAL_0          0x1004
