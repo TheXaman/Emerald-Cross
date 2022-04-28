@@ -9,6 +9,7 @@
 	- Battle intro (ON/OFF) (It disables battle intro sliding anims)
 	- Font (Emerald/FRLG)
 	- Surf/Bike music (ON/OFF)
+	- Follower Pokémon (OFF/ON)
 - Running indoors
 - Auto-run (Press R in the overworld). This also applies to surfing
 - Expanded Pockets
@@ -33,6 +34,7 @@
 - Increased max money to 9999999
 - Use SELECT to swap mons in the party menu
 - Steven's Beldum that is given to the player has it's trainer ID and name on it
+- Repeated medicine use
 - Randomized mode
 	- Wild Pokémon (OFF/RANDOM): Wild encounters will be random.
 	- Trainer (OFF/RANDOM): Enemy trainer parties will be random.
