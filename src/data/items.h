@@ -1370,10 +1370,10 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
-    [ITEM_LINK_BRACELET] =
+    [ITEM_LINKING_CORD] =
     {
         .name = _("LINKING CORD"),
-        .itemId = ITEM_LINK_BRACELET,
+        .itemId = ITEM_LINKING_CORD,
         .price = 0,
         .description = sLinkingCordDesc,
         .pocket = POCKET_KEY_ITEMS,

@@ -2426,7 +2426,7 @@ static void PatchSave(void)
             || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TORCHIC)
             || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TREECKO))
         {
-            AddBagItem(ITEM_LINK_BRACELET, 1);
+            AddBagItem(ITEM_LINKING_CORD, 1);
         }
         VarSet(VAR_SAVE_VER, 7);
     }

@@ -5204,7 +5204,7 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task)
     }
     else
     {
-        if (gSpecialVar_ItemId != ITEM_LINK_BRACELET)
+        if (gSpecialVar_ItemId != ITEM_LINKING_CORD)
             RemoveBagItem(gSpecialVar_ItemId, 1);
         
         species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
@@ -5213,7 +5213,7 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task)
         || species == SPECIES_SEADRA || species == SPECIES_SCYTHER || species == SPECIES_PORYGON
         || species == SPECIES_CLAMPERL)
         {
-            u16 heldItem = 0; // just evolved by Link Bracelet, remove held item of trade + item mons
+            u16 heldItem = 0; // just evolved by Linking Cord, remove held item of trade + item mons
             SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HELD_ITEM, &heldItem);
         }
         FreePartyPointers();
