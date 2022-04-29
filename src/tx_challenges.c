@@ -32,6 +32,7 @@ enum
     MENUITEM_CHALLENGES_PARTY_LIMIT,
     MENUITEM_CHALLENGES_NUZLOCKE,
     MENUITEM_CHALLENGES_LEVEL_CAP,
+    MENUITEM_CHALLENGES_EXP_MULTIPLIER,
     MENUITEM_CHALLENGES_ITEM_PLAYER,
     MENUITEM_CHALLENGES_ITEM_TRAINER,
     MENUITEM_CHALLENGES_POKECENTER,
@@ -77,6 +78,7 @@ static void DrawChoices_Challenges_EvoLimit(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_PartyLimit(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_Nuzlocke(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_LevelCap(int selection, int y, u8 textSpeed);
+static void DrawChoices_Challenges_ExpMultiplier(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_Pokecenters(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_OneTypeChallenge(int selection, int y, u8 textSpeed);
 static void DrawChoices_Challenges_BaseStatEqualizer(int selection, int y, u8 textSpeed);
@@ -91,6 +93,7 @@ struct
     [MENUITEM_CHALLENGES_PARTY_LIMIT]         = {DrawChoices_Challenges_PartyLimit,         tx_challenges_SixOptions_ProcessInput},
     [MENUITEM_CHALLENGES_NUZLOCKE]            = {DrawChoices_Challenges_Nuzlocke,           tx_challenges_ThreeOptions_ProcessInput},
     [MENUITEM_CHALLENGES_LEVEL_CAP]           = {DrawChoices_Challenges_LevelCap,           tx_challenges_ThreeOptions_ProcessInput},
+    [MENUITEM_CHALLENGES_EXP_MULTIPLIER]      = {DrawChoices_Challenges_ExpMultiplier,      tx_challenges_FourOptions_ProcessInput},
     [MENUITEM_CHALLENGES_ITEM_PLAYER]         = {DrawChoices_Challenges_YesNo,              tx_challenges_TwoOptions_ProcessInput},
     [MENUITEM_CHALLENGES_ITEM_TRAINER]        = {DrawChoices_Challenges_YesNo,              tx_challenges_TwoOptions_ProcessInput},
     [MENUITEM_CHALLENGES_POKECENTER]          = {DrawChoices_Challenges_YesNo,              tx_challenges_TwoOptions_ProcessInput},
@@ -109,6 +112,7 @@ static const u8 sText_EvoLimit[]            = _("EVO LIMIT");
 static const u8 sText_PartyLimit[]          = _("PARTY LIMIT");
 static const u8 sText_Nuzlocke[]            = _("NUZLOCKE");
 static const u8 sText_LevelCap[]            = _("LEVEL CAP");
+static const u8 sText_ExpMultiplier[]       = _("EXP MULTIPLIER");
 static const u8 sText_Items_Player[]        = _("PLAYER ITEMS");
 static const u8 sText_Items_Trainer[]       = _("TRAINER ITEMS");
 static const u8 sText_Pokecenter[]          = _("POKéCENTER");
@@ -123,6 +127,7 @@ static const u8 *const sChallengesOptionMenuItemNames[MENUITEM_COUNT] =
     [MENUITEM_CHALLENGES_PARTY_LIMIT]         = sText_PartyLimit,
     [MENUITEM_CHALLENGES_NUZLOCKE]            = sText_Nuzlocke,
     [MENUITEM_CHALLENGES_LEVEL_CAP]           = sText_LevelCap,
+    [MENUITEM_CHALLENGES_EXP_MULTIPLIER]      = sText_ExpMultiplier,
     [MENUITEM_CHALLENGES_ITEM_PLAYER]         = sText_Items_Player,
     [MENUITEM_CHALLENGES_ITEM_TRAINER]        = sText_Items_Trainer,
     [MENUITEM_CHALLENGES_POKECENTER]          = sText_Pokecenter,
@@ -153,14 +158,19 @@ static const u8 sText_Description_TXC_BaseStatEqualizer_Base[]   = _("{COLOR 6}{
 static const u8 sText_Description_TXC_BaseStatEqualizer_100[]    = _("{COLOR 6}{SHADOW 7}POKéMON are forced to have\n100 on each base stat.");
 static const u8 sText_Description_TXC_BaseStatEqualizer_255[]    = _("{COLOR 6}{SHADOW 7}POKéMON are forced to have\n255 on each base stat.");
 static const u8 sText_Description_TXC_BaseStatEqualizer_500[]    = _("{COLOR 6}{SHADOW 7}POKéMON are forced to have\n500 on each base stat.");
+static const u8 sText_Description_TXC_ExpMultiplier_1_0[]        = _("{COLOR 6}{SHADOW 7}POKéMON gain normal EXP. Points.");
+static const u8 sText_Description_TXC_ExpMultiplier_1_5[]        = _("{COLOR 6}{SHADOW 7}POKéMON 50 percent more EXP. Points!");
+static const u8 sText_Description_TXC_ExpMultiplier_2_0[]        = _("{COLOR 6}{SHADOW 7}POKéMON gain double EXP. Points!");
+static const u8 sText_Description_TXC_ExpMultiplier_0_0[]        = _("{COLOR 6}{SHADOW 7}POKéMON gain {COLOR RED}{SHADOW LIGHT_RED}ZERO{COLOR 6}{SHADOW 7} EXP. Points!!!");
 static const u8 sText_Description_Save[]                         = _("{COLOR 6}{SHADOW 7}Save choices and continue to the\nBIRCH's intro speech.");
 
 static const u8 *const sOptionMenuItemDescriptions[MENUITEM_COUNT][4] =
 {
-    [MENUITEM_CHALLENGES_EVO_LIMIT]             = {sText_Description_TXC_EvoLimit_Base,             sText_Description_TXC_EvoLimit_First,           sText_Description_TXC_EvoLimit_All,        sText_Empty},
+    [MENUITEM_CHALLENGES_EVO_LIMIT]             = {sText_Description_TXC_EvoLimit_Base,             sText_Description_TXC_EvoLimit_First,           sText_Description_TXC_EvoLimit_All,         sText_Empty},
     [MENUITEM_CHALLENGES_PARTY_LIMIT]           = {sText_Description_TXC_Party_Limit,               sText_Empty,                                    sText_Empty,                                sText_Empty},
     [MENUITEM_CHALLENGES_NUZLOCKE]              = {sText_Description_TXC_Nuzlocke_Base,             sText_Description_TXC_Nuzlocke_Normal,          sText_Description_TXC_Nuzlocke_Hard,        sText_Empty},
     [MENUITEM_CHALLENGES_LEVEL_CAP]             = {sText_Description_TXC_LevelCap_Base,             sText_Description_TXC_LevelCap_Normal,          sText_Description_TXC_LevelCap_Hard,        sText_Empty},
+    [MENUITEM_CHALLENGES_EXP_MULTIPLIER]        = {sText_Description_TXC_ExpMultiplier_1_0,         sText_Description_TXC_ExpMultiplier_1_5,        sText_Description_TXC_ExpMultiplier_2_0,    sText_Description_TXC_ExpMultiplier_0_0},
     [MENUITEM_CHALLENGES_ITEM_PLAYER]           = {sText_Description_TXC_Items_Player_Yes,          sText_Description_TXC_Items_Player_No,          sText_Empty,                                sText_Empty},
     [MENUITEM_CHALLENGES_ITEM_TRAINER]          = {sText_Description_TXC_Items_Trainer_Yes,         sText_Description_TXC_Items_Trainer_No,         sText_Empty,                                sText_Empty},
     [MENUITEM_CHALLENGES_POKECENTER]            = {sText_Description_TXC_Pokecenter_Yes,            sText_Description_TXC_Pokecenter_No,            sText_Empty,                                sText_Empty},
@@ -337,6 +347,7 @@ void CB2_InitChallengesMenu(void)
         gSaveBlock1Ptr->tx_Challenges_Nuzlocke             = TX_CHALLENGE_NUZLOCKE;
         gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore     = TX_CHALLENGE_NUZLOCKE_HARDCORE;
         gSaveBlock1Ptr->tx_Challenges_LevelCap             = TX_CHALLENGE_LEVEL_CAP;
+        gSaveBlock1Ptr->tx_Challenges_ExpMultiplier        = TX_CHALLENGE_EXP_MULTIPLIER;
         gSaveBlock1Ptr->tx_Challenges_NoItemPlayer         = TX_CHALLENGE_NO_ITEM_PLAYER;
         gSaveBlock1Ptr->tx_Challenges_NoItemTrainer        = TX_CHALLENGE_NO_ITEM_TRAINER;
         gSaveBlock1Ptr->tx_Challenges_PkmnCenter           = TX_CHALLENGE_PKMN_CENTER;
@@ -356,6 +367,7 @@ void CB2_InitChallengesMenu(void)
             sChallengesOptions->sel[MENUITEM_CHALLENGES_NUZLOCKE] = 0;
         
         sChallengesOptions->sel[MENUITEM_CHALLENGES_LEVEL_CAP]      = gSaveBlock1Ptr->tx_Challenges_LevelCap;
+        sChallengesOptions->sel[MENUITEM_CHALLENGES_EXP_MULTIPLIER] = gSaveBlock1Ptr->tx_Challenges_ExpMultiplier;
         sChallengesOptions->sel[MENUITEM_CHALLENGES_ITEM_PLAYER]    = gSaveBlock1Ptr->tx_Challenges_NoItemPlayer;
         sChallengesOptions->sel[MENUITEM_CHALLENGES_ITEM_TRAINER]   = gSaveBlock1Ptr->tx_Challenges_NoItemTrainer;        
         sChallengesOptions->sel[MENUITEM_CHALLENGES_POKECENTER]     = gSaveBlock1Ptr->tx_Challenges_PkmnCenter;
@@ -542,6 +554,7 @@ void tx_challenges_SaveData(void)
     }
 
     gSaveBlock1Ptr->tx_Challenges_LevelCap      = sChallengesOptions->sel[MENUITEM_CHALLENGES_LEVEL_CAP];
+    gSaveBlock1Ptr->tx_Challenges_ExpMultiplier = sChallengesOptions->sel[MENUITEM_CHALLENGES_EXP_MULTIPLIER];
     gSaveBlock1Ptr->tx_Challenges_NoItemPlayer  = sChallengesOptions->sel[MENUITEM_CHALLENGES_ITEM_PLAYER];
     gSaveBlock1Ptr->tx_Challenges_NoItemTrainer = sChallengesOptions->sel[MENUITEM_CHALLENGES_ITEM_TRAINER];
     gSaveBlock1Ptr->tx_Challenges_PkmnCenter    = sChallengesOptions->sel[MENUITEM_CHALLENGES_POKECENTER];
@@ -800,6 +813,16 @@ static const u8 *const sText_Challenges_BaseStatEqualizer_Strings[] = {sText_Off
 static void DrawChoices_Challenges_BaseStatEqualizer(int selection, int y, u8 textSpeed)
 {
     FourOptions_DrawChoices(sText_Challenges_BaseStatEqualizer_Strings, selection, y, textSpeed);
+}
+
+static const u8 sText_Challenges_ExpMultiplier_1_0[]   = _("{COLOR 6}{SHADOW 7}x1.0");
+static const u8 sText_Challenges_ExpMultiplier_1_5[]   = _("{COLOR 6}{SHADOW 7}x1.5");
+static const u8 sText_Challenges_ExpMultiplier_2_0[]   = _("{COLOR 6}{SHADOW 7}x2.0");
+static const u8 sText_Challenges_ExpMultiplier_0_0[]   = _("{COLOR 6}{SHADOW 7}x0.0");
+static const u8 *const sText_Challenges_ExpMultiplier_Strings[] = {sText_Challenges_ExpMultiplier_1_0, sText_Challenges_ExpMultiplier_1_5, sText_Challenges_ExpMultiplier_2_0, sText_Challenges_ExpMultiplier_0_0};
+static void DrawChoices_Challenges_ExpMultiplier(int selection, int y, u8 textSpeed)
+{
+    FourOptions_DrawChoices(sText_Challenges_ExpMultiplier_Strings, selection, y, textSpeed);
 }
 
 #define TILE_TOP_CORNER_L 0x1A2 // 418

@@ -3275,6 +3275,27 @@ static void Cmd_getexp(void)
 
             calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
+            if (gSaveBlock1Ptr->tx_Challenges_ExpMultiplier != 0) //tx_randomizer_and_challenges
+            {
+                if (TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER) //special for Jaizu
+                {
+                    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke || IsRandomizerActivated())
+                    {
+                        if (gSaveBlock1Ptr->tx_Challenges_ExpMultiplier == 3)
+                            calculatedExp = 0;
+                        else
+                            calculatedExp *= 1 + 0.5 * gSaveBlock1Ptr->tx_Challenges_ExpMultiplier;
+                    }
+                }
+                else
+                {
+                    if (gSaveBlock1Ptr->tx_Challenges_ExpMultiplier == 3)
+                        calculatedExp = 0;
+                    else
+                        calculatedExp *= 1 + 0.5 * gSaveBlock1Ptr->tx_Challenges_ExpMultiplier;
+                }
+            }
+
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
                 *exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
@@ -3291,6 +3312,23 @@ static void Cmd_getexp(void)
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = 0;
+            }
+
+            if (gSaveBlock1Ptr->tx_Challenges_ExpMultiplier == 3)
+            {
+                if (TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER) //special for Jaizu
+                {
+                    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke || IsRandomizerActivated())
+                    {
+                        *exp = 0;
+                        gExpShareExp = 0;
+                    }
+                }
+                else
+                {
+                    *exp = 0;
+                    gExpShareExp = 0;
+                }
             }
 
             gBattleScripting.getexpState++;

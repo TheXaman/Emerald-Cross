@@ -36,6 +36,7 @@
 #include "data.h"
 #include "battle.h" // to get rid of later
 #include "constants/rgb.h"
+#include "tx_randomizer_and_challenges.h"
 
 #define GFXTAG_EGG       12345
 #define GFXTAG_EGG_SHARD 23456
@@ -369,6 +370,10 @@ static void AddHatchedMonToParty(u8 id)
     SetMonData(mon, MON_DATA_IS_EGG, &isEgg);
 
     species = GetMonData(mon, MON_DATA_SPECIES);
+
+    if (gSaveBlock1Ptr->tx_Random_WildPokemon || gSaveBlock1Ptr->tx_Random_Evolutions) //tx_randomizer_and_challenges
+        species = GetSpeciesRandomSeeded(species, TX_RANDOM_T_WILD_POKEMON);
+
     GetSpeciesName(name, species);
     SetMonData(mon, MON_DATA_NICKNAME, name);
 

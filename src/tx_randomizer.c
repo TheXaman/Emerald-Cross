@@ -39,6 +39,7 @@ enum
     MENUITEM_RANDOM_EVOLUTIONS,
     MENUITEM_RANDOM_EVOLUTIONS_METHODS,
     MENUITEM_RANDOM_TYPE_EFFEC,
+    MENUITEM_RANDOM_ITEMS,
     MENUITEM_RANDOM_CHAOS,
     MENUITEM_SAVE,
     MENUITEM_COUNT,
@@ -92,6 +93,7 @@ struct
     [MENUITEM_RANDOM_EVOLUTIONS]              = {DrawChoices_Random_OffRandom,  tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = {DrawChoices_Random_OffRandom,  tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_TYPE_EFFEC]              = {DrawChoices_Random_OffRandom,  tx_randomizer_TwoOptions_ProcessInput},
+    [MENUITEM_RANDOM_ITEMS]                   = {DrawChoices_Random_OffRandom,  tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_RANDOM_CHAOS]                   = {DrawChoices_Random_OffChaos,   tx_randomizer_TwoOptions_ProcessInput},
     [MENUITEM_SAVE] = {NULL, NULL},
 };
@@ -113,6 +115,7 @@ static const u8 sText_Abilities[] =                 _("ABILTIES");
 static const u8 sText_Evolutions[] =                _("EVOLUTIONS");
 static const u8 sText_EvolutionMethods[] =          _("EVO METHODS");
 static const u8 sText_TypeEff[] =                   _("EFFECTIVENESS");
+static const u8 sText_Items[] =                     _("ITEMS");
 static const u8 sText_Chaos[] =                     _("CHAOS MODE");
 static const u8 sText_Save[] =                      _("SAVE");
 
@@ -129,6 +132,7 @@ static const u8 *const sOptionMenuItemNames[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_EVOLUTIONS]              = sText_Evolutions,
     [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = sText_EvolutionMethods,
     [MENUITEM_RANDOM_TYPE_EFFEC]              = sText_TypeEff,
+    [MENUITEM_RANDOM_ITEMS]                   = sText_Items,
     [MENUITEM_RANDOM_CHAOS]                   = sText_Chaos,
     [MENUITEM_SAVE]                           = sText_Save,
 };
@@ -143,6 +147,7 @@ static const u8 sText_Gray_Abilities[] =                 _("{COLOR GREEN}{SHADOW
 static const u8 sText_Gray_Evolutions[] =                _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVOLUTIONS");
 static const u8 sText_Gray_EvolutionMethods[] =          _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EVO METHODS");
 static const u8 sText_Gray_TypeEff[] =                   _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EFFECTIVENESS");
+static const u8 sText_Gray_Items[] =                     _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS");
 static const u8 sText_Gray_Chaos[] =                     _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CHAOS MODE");
 
 static const u8 *const sOptionMenuItemNamesGray[MENUITEM_COUNT] =
@@ -158,10 +163,12 @@ static const u8 *const sOptionMenuItemNamesGray[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_EVOLUTIONS]              = sText_Gray_Evolutions,
     [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = sText_Gray_EvolutionMethods,
     [MENUITEM_RANDOM_TYPE_EFFEC]              = sText_Gray_TypeEff,
+    [MENUITEM_RANDOM_ITEMS]                   = sText_Gray_Items,
     [MENUITEM_RANDOM_CHAOS]                   = sText_Gray_Chaos,
     [MENUITEM_SAVE]                           = sText_Save,
 };
 
+static const u8 sText_Empty[]                                  = _("{COLOR 6}{SHADOW 7}");
 static const u8 sText_Description_Randomizer_Off[]             = _("{COLOR 6}{SHADOW 7}Game will not be randomized.");
 static const u8 sText_Description_Randomizer_On[]              = _("{COLOR 6}{SHADOW 7}Play the game randomized.\nSettings below!");
 static const u8 sText_Description_WildPokemon_Off[]            = _("{COLOR 6}{SHADOW 7}Same wild encounters\nas POKéMON Emerald.");
@@ -187,6 +194,8 @@ static const u8 sText_Description_Random_Effectiveness_On[]    = _("{COLOR 6}{SH
 static const u8 sText_Description_Chaos_Mode_Off[]             = _("{COLOR 6}{SHADOW 7}Chaos mode is not enabled.");
 static const u8 sText_Description_Chaos_Mode_On[]              = _("{COLOR 6}{SHADOW 7}Everything will be really random\nand chaotic! Not recommended.");
 static const u8 sText_Description_Save[]                       = _("{COLOR 6}{SHADOW 7}Save choices and continue to\nthe challenge options.");
+static const u8 sText_Description_Random_Items_Off[]           = _("{COLOR 6}{SHADOW 7}All found or recieved items are the\nsame as in the base game.");
+static const u8 sText_Description_Random_Items_On[]            = _("{COLOR 6}{SHADOW 7}Randomize found, hidden and revieved\nitems. KEY items are excluded!");
 
 
 static const u8 *const sOptionMenuItemDescriptions[MENUITEM_COUNT][2] =
@@ -202,8 +211,9 @@ static const u8 *const sOptionMenuItemDescriptions[MENUITEM_COUNT][2] =
     [MENUITEM_RANDOM_EVOLUTIONS]              = {sText_Description_Random_Evos_Off,              sText_Description_Random_Evos_On},
     [MENUITEM_RANDOM_EVOLUTIONS_METHODS]      = {sText_Description_Random_Evo_Methods_Off,       sText_Description_Random_Evo_Methods_On},
     [MENUITEM_RANDOM_TYPE_EFFEC]              = {sText_Description_Random_Effectiveness_Off,     sText_Description_Random_Effectiveness_On},
+    [MENUITEM_RANDOM_ITEMS]                   = {sText_Description_Random_Items_Off,             sText_Description_Random_Items_On},
     [MENUITEM_RANDOM_CHAOS]                   = {sText_Description_Chaos_Mode_Off,               sText_Description_Chaos_Mode_On},
-    [MENUITEM_SAVE]                           = {sText_Description_Save,                         sText_Description_Save},
+    [MENUITEM_SAVE]                           = {sText_Description_Save,                         sText_Empty},
 };
 
 static const struct WindowTemplate sDifficultyChallengesOptionMenuWinTemplates[] =
@@ -272,6 +282,32 @@ void IsTradeRestrictedByRandomizer(void)
             gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;
+}
+
+bool8 IsRandomizerActivated(void)
+{
+    if (gSaveBlock1Ptr->tx_Random_Chaos
+        || gSaveBlock1Ptr->tx_Random_WildPokemon
+        || gSaveBlock1Ptr->tx_Random_Similar
+        || gSaveBlock1Ptr->tx_Random_MapBased
+        || gSaveBlock1Ptr->tx_Random_IncludeLegendaries
+        || gSaveBlock1Ptr->tx_Random_Type
+        || gSaveBlock1Ptr->tx_Random_TypeEffectiveness
+        || gSaveBlock1Ptr->tx_Random_Abilities
+        || gSaveBlock1Ptr->tx_Random_Moves
+        || gSaveBlock1Ptr->tx_Random_Trainer
+        || gSaveBlock1Ptr->tx_Random_Evolutions
+        || gSaveBlock1Ptr->tx_Random_EvolutionMethods
+        || gSaveBlock1Ptr->tx_Random_OneForOne
+        || gSaveBlock1Ptr->tx_Random_Items)
+        return TRUE;
+
+    return FALSE;
+}
+
+bool8 IsRandomItemsActivated(void)
+{
+    return gSaveBlock1Ptr->tx_Random_Items;
 }
 
 static void MainCB2(void)
@@ -378,6 +414,7 @@ void CB2_InitRandomizerMenu(void)
         gSaveBlock1Ptr->tx_Random_Evolutions            = TX_RANDOM_EVOLUTION;
         gSaveBlock1Ptr->tx_Random_EvolutionMethods      = TX_RANDOM_EVOLUTION_METHODS;
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness     = TX_RANDOM_TYPE_EFFECTIVENESS;
+        gSaveBlock1Ptr->tx_Random_Items                 = TX_RANDOM_ITEMS;
         gSaveBlock1Ptr->tx_Random_Chaos                 = TX_RANDOM_CHAOS_MODE;
         gSaveBlock1Ptr->tx_Random_OneForOne             = TX_RANDOM_ONE_FOR_ONE;
 
@@ -393,6 +430,7 @@ void CB2_InitRandomizerMenu(void)
         sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS]               = gSaveBlock1Ptr->tx_Random_Evolutions;
         sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODS]       = gSaveBlock1Ptr->tx_Random_EvolutionMethods;
         sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC]               = gSaveBlock1Ptr->tx_Random_TypeEffectiveness;
+        sRandomizerOptions->sel[MENUITEM_RANDOM_ITEMS]                    = gSaveBlock1Ptr->tx_Random_Items;
         sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS]                    = gSaveBlock1Ptr->tx_Random_Chaos;
 
         tx_randomizer_DrawOptionMenuTexts();
@@ -618,6 +656,7 @@ void tx_randomizer_SaveData(void)
         gSaveBlock1Ptr->tx_Random_Evolutions         = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS];
         gSaveBlock1Ptr->tx_Random_EvolutionMethods   = sRandomizerOptions->sel[MENUITEM_RANDOM_EVOLUTIONS_METHODS];
         gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = sRandomizerOptions->sel[MENUITEM_RANDOM_TYPE_EFFEC];
+        gSaveBlock1Ptr->tx_Random_Items              = sRandomizerOptions->sel[MENUITEM_RANDOM_ITEMS];
         gSaveBlock1Ptr->tx_Random_Chaos              = sRandomizerOptions->sel[MENUITEM_RANDOM_CHAOS];
     }
     else

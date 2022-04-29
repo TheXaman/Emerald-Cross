@@ -14,6 +14,7 @@
 #define TX_RANDOM_EVOLUTION             FALSE
 #define TX_RANDOM_EVOLUTION_METHODS     FALSE
 #define TX_RANDOM_TYPE_EFFECTIVENESS    FALSE
+#define TX_RANDOM_ITEMS                 FALSE
 #define TX_RANDOM_CHAOS_MODE            FALSE
 #define TX_RANDOM_ONE_FOR_ONE           FALSE //not yet implemented in menu
 
@@ -23,6 +24,7 @@
 #define TX_CHALLENGE_NUZLOCKE 0
 #define TX_CHALLENGE_NUZLOCKE_HARDCORE 0 //CAREFULL!!!!!
 #define TX_CHALLENGE_LEVEL_CAP 0
+#define TX_CHALLENGE_EXP_MULTIPLIER 0
 #define TX_CHALLENGE_NO_ITEM_PLAYER 0
 #define TX_CHALLENGE_NO_ITEM_TRAINER 0
 #define TX_CHALLENGE_PKMN_CENTER 0 //0 no limit, 1 none
@@ -45,14 +47,18 @@ void tx_randomizer_SaveData(void);
 void tx_challenges_SaveData(void);
 void IsTradeRestrictedByChallenges(void);
 void IsTradeRestrictedByRandomizer(void);
+bool8 IsRandomizerActivated(void);
 
 bool8 IsNuzlockeActivated(void);
 bool8 IsPokecenterChallengeActivated(void);
+bool8 IsRandomItemsActivated(void);
 
 // constants
 #define TX_MENU_ITEMS_PER_PAGE 6
 
 extern struct tx_randomizer_OptionsMenu *sRandomizerOptions;
 extern struct tx_challenges_OptionsMenu *sChallengesOptions;
+
+#define TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER TRUE
 
 #endif // GUARD_DIFFICULTY_H

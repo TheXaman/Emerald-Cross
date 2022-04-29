@@ -3,9 +3,15 @@
 
 Std_ObtainItem::
 	copyvar VAR_0x8006, ITEMID
+	specialvar VAR_RESULT, IsRandomItemsActivated
+	call_if_eq VAR_RESULT, TRUE, Std_RandomItem
 	additem ITEMID, AMOUNT
 	copyvar VAR_0x8007, VAR_RESULT
 	call EventScript_ObtainItemMessage
+	return
+
+Std_RandomItem::
+	special RandomItem
 	return
 
 EventScript_ObtainItemMessage::
@@ -118,7 +124,8 @@ Std_FindItem::
 	lock
 	faceplayer
 	waitse
-	copyvar VAR_0x8006, ITEMID
+	specialvar VAR_RESULT, IsRandomItemsActivated
+	call_if_eq VAR_RESULT, TRUE, Std_RandomItem
 	copyvar VAR_0x8004, ITEMID
 	copyvar VAR_0x8005, AMOUNT
 	checkitemspace ITEMID, AMOUNT
@@ -173,6 +180,8 @@ EventScript_HiddenItemScript::
 	lockall
 	waitse
 	copyvar VAR_0x8006, VAR_0x8005
+	specialvar VAR_RESULT, IsRandomItemsActivated
+	call_if_eq VAR_RESULT, TRUE, Std_RandomItem
 	additem VAR_0x8005
 	copyvar VAR_0x8007, VAR_RESULT
 	bufferitemnameplural STR_VAR_2, VAR_0x8005, 1
@@ -181,6 +190,10 @@ EventScript_HiddenItemScript::
 	goto_if_eq VAR_0x8007, TRUE, EventScript_PickUpHiddenItem
 	goto_if_eq VAR_0x8007, FALSE, EventScript_NoRoomForHiddenItem
 	end
+
+Std_RandomItemHidden::
+	special RandomItemHidden
+	return
 
 EventScript_PickUpHiddenItem::
 	copyvar VAR_0x8008, VAR_0x8004
