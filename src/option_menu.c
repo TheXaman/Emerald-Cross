@@ -16,6 +16,7 @@
 #include "strings.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
+#include "event_object_movement.h"
 
 // Menu items
 enum
@@ -396,6 +397,10 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(B_BUTTON))
     {
+        if (gSaveBlock2Ptr->optionsShowFollowerPokemon == 0)
+            RemoveFollowingPokemon();
+        else
+            UpdateFollowingPokemon();
         gTasks[taskId].func = Task_OptionMenuSave;
     }
     else if (JOY_NEW(DPAD_UP))
