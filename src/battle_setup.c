@@ -484,6 +484,7 @@ void BattleSetup_StartWildBattle(void)
     if (GetSafariZoneFlag())
         DoSafariBattle();
     else
+    {
         // tx_randomizer_and_challenges
         OneTypeChallengeCaptureBlocked = (typeChallenge != TX_CHALLENGE_TYPE_OFF && 
                     GetTypeBySpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) != typeChallenge && 
@@ -507,6 +508,7 @@ void BattleSetup_StartWildBattle(void)
             NuzlockeIsSpeciesClauseActive = FALSE;
         }
         DoStandardWildBattle();
+    }
 }
 
 void BattleSetup_StartBattlePikeWildBattle(void)
