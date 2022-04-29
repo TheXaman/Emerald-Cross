@@ -1183,8 +1183,10 @@ void Overworld_PlaySpecialMapMusic(void)
             music = gSaveBlock1Ptr->savedMusic;
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
-        else if ((TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)) && gSaveBlock2Ptr->optionsBikeSurfMusic == 0)
+        else if ((TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)) && gSaveBlock2Ptr->optionsSurfMusic == 1)
             music = MUS_SURF;
+        else if ((TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)) && gSaveBlock2Ptr->optionsSurfMusic == 2)
+            music = MUS_RG_SURF;
     }
 
     if (music != GetCurrentMapMusic())

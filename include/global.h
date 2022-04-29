@@ -487,16 +487,17 @@ struct SaveBlock2
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
-             u16 optionsUnitSystem:1;   //tx_optionsPlus
-             u16 optionsHpBarSpeed:4;   //tx_optionsPlus
-             u16 optionsExpBarSpeed:4;  //tx_optionsPlus
-             u16 optionsFishReeling:1;   //tx_optionsPlus
+             u16 optionsUnitSystem:1;
+             u16 optionsHpBarSpeed:4;
+             u16 optionsExpBarSpeed:4;
+             u16 optionsFishReeling:1;
              u16 optionsDisableMatchCall:1;
              u16 optionsSkipBattleIntro:1;
              u16 optionsCurrentFont:1;
              u16 optionsBikeSurfMusic:1;
              u16 optionsShowFollowerPokemon:1;
-             u16 reserved:11;
+             u16 optionsSurfMusic:2;
+             u16 reserved:9;
              u16 reserved2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x98*/ struct Time localTimeOffset;
