@@ -147,6 +147,7 @@ gSpecials::
 	def_special IsPokecenterChallengeActivated
 	def_special IsNuzlockeActivated
 	def_special IsRandomItemsActivated
+	def_special RandomItem
 	def_special RandomItemHidden
 	def_special CountPartyNonEggMons
 	def_special CountPartyAliveNonEggMons_IgnoreVar0x8004Slot
