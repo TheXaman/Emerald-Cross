@@ -37,6 +37,7 @@
 #include "window.h"
 #include "mystery_gift_menu.h"
 #include "tx_randomizer_and_challenges.h"
+#include "battle_setup.h"
 
 #ifdef GBA_PRINTF //tx_randomizer_and_challenges
     //#include "printf.h"
@@ -2405,43 +2406,38 @@ static void PatchSave(void)
             RandomAlteringCaveTable();
             VarSet(VAR_SAVE_VER, 6);
         case 6:
-        // This option got shifted around
-        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
-        {
-            gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
-        }
-        else
-        {
-            gSaveBlock2Ptr->optionsSkipBattleIntro = 1;
-        }
-        // This options were broken before, now they are DEFAULT/FAST
-        gSaveBlock2Ptr->optionsHpBarSpeed = 0;
-        gSaveBlock2Ptr->optionsExpBarSpeed = 0;
-        // New options set to 0, just in case
-        gSaveBlock2Ptr->optionsSurfMusic = 1;
-        gSaveBlock2Ptr->optionsBikeMusic = 1;
-        gSaveBlock2Ptr->optionsShowFollowerPokemon = 0;
-        gSaveBlock2Ptr->optionsWildMusic = 0;
-        gSaveBlock2Ptr->optionsTrainerBGM = 0;
-        gSaveBlock2Ptr->optionsGrassSound = 0;
-        gSaveBlock2Ptr->optionsLastBall = 1;
-        VarSet(VAR_SAVE_VER, 7);
+            // This option got shifted around
+            if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
+            {
+                gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
+            }
+            else
+            {
+                gSaveBlock2Ptr->optionsSkipBattleIntro = 1;
+            }
+            // This options were broken before, now they are DEFAULT/FAST
+            gSaveBlock2Ptr->optionsHpBarSpeed = 0;
+            gSaveBlock2Ptr->optionsExpBarSpeed = 0;
+            // New options set to 0, just in case
+            gSaveBlock2Ptr->optionsSurfMusic = 1;
+            gSaveBlock2Ptr->optionsBikeMusic = 1;
+            gSaveBlock2Ptr->optionsShowFollowerPokemon = 0;
+            gSaveBlock2Ptr->optionsWildMusic = 0;
+            gSaveBlock2Ptr->optionsTrainerBGM = 0;
+            gSaveBlock2Ptr->optionsGrassSound = 0;
+            gSaveBlock2Ptr->optionsLastBall = 1;
+            VarSet(VAR_SAVE_VER, 7);
+        case 7:
+            if (HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_MUDKIP)
+                || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TORCHIC)
+                || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TREECKO)
+                || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_MUDKIP)
+                || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TORCHIC)
+                || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TREECKO))
+            {
+                gSaveBlock1Ptr->bagPocket_KeyItems[BAG_KEYITEMS_COUNT - 1].itemId = ITEM_LINKING_CORD;
+                gSaveBlock1Ptr->bagPocket_KeyItems[BAG_KEYITEMS_COUNT - 1].quantity = 1;
+            }
+            VarSet(VAR_SAVE_VER, 8);
     }
 }
-
-
-    /*
-    if (VarGet(VAR_SAVE_VER == 6))
-    {
-        if (HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_MUDKIP)
-            || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TORCHIC)
-            || HasTrainerBeenFought(TRAINER_MAY_ROUTE_119_TREECKO)
-            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_MUDKIP)
-            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TORCHIC)
-            || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TREECKO))
-        {
-            AddBagItem(ITEM_LINKING_CORD, 1);
-        }
-        VarSet(VAR_SAVE_VER, 7);
-    }
-    */
