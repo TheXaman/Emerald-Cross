@@ -1682,7 +1682,7 @@ struct Pokemon * GetFirstLiveMon(void) { // Return address of first conscious pa
 struct ObjectEvent * GetFollowerObject(void) { // Return follower ObjectEvent or NULL
   u8 i;
   for (i=0; i < OBJECT_EVENTS_COUNT; i++) {
-    if (gObjectEvents[i].localId == OBJ_EVENT_ID_FOLLOWER)
+    if (gObjectEvents[i].localId == OBJ_EVENT_ID_FOLLOWER && gObjectEvents[i].active)
       return &gObjectEvents[i];
   }
   return NULL;
@@ -1757,33 +1757,43 @@ void UpdateFollowingPokemon(void) { // Update following pokemon if any
   bool8 shiny;
   u8 form;
   // Avoid spawning large (64x64) follower pokemon inside buildings
-  if (GetFollowerInfo(&species, &form, &shiny) && !(gMapHeader.mapType == MAP_TYPE_INDOOR && SpeciesToGraphicsInfo(species, 0)->width == 64)) {
-    if (objEvent == NULL) { // Spawn follower
-      struct ObjectEventTemplate template = {
-        .localId = OBJ_EVENT_ID_FOLLOWER,
-        .graphicsId = OBJ_EVENT_GFX_OW_MON,
-        .x = gSaveBlock1Ptr->pos.x,
-        .y = gSaveBlock1Ptr->pos.y,
-        .elevation = 3,
-        .movementType = MOVEMENT_TYPE_FOLLOW_PLAYER,
-      };
-      objEvent = &gObjectEvents[SpawnSpecialObjectEvent(&template)];
-      objEvent->invisible = TRUE;
+  if (GetFollowerInfo(&species, &form, &shiny)
+        && !(gMapHeader.mapType == MAP_TYPE_INDOOR
+        && SpeciesToGraphicsInfo(species, 0)->width == 64)
+        && !gSaveBlock2Ptr->optionsShowFollowerPokemon)
+        {
+            if (objEvent == NULL)
+            { // Spawn follower
+                struct ObjectEventTemplate template = {
+                    .localId = OBJ_EVENT_ID_FOLLOWER,
+                    .graphicsId = OBJ_EVENT_GFX_OW_MON,
+                    .x = gSaveBlock1Ptr->pos.x,
+                    .y = gSaveBlock1Ptr->pos.y,
+                    .elevation = 3,
+                    .movementType = MOVEMENT_TYPE_FOLLOW_PLAYER,
+                };
+                objEvent = &gObjectEvents[SpawnSpecialObjectEvent(&template)];
+                objEvent->invisible = TRUE;
+            }
+            sprite = &gSprites[objEvent->spriteId];
+            // Follower appearance changed; move to player and set invisible
+            if (species != objEvent->extra.mon.species
+            || shiny != objEvent->extra.mon.shiny ||
+            form != objEvent->extra.mon.form)
+            {
+                MoveObjectEventToMapCoords(objEvent, gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x, gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y);
+                objEvent->invisible = TRUE;
+            }
+            FollowerSetGraphics(objEvent, species, form, shiny);
+            sprite->data[6] = 0; // set animation data
+            objEvent->extra.mon.species = species;
+            objEvent->extra.mon.shiny = shiny;
+            objEvent->extra.mon.form = form;
+        }
+    else
+    {
+        RemoveFollowingPokemon();
     }
-    sprite = &gSprites[objEvent->spriteId];
-    // Follower appearance changed; move to player and set invisible
-    if (species != objEvent->extra.mon.species || shiny != objEvent->extra.mon.shiny || form != objEvent->extra.mon.form) {
-      MoveObjectEventToMapCoords(objEvent, gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x, gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y);
-      objEvent->invisible = TRUE;
-    }
-    FollowerSetGraphics(objEvent, species, form, shiny);
-    sprite->data[6] = 0; // set animation data
-    objEvent->extra.mon.species = species;
-    objEvent->extra.mon.shiny = shiny;
-    objEvent->extra.mon.form = form;
-  } else {
-    RemoveFollowingPokemon();
-  }
 }
 
 void RemoveFollowingPokemon(void) { // Remove follower object. Idempotent.
@@ -1801,8 +1811,7 @@ static bool8 IsFollowerVisible(void) { // Determine whether follower *should* be
   || MetatileBehavior_IsForcedMovementTile(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior)
   || MetatileBehavior_IsForcedMovementTile(gObjectEvents[gPlayerAvatar.objectEventId].previousMetatileBehavior)
   || gWeatherPtr->currWeather == WEATHER_UNDERWATER
-  || gWeatherPtr->currWeather == WEATHER_UNDERWATER_BUBBLES
-  || gSaveBlock2Ptr->optionsShowFollowerPokemon == 1);
+  || gWeatherPtr->currWeather == WEATHER_UNDERWATER_BUBBLES);
 }
 
 static bool8 SpeciesHasType(u16 species, u8 type) {
