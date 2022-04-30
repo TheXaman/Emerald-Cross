@@ -480,13 +480,13 @@ struct SaveBlock2
     /*0x10*/ u8 playTimeMinutes;
     /*0x11*/ u8 playTimeSeconds;
     /*0x12*/ u8 playTimeVBlanks;
-    /*0x13*/ u8 optionsButtonMode;  // OPTIONS_BUTTON_MODE_[NORMAL/LR/L_EQUALS_A]
-    /*0x14*/ u16 optionsTextSpeed:3; // OPTIONS_TEXT_SPEED_[SLOW/MID/FAST]
-             u16 optionsWindowFrameType:5; // Specifies one of the 20 decorative borders for text boxes
-             u16 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
-             u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
-             u16 optionsBattleSceneOff:1; // whether battle animations are disabled
-             u16 regionMapZoom:1; // whether the map is zoomed in
+    /*0x13*/ u8 optionsButtonMode;
+    /*0x14*/ u16 optionsTextSpeed:3;
+             u16 optionsWindowFrameType:5;
+             u16 optionsSound:1;
+             u16 optionsBattleStyle:1;
+             u16 optionsBattleSceneOff:1;
+             u16 regionMapZoom:1;
              u16 optionsUnitSystem:1;
              u16 optionsHpBarSpeed:4;
              u16 optionsExpBarSpeed:4;
@@ -494,11 +494,16 @@ struct SaveBlock2
              u16 optionsDisableMatchCall:1;
              u16 optionsSkipBattleIntro:1;
              u16 optionsCurrentFont:1;
-             u16 optionsBikeSurfMusic:1;
+             u16 reserved:1;
              u16 optionsShowFollowerPokemon:1;
              u16 optionsSurfMusic:2;
-             u16 reserved:9;
-             u16 reserved2;
+             u16 optionsBikeMusic:2;
+             u16 optionsWildMusic:2;
+             u16 optionsTrainerBGM:2;
+             u16 optionsGrassSound:2; 
+             u16 optionsLastBall:2; 
+             u16 reserved2:10;
+             u16 reserved3;
     /*0x18*/ struct Pokedex pokedex;
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;

@@ -410,6 +410,7 @@ static void PrintBerrySize(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_SIZE_FIRM, FONT_NORMAL, gText_SizeSlash, 0, 1, TEXT_SKIP_DRAW, NULL);
+
     if (berry->size != 0)
     {
         if (gSaveBlock2Ptr->optionsUnitSystem == 0)
@@ -432,7 +433,7 @@ static void PrintBerrySize(void)
             ConvertIntToDecimalStringN(gStringVar2, berry->size % 10, STR_CONV_MODE_LEFT_ALIGN, 2);
             StringExpandPlaceholders(gStringVar4, gText_Var1DotVar2_Metric);
         }
-
+        
         AddTextPrinterParameterized(WIN_SIZE_FIRM, FONT_NORMAL, gStringVar4, 0x28, 1, 0, NULL);
     }
     else

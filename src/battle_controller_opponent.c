@@ -1311,7 +1311,7 @@ static void OpponentHandleDrawTrainerPic(void)
     gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = 2;
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerFrontPicPaletteTable[trainerPicId].tag);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.affineParam = trainerPicId;
-    if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+    if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
         gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
     else
         gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSpawn;

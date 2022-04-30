@@ -2416,6 +2416,36 @@ static void PatchSave(void)
         RandomAlteringCaveTable();
         VarSet(VAR_SAVE_VER, 6);
     }
+    if (VarGet(VAR_SAVE_VER == 6))
+    {
+        // This used to be the old ON/FF SURF/BIKE option
+        if (gSaveBlock2Ptr->reserved == 0) 
+        {
+            gSaveBlock2Ptr->optionsSurfMusic = 1;
+            gSaveBlock2Ptr->optionsBikeMusic = 1;
+        }
+        else if (gSaveBlock2Ptr->reserved == 1)
+        {
+            gSaveBlock2Ptr->optionsSurfMusic = 0;
+            gSaveBlock2Ptr->optionsBikeMusic = 0;
+        }
+        // This option got shifted around
+        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
+            gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
+        else
+            gSaveBlock2Ptr->optionsSkipBattleIntro = 1;
+
+        // This options were broken before, now they are DEFAULT/FAST
+        gSaveBlock2Ptr->optionsHpBarSpeed   = 0;
+        gSaveBlock2Ptr->optionsExpBarSpeed  = 0;
+        // New options set to 0, just in case
+        gSaveBlock2Ptr->optionsShowFollowerPokemon  = 0;
+        gSaveBlock2Ptr->optionsWildMusic            = 0;
+        gSaveBlock2Ptr->optionsTrainerBGM           = 0;
+        gSaveBlock2Ptr->optionsGrassSound           = 0;
+        gSaveBlock2Ptr->optionsLastBall             = 1;
+        VarSet(VAR_SAVE_VER, 7);
+    }
     /*
     if (VarGet(VAR_SAVE_VER == 6))
     {

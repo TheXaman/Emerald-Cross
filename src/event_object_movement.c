@@ -1802,7 +1802,7 @@ static bool8 IsFollowerVisible(void) { // Determine whether follower *should* be
   || MetatileBehavior_IsForcedMovementTile(gObjectEvents[gPlayerAvatar.objectEventId].previousMetatileBehavior)
   || gWeatherPtr->currWeather == WEATHER_UNDERWATER
   || gWeatherPtr->currWeather == WEATHER_UNDERWATER_BUBBLES
-  || gSaveBlock2Ptr->optionsShowFollowerPokemon == 0);
+  || gSaveBlock2Ptr->optionsShowFollowerPokemon == 1);
 }
 
 static bool8 SpeciesHasType(u16 species, u8 type) {

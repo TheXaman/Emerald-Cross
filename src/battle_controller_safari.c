@@ -369,7 +369,7 @@ static void SafariHandleDrawTrainerPic(void)
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = DISPLAY_WIDTH;
     gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
-        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
             gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
         else
             gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSpawn;

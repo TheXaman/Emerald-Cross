@@ -328,7 +328,6 @@ void RunTextPrinters(void)
             if (sTextPrinters[i].active)
             {
                 u16 temp = RenderFont(&sTextPrinters[i]);
-
                 switch (temp)
                 {
                     case RENDER_PRINT:

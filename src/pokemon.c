@@ -12662,9 +12662,15 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_MAGMA_ADMIN:
             return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
-            return MUS_VS_GYM_LEADER;
+            if (gSaveBlock2Ptr->optionsTrainerBGM == 0)
+                return MUS_VS_GYM_LEADER;
+            else
+                return MUS_RG_VS_GYM_LEADER;
         case TRAINER_CLASS_CHAMPION:
-            return MUS_VS_CHAMPION;
+            if (gSaveBlock2Ptr->optionsTrainerBGM == 0)
+                return MUS_VS_CHAMPION;
+            else
+                return MUS_RG_VS_CHAMPION;
         case TRAINER_CLASS_RIVAL:
             if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
                 return MUS_VS_RIVAL;
@@ -12672,7 +12678,10 @@ u16 GetBattleBGM(void)
                 return MUS_VS_TRAINER;
             return MUS_VS_RIVAL;
         case TRAINER_CLASS_ELITE_FOUR:
-            return MUS_VS_ELITE_FOUR;
+            if (gSaveBlock2Ptr->optionsTrainerBGM == 0)
+                return MUS_VS_ELITE_FOUR;
+            else
+                return MUS_RG_VS_GYM_LEADER;
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:
@@ -12682,11 +12691,20 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            return MUS_VS_TRAINER;
+            if (gSaveBlock2Ptr->optionsTrainerBGM == 0)
+                return MUS_VS_TRAINER;
+            else
+                return MUS_RG_VS_TRAINER;
+            
         }
     }
     else
-        return MUS_VS_WILD;
+    {
+        if (gSaveBlock2Ptr->optionsWildMusic == 0)
+            return MUS_VS_WILD;
+        else
+            return MUS_RG_VS_WILD;
+    }
 }
 
 void PlayBattleBGM(void)

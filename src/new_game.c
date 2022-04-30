@@ -90,21 +90,31 @@ static void InitPlayerTrainerId(void)
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
-    gSaveBlock2Ptr->optionsWindowFrameType = 0;
-    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
-    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
-    gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
-    gSaveBlock2Ptr->optionsUnitSystem = 0;  //tx_optionsPlus
-    gSaveBlock2Ptr->optionsHpBarSpeed = 0;  //tx_optionsPlus
-    gSaveBlock2Ptr->optionsExpBarSpeed = 0; //tx_optionsPlus
-    gSaveBlock2Ptr->optionsFishReeling = 0;
-    gSaveBlock2Ptr->optionsDisableMatchCall = 0;
-    gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
-    gSaveBlock2Ptr->optionsCurrentFont = 0;
-    gSaveBlock2Ptr->optionsSurfMusic = 1;
-    gSaveBlock2Ptr->optionsShowFollowerPokemon = 0;
+    // Game Options   
+    gSaveBlock2Ptr->optionsTextSpeed            = OPTIONS_TEXT_SPEED_FAST;
+    gSaveBlock2Ptr->optionsButtonMode           = 0;
+    gSaveBlock2Ptr->optionsWindowFrameType      = 0;
+    gSaveBlock2Ptr->optionsCurrentFont          = 0;
+    gSaveBlock2Ptr->optionsUnitSystem           = 0;
+    gSaveBlock2Ptr->optionsShowFollowerPokemon  = 0;
+    gSaveBlock2Ptr->optionsDisableMatchCall     = 0;
+    gSaveBlock2Ptr->optionsFishReeling          = 0;
+    // Sound options
+    gSaveBlock2Ptr->optionsSound        = OPTIONS_SOUND_MONO;
+    gSaveBlock2Ptr->optionsSurfMusic    = 1;
+    gSaveBlock2Ptr->optionsBikeMusic    = 1;
+    gSaveBlock2Ptr->optionsWildMusic    = 0;
+    gSaveBlock2Ptr->optionsTrainerBGM   = 0;
+    gSaveBlock2Ptr->optionsGrassSound   = 0;
+    // Batle options
+    gSaveBlock2Ptr->optionsBattleSceneOff   = 0;
+    gSaveBlock2Ptr->optionsBattleStyle      = OPTIONS_BATTLE_STYLE_SHIFT;
+    gSaveBlock2Ptr->optionsSkipBattleIntro  = 0;
+    gSaveBlock2Ptr->optionsHpBarSpeed       = 0;
+    gSaveBlock2Ptr->optionsExpBarSpeed      = 0;
+    gSaveBlock2Ptr->optionsLastBall         = 0;
+
 }
 
 static void ClearPokedexFlags(void)
@@ -217,8 +227,6 @@ void NewGameInitData(void)
     ResetContestLinkResults();
     memset(&gSaveBlock2Ptr->itemFlags, 0, sizeof(gSaveBlock2Ptr->itemFlags));
     gSaveBlock2Ptr->autoRun = FALSE;
-    gSaveBlock2Ptr->reserved = 0;
-    gSaveBlock2Ptr->reserved2 = 0;
     VarSet(VAR_SAVE_VER, EMERALD_CROSS_INTERNAL_VERSION);
 }
 

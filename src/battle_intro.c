@@ -126,7 +126,7 @@ void HandleIntroSlide(u8 terrain)
     }
     else
     {
-        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 0)
+        if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
             taskId = CreateTask(sBattleIntroSlideFuncs[terrain], 0);
         else
             taskId = CreateTask(BattleIntroNoSlide, 0);
