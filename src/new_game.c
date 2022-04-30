@@ -113,7 +113,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsSkipBattleIntro  = 0;
     gSaveBlock2Ptr->optionsHpBarSpeed       = 0;
     gSaveBlock2Ptr->optionsExpBarSpeed      = 0;
-    gSaveBlock2Ptr->optionsLastBall         = 0;
+    gSaveBlock2Ptr->optionsLastBall         = 1;
 
 }
 

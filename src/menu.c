@@ -2186,6 +2186,10 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
             GetMapNameGeneric(string, gMapHeader.regionMapSectionId);
             break;
         case SAVE_MENU_BADGES:
+
+        #ifdef JAIZU_DEBUG
+        ConvertIntToDecimalStringN(string, VarGet(VAR_SAVE_VER), STR_CONV_MODE_RIGHT_ALIGN, 2);
+        #else
             for (curFlag = FLAG_BADGE01_GET, flagCount = 0, endOfString = string + 1; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++)
             {
                 if (FlagGet(curFlag))
@@ -2193,6 +2197,7 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
             }
             *string = flagCount + CHAR_0;
             *endOfString = EOS;
+        #endif
             break;
     }
 }

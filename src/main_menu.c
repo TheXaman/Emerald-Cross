@@ -647,7 +647,6 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         switch (gSaveFileStatus)
         {
             case SAVE_STATUS_OK:
-                PatchSave();
                 tMenuType = HAS_SAVED_GAME;
                 if (IsMysteryGiftEnabled())
                     tMenuType++;
@@ -816,6 +815,7 @@ static void Task_DisplayMainMenu(u8 taskId)
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[2], MAIN_MENU_BORDER_TILE);
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[3], MAIN_MENU_BORDER_TILE);
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[4], MAIN_MENU_BORDER_TILE);
+                PatchSave();
                 break;
             case HAS_MYSTERY_GIFT:
                 FillWindowPixelBuffer(2, PIXEL_FILL(0xA));
@@ -2358,94 +2358,78 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
-	if (VarGet(VAR_SAVE_VER) == 0)
-	{
-        // Pre-release version
-		VarSet(VAR_SAVE_VER, 1);	
-	}
-	if (VarGet(VAR_SAVE_VER) == 1)
-	{
-        // Fixed party size
-        if (gSaveBlock1Ptr->tx_Challenges_PartyLimit == 0)
-            gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
-		VarSet(VAR_SAVE_VER, 2);	
-	}
-    if (VarGet(VAR_SAVE_VER) == 2)
+    switch (VarGet(VAR_SAVE_VER))
     {
-        if (gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge == 0) //normal type or very old save with none choosen
-            gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
-        VarSet(VAR_SAVE_VER, 3);
-    }
-    if (VarGet(VAR_SAVE_VER) == 3) //Merge of WIP branch
-    {
-        //set new options in old saves to OFF
-        gSaveBlock1Ptr->tx_Random_OneForOne = 0;
-        gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer = 0;
-        //change new party limit counter
-        gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit;
-        VarSet(VAR_SAVE_VER, 4);
-    }
-    if (VarGet(VAR_SAVE_VER == 4))
-    {
-        // All of this flags were Rock Smash Rocks. Those were restored to get Rock Smash encounters
-        FlagClear(FLAG_UNUSED_0x285);
-        FlagClear(FLAG_UNUSED_0x286);
-        FlagClear(FLAG_UNUSED_0x287);
-        FlagClear(FLAG_UNUSED_0x288);
-        FlagClear(FLAG_UNUSED_0x289);
-        FlagClear(FLAG_UNUSED_0x28A);
-        FlagClear(FLAG_UNUSED_0x28C);
-        FlagClear(FLAG_UNUSED_0x291);
-        FlagClear(FLAG_UNUSED_0x294);
-        FlagClear(FLAG_UNUSED_0x299);
-        FlagClear(FLAG_UNUSED_0x29A);
-        FlagClear(FLAG_UNUSED_0x29B);
-        FlagClear(FLAG_UNUSED_0x29C);
-        FlagClear(FLAG_UNUSED_0x29D);
-        FlagClear(FLAG_UNUSED_0x29E);
-        FlagClear(FLAG_UNUSED_0x29F);
-        FlagClear(FLAG_UNUSED_0x2A0);
-        FlagClear(FLAG_UNUSED_0x2A1);
-        FlagClear(FLAG_UNUSED_0x2A2);
-        FlagClear(FLAG_UNUSED_0x2A3);
-        VarSet(VAR_SAVE_VER, 5);
-    }
-    if (VarGet(VAR_SAVE_VER == 5))
-    {
-        // Let's give people who update a random table rather than making them wait 1 day
-        RandomAlteringCaveTable();
-        VarSet(VAR_SAVE_VER, 6);
-    }
-    if (VarGet(VAR_SAVE_VER == 6))
-    {
-        // This used to be the old ON/FF SURF/BIKE option
-        if (gSaveBlock2Ptr->reserved == 0) 
-        {
-            gSaveBlock2Ptr->optionsSurfMusic = 1;
-            gSaveBlock2Ptr->optionsBikeMusic = 1;
-        }
-        else if (gSaveBlock2Ptr->reserved == 1)
-        {
-            gSaveBlock2Ptr->optionsSurfMusic = 0;
-            gSaveBlock2Ptr->optionsBikeMusic = 0;
-        }
+        case 0:
+            VarSet(VAR_SAVE_VER, 1);
+        case 1:
+            if (gSaveBlock1Ptr->tx_Challenges_PartyLimit == 0)
+                gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6;
+            VarSet(VAR_SAVE_VER, 2);	
+        case 2:
+            if (gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge == 0) //normal type or very old save with none choosen
+                gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge = 31;
+            VarSet(VAR_SAVE_VER, 3);
+        case 3:
+            //set new options in old saves to OFF
+            gSaveBlock1Ptr->tx_Random_OneForOne = 0;
+            gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer = 0;
+            //change new party limit counter
+            gSaveBlock1Ptr->tx_Challenges_PartyLimit = 6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit;
+            VarSet(VAR_SAVE_VER, 4);
+        case 4:
+            // All of this flags were Rock Smash Rocks. Those were restored to get Rock Smash encounters
+            FlagClear(FLAG_UNUSED_0x285);
+            FlagClear(FLAG_UNUSED_0x286);
+            FlagClear(FLAG_UNUSED_0x287);
+            FlagClear(FLAG_UNUSED_0x288);
+            FlagClear(FLAG_UNUSED_0x289);
+            FlagClear(FLAG_UNUSED_0x28A);
+            FlagClear(FLAG_UNUSED_0x28C);
+            FlagClear(FLAG_UNUSED_0x291);
+            FlagClear(FLAG_UNUSED_0x294);
+            FlagClear(FLAG_UNUSED_0x299);
+            FlagClear(FLAG_UNUSED_0x29A);
+            FlagClear(FLAG_UNUSED_0x29B);
+            FlagClear(FLAG_UNUSED_0x29C);
+            FlagClear(FLAG_UNUSED_0x29D);
+            FlagClear(FLAG_UNUSED_0x29E);
+            FlagClear(FLAG_UNUSED_0x29F);
+            FlagClear(FLAG_UNUSED_0x2A0);
+            FlagClear(FLAG_UNUSED_0x2A1);
+            FlagClear(FLAG_UNUSED_0x2A2);
+            FlagClear(FLAG_UNUSED_0x2A3);
+            VarSet(VAR_SAVE_VER, 5);
+        case 5:
+            // Let's give people who update a random table rather than making them wait 1 day
+            RandomAlteringCaveTable();
+            VarSet(VAR_SAVE_VER, 6);
+        case 6:
         // This option got shifted around
         if (gSaveBlock2Ptr->optionsSkipBattleIntro == 1)
+        {
             gSaveBlock2Ptr->optionsSkipBattleIntro = 0;
+        }
         else
+        {
             gSaveBlock2Ptr->optionsSkipBattleIntro = 1;
-
+        }
         // This options were broken before, now they are DEFAULT/FAST
-        gSaveBlock2Ptr->optionsHpBarSpeed   = 0;
-        gSaveBlock2Ptr->optionsExpBarSpeed  = 0;
+        gSaveBlock2Ptr->optionsHpBarSpeed = 0;
+        gSaveBlock2Ptr->optionsExpBarSpeed = 0;
         // New options set to 0, just in case
-        gSaveBlock2Ptr->optionsShowFollowerPokemon  = 0;
-        gSaveBlock2Ptr->optionsWildMusic            = 0;
-        gSaveBlock2Ptr->optionsTrainerBGM           = 0;
-        gSaveBlock2Ptr->optionsGrassSound           = 0;
-        gSaveBlock2Ptr->optionsLastBall             = 1;
+        gSaveBlock2Ptr->optionsSurfMusic = 1;
+        gSaveBlock2Ptr->optionsBikeMusic = 1;
+        gSaveBlock2Ptr->optionsShowFollowerPokemon = 0;
+        gSaveBlock2Ptr->optionsWildMusic = 0;
+        gSaveBlock2Ptr->optionsTrainerBGM = 0;
+        gSaveBlock2Ptr->optionsGrassSound = 0;
+        gSaveBlock2Ptr->optionsLastBall = 1;
         VarSet(VAR_SAVE_VER, 7);
     }
+}
+
+
     /*
     if (VarGet(VAR_SAVE_VER == 6))
     {
@@ -2461,4 +2445,3 @@ static void PatchSave(void)
         VarSet(VAR_SAVE_VER, 7);
     }
     */
-}

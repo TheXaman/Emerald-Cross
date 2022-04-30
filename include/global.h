@@ -481,29 +481,37 @@ struct SaveBlock2
     /*0x11*/ u8 playTimeSeconds;
     /*0x12*/ u8 playTimeVBlanks;
     /*0x13*/ u8 optionsButtonMode;
-    /*0x14*/ u16 optionsTextSpeed:3;
-             u16 optionsWindowFrameType:5;
-             u16 optionsSound:1;
-             u16 optionsBattleStyle:1;
-             u16 optionsBattleSceneOff:1;
-             u16 regionMapZoom:1;
-             u16 optionsUnitSystem:1;
-             u16 optionsHpBarSpeed:4;
-             u16 optionsExpBarSpeed:4;
-             u16 optionsFishReeling:1;
-             u16 optionsDisableMatchCall:1;
-             u16 optionsSkipBattleIntro:1;
-             u16 optionsCurrentFont:1;
-             u16 reserved:1;
-             u16 optionsShowFollowerPokemon:1;
-             u16 optionsSurfMusic:2;
-             u16 optionsBikeMusic:2;
-             u16 optionsWildMusic:2;
-             u16 optionsTrainerBGM:2;
-             u16 optionsGrassSound:2; 
-             u16 optionsLastBall:2; 
-             u16 reserved2:10;
-             u16 reserved3;
+
+    // First u16
+    u16 optionsTextSpeed:3;
+    u16 optionsWindowFrameType:5;
+    u16 optionsSound:1;
+    u16 optionsBattleStyle:1;
+    u16 optionsBattleSceneOff:1;
+    u16 regionMapZoom:1;
+    u16 optionsUnitSystem:1;
+    u16 optionsHpBarSpeed:1;
+    u16 reserved1:2;
+    // Second u16
+    u16 reserved2_1:1;
+    u16 optionsExpBarSpeed:1;
+    u16 reserved2_2:3;
+    u16 optionsFishReeling:1;
+    u16 optionsDisableMatchCall:1;
+    u16 optionsSkipBattleIntro:1;
+    u16 optionsCurrentFont:1;
+    u16 reserved2_3:1;
+    u16 optionsShowFollowerPokemon:1;
+    u16 optionsSurfMusic:2;
+    u16 optionsBikeMusic:2;
+    // Third u16
+    u16 optionsWildMusic:1;
+    u16 optionsTrainerBGM:1;
+    u16 optionsGrassSound:2; 
+    u16 optionsLastBall:1;
+    u16 reserved3:11;
+    // Fourth u16
+    u16 reserved4;
     /*0x18*/ struct Pokedex pokedex;
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
@@ -1079,5 +1087,6 @@ struct MapPosition
 
 #define TX_RANDOMIZER_AND_CHALLENGES    TRUE
 #define EMERALD_CROSS_INTERNAL_VERSION  7
+//#define JAIZU_DEBUG
 
 #endif // GUARD_GLOBAL_H
