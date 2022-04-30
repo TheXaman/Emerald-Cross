@@ -43,10 +43,24 @@ bool8 IsMirageIslandPresent(void)
 {
     u16 rnd = GetMirageRnd() >> 16;
     int i;
+    u16 species;
+    u8 wynautCount = 0;
 
     for (i = 0; i < PARTY_SIZE; i++)
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd)
+    {
+        species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        if (species && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd)
             return TRUE;
+        if (species == SPECIES_WYNAUT)
+            wynautCount++;
+    }
+
+    if ((rnd % 6) < wynautCount)
+        return TRUE;
+
+    //Alternate calculation: 6 = 100%, 5 = 50%, 4 = 33.3%, 3 = 25%, 2 = 20%, 1 = 16.6%
+    //if (wynautCount > 0 && (rnd % (7 - wynautCount)) == 0)
+    //    return TRUE;
 
     return FALSE;
 }
