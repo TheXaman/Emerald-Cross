@@ -2359,6 +2359,8 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    u32 i;
+
     switch (VarGet(VAR_SAVE_VER))
     {
         case 0:
@@ -2435,8 +2437,15 @@ static void PatchSave(void)
                 || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TORCHIC)
                 || HasTrainerBeenFought(TRAINER_BRENDAN_ROUTE_119_TREECKO))
             {
-                gSaveBlock1Ptr->bagPocket_KeyItems[BAG_KEYITEMS_COUNT - 1].itemId = ITEM_LINKING_CORD;
-                gSaveBlock1Ptr->bagPocket_KeyItems[BAG_KEYITEMS_COUNT - 1].quantity = 1;
+                for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+                {
+                    if (gSaveBlock1Ptr->bagPocket_KeyItems[i].quantity == 0 || gSaveBlock1Ptr->bagPocket_KeyItems[i].itemId == ITEM_NONE)
+                    {
+                        gSaveBlock1Ptr->bagPocket_KeyItems[i].itemId = ITEM_LINKING_CORD;
+                        gSaveBlock1Ptr->bagPocket_KeyItems[i].quantity = 1;
+                        break;
+                    }
+                }
             }
             VarSet(VAR_SAVE_VER, 8);
     }
