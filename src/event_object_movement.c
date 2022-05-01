@@ -23,11 +23,13 @@
 #include "random.h"
 #include "region_map.h"
 #include "script.h"
+#include "sound.h"
 #include "sprite.h"
 #include "task.h"
 #include "trainer_see.h"
 #include "trainer_hill.h"
 #include "util.h"
+#include "constants/songs.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
@@ -8579,6 +8581,19 @@ void GroundEffect_StepOnTallGrass(struct ObjectEvent *objEvent, struct Sprite *s
     gFieldEffectArguments[6] = (u8)gSaveBlock1Ptr->location.mapNum << 8 | (u8)gSaveBlock1Ptr->location.mapGroup;
     gFieldEffectArguments[7] = FALSE; // don't skip to end of anim
     FieldEffectStart(FLDEFF_TALL_GRASS);
+    switch(gSaveBlock2Ptr->optionsGrassSound)
+    {
+        default:
+        case 0:
+            break;
+        case 1:
+            PlaySE(SE_M_POISON_POWDER);
+            break;
+        case 2:
+            if (objEvent->localId == OBJ_EVENT_ID_PLAYER)
+                PlaySE(SE_M_POISON_POWDER);
+            break;
+    }
 }
 
 void GroundEffect_SpawnOnLongGrass(struct ObjectEvent *objEvent, struct Sprite *sprite)
