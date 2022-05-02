@@ -434,6 +434,7 @@ static const u8 sText_MonPickedUpItem[] = _("Your POKéMON picked\nup some items
 static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_BUFF3}{PAUSE 15}!");
 static const u8 sText_PlayerLostToEnemyTrainer[] = _("{B_PLAYER_NAME} is out of\nusable POKéMON!\pPlayer lost against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_PlayerPaidPrizeMoney[] = _("{B_PLAYER_NAME} paid ¥{B_BUFF1} as the prize\nmoney…\p… … … …\p{B_PLAYER_NAME} whited out!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_PkmnRecoveredXProblem[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} recovered\nfrom its {B_BUFF1} problem!");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
@@ -892,7 +893,8 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_S
     [STRINGID_PICKUP - BATTLESTRINGS_TABLE_START]  = sText_MonPickedUpItem,
     [STRINGID_PICKUPSOLO - BATTLESTRINGS_TABLE_START]  = sText_MonPickedUpItemSolo,
     [STRINGID_PLAYERLOSTTOENEMYTRAINER - BATTLESTRINGS_TABLE_START] = sText_PlayerLostToEnemyTrainer,
-    [STRINGID_PLAYERPAIDPRIZEMONEY - BATTLESTRINGS_TABLE_START] = sText_PlayerPaidPrizeMoney
+    [STRINGID_PLAYERPAIDPRIZEMONEY - BATTLESTRINGS_TABLE_START] = sText_PlayerPaidPrizeMoney,
+    [STRINGID_PKMNRECOVEREDPROBLEM - BATTLESTRINGS_TABLE_START] = sText_PkmnRecoveredXProblem,
 };
 
 const u16 gMissStringIds[] =
