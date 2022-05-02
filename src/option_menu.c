@@ -14,6 +14,7 @@
 #include "text_window.h"
 #include "international_string_util.h"
 #include "strings.h"
+#include "graphics.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
 
@@ -198,7 +199,10 @@ static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_OnOff(int selection, int y);
 static void DrawChoices_OffOn(int selection, int y);
 static void DrawChoices_NormalFast(int selection, int y);
-static void DrawBgWindowFrames(void);
+static void DrawBgWindowFramesOptions(void);
+static int ProcessInput_Options_WindowColor(int selection);
+static void DrawBgWindowFramesDescription(void);
+static const u16 * GetWindowPal(int selection);
 
 // EWRAM vars
 EWRAM_DATA static struct OptionMenu *sOptions = NULL;
@@ -206,13 +210,12 @@ EWRAM_DATA static struct OptionMenu *sOptions = NULL;
 // const data
 static const u16 sOptionMenuBg_Pal[] = {RGB(15, 22, 15)};
 static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text_custom.gbapal");
-static const u16 sTextWindowFrameThin_Pal[] = INCBIN_U16("graphics/text_window/thin.gbapal");
-static const u8 sTextWindowFrameThin_Gfx[] = INCBIN_U8("graphics/text_window/thin.4bpp");
 
 // Options names
 static const u8 sText_TextSpeed[]       = _("TEXT SPEED");
 static const u8 sText_ButtonMode[]      = _("BUTTON MODE");
-static const u8 sText_Frame[]           = _("FRAME");
+static const u8 sText_Frame[]           = _("MENU FRAME");
+static const u8 sText_FrameColor[]      = _("NPC FRAME");
 static const u8 sText_Font[]            = _("FONT");
 static const u8 sText_UnitSystem[]      = _("UNIT SYSTEM");
 static const u8 sText_FollowerPkmn[]    = _("FOLLOWER {PKMN}");
@@ -230,7 +233,6 @@ static const u8 sText_BattleIntro[]     = _("BATTLE INTRO");
 static const u8 sText_HpBar[]           = _("HP BAR SPEED");
 static const u8 sText_ExpBar[]          = _("EXP BAR SPEED");
 static const u8 sText_LastBall[]        = _("LAST BALL");
-static const u8 sText_FrameColor[]      = _("FRAME COLOR");
 // Posible options
 static const u8 sText_TextSpeedSlow[]       = _("SLOW");
 static const u8 sText_TextSpeedMid[]        = _("MID");
@@ -291,7 +293,7 @@ static const sItemFunctionsGame[MENUITEM_GAME_COUNT] =
     [MENUITEM_GAME_TEXTSPEED]       = {DrawChoices_TextSpeed,       ProcessInput_Options_Four},
     [MENUITEM_GAME_BUTTONMODE]      = {DrawChoices_ButtonMode,      ProcessInput_Options_Three},
     [MENUITEM_GAME_FRAMETYPE]       = {DrawChoices_FrameType,       ProcessInput_FrameType},
-    [MENUITEM_GAME_WINDOWCOLOR]     = {DrawChoices_WindowColor,     ProcessInput_Options_Three},
+    [MENUITEM_GAME_WINDOWCOLOR]     = {DrawChoices_WindowColor,     ProcessInput_Options_WindowColor},
     [MENUITEM_GAME_FONT]            = {DrawChoices_EmeraldFRLG,     ProcessInput_Options_Two}, 
     [MENUITEM_GAME_UNIT_SYSTEM]     = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
     [MENUITEM_GAME_FOLLOWER_PKMN]   = {DrawChoices_FollowerPkmn,    ProcessInput_Options_Two},
@@ -692,6 +694,7 @@ static void HighlightOptionMenuItem(void)
 
 void CB2_InitOptionMenu(void)
 {
+    u8 windowColor = gSaveBlock2Ptr->optionsTextWindowColor;
     u32 i, taskId;
     switch (gMain.state)
     {
@@ -730,12 +733,12 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 3:
-        LoadBgTiles(1, sTextWindowFrameThin_Gfx, 0x120, 0x1A2 + 9);
+        LoadBgTiles(GetWindowAttribute(WIN_DESCRIPTION, WINDOW_BG), gMessageBox_Gfx, 0x1C0, 436);
+        LoadPalette(GetWindowPal(windowColor), 0x90, 0x20);
         LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
         gMain.state++;
         break;
     case 4:
-        LoadPalette(sTextWindowFrameThin_Pal, 0x80, 0x20);
         LoadPalette(sOptionMenuBg_Pal, 0, sizeof(sOptionMenuBg_Pal));
         LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 0x70, 0x20);
         gMain.state++;
@@ -808,7 +811,7 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 12:
-        DrawBgWindowFrames();
+        DrawBgWindowFramesOptions();
         gMain.state++;
         break;
     case 13:
@@ -1028,6 +1031,7 @@ static void ScrollMenu(int direction)
     DrawLeftSideOptionText(menuItem, (pos * Y_DIFF) + 1);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
+
 static void ScrollAll(int direction) // to bottom or top
 {
     int i, y, menuItem, pos;
@@ -1104,6 +1108,42 @@ static int ProcessInput_Options_Two(int selection)
 static int ProcessInput_Options_Three(int selection)
 {
     return XOptions_ProcessInput(3, selection);
+}
+
+static const u16 *GetWindowPal(int selection)
+{
+    switch (selection)
+    {
+        default:
+        case 0:
+            return gMessageBox_Pal;
+            break;
+        case 1:
+            return gMessageBoxRed_Pal;
+            break;
+        case 2:
+            return gMessageBoxBlue_Pal;
+            break;
+    }
+}
+
+static int ProcessInput_Options_WindowColor(int selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (++selection > (3 - 1))
+            selection = 0;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (--selection < 0)
+            selection = (3 - 1);
+    }
+
+    LoadBgTiles(GetWindowAttribute(WIN_DESCRIPTION, WINDOW_BG), gMessageBox_Gfx, 0x1C0, 436);
+    LoadPalette(GetWindowPal(selection), 0x90, 0x20);
+    DrawBgWindowFramesDescription();
+    return selection;
 }
 
 static int ProcessInput_Options_Four(int selection)
@@ -1402,28 +1442,40 @@ static void DrawChoices_NormalFast(int selection, int y)
 #define TILE_BOT_EDGE     0x1A9 // 425
 #define TILE_BOT_CORNER_R 0x1AA // 426
 
-static void DrawBgWindowFrames(void)
-{
-    //                     bg, tile,              x, y, width, height, palNum
-    // Option Texts window
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L + 9,   1,   2,  1,  1, 8);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE + 9,       2,   2, 26,  1, 8);
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R + 9,   28,  2,  1,  1, 8);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE + 9,      1,   3,  1, 10, 8);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE + 9,     28,  3,  1, 10, 8);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L + 9,   1,  13,  1,  1, 8);
-    FillBgTilemapBufferRect(1, TILE_BOT_EDGE + 9,       2,  13, 26,  1, 8);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R + 9,   28, 13,  1,  1, 8);
+#define WINDOW_NPC_OFFSET (TILE_TOP_CORNER_L + 19)
 
+static void DrawBgWindowFramesOptions(void)
+{
+    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,   1,   2,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,       2,   2, 26,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R,   28,  2,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE ,      1,   3,  1, 10,7);
+    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,     28,  3,  1, 10, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,   1,  13,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,       2,  13, 26,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R,   28, 13,  1,  1, 7);
+
+    DrawBgWindowFramesDescription();
+}
+
+static void DrawBgWindowFramesDescription(void)
+{
     // Description window
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,  1, 14,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2, 14, 27,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R, 28, 14,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1, 15,  1,  4,  7);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28, 15,  1,  4,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,  1, 19,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,      2, 19, 27,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R, 28, 19,  1,  1,  7);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET,                       1 , 14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 2,                   2,  14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 3 ,                  3,  14, 24, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 4,                   27 , 14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 5,                   28,  14,  1, 1, 9);
+
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 6,                    1 , 15,  1, 4, 9);
+
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 9,                    28 , 15,  1, 4, 9);
+
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 2),   2,  19, 24, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 3),   3,  19, 24, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET),       1 , 19,  1, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 4),   27 , 19,  1, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 5),   28,  19,  1, 1, 9);
 
     CopyBgTilemapBufferToVram(1);
 }
