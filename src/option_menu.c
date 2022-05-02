@@ -202,7 +202,7 @@ static void DrawBgWindowFrames(void);
 EWRAM_DATA static struct OptionMenu *sOptions = NULL;
 
 // const data
-static const u16 sOptionMenuBg_Pal[] = {RGB(9, 9, 9)};
+static const u16 sOptionMenuBg_Pal[] = {RGB(15, 22, 15)};
 static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text_custom.gbapal");
 static const u16 sTextWindowFrameThin_Pal[] = INCBIN_U16("graphics/text_window/thin.gbapal");
 static const u8 sTextWindowFrameThin_Gfx[] = INCBIN_U8("graphics/text_window/thin.4bpp");
