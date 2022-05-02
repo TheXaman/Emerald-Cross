@@ -36,15 +36,19 @@ static const struct WindowTemplate sWindowTemplates[] =
 {
     {
         .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 1,
-        .width = 28,
-        .height = 18,
+        .tilemapLeft = 2,
+        .tilemapTop = 2,
+        .width = 26,
+        .height = 16,
         .paletteNum = 15,
         .baseBlock = 1
     },
     DUMMY_WIN_TEMPLATE
 };
+
+static const u16 sTextWindowFrameThin_Pal[] = INCBIN_U16("graphics/text_window/thin.gbapal");
+static const u8 sTextWindowFrameThin_Gfx[] = INCBIN_U8("graphics/text_window/thin.4bpp");
+static const u16 sBuildMenuBg_Pal[] = {RGB(15, 22, 15)};
 
 void CB2_InitBuildInfoScreen(void)
 {
@@ -75,7 +79,9 @@ static void InitBuildInfoScreenBgAndWindows(void)
     ShowBg(0);
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
-    LoadMessageBoxAndBorderGfx();
+    LoadBgTiles(0, sTextWindowFrameThin_Gfx, 0x120, 532);
+    LoadPalette(sBuildMenuBg_Pal, 0, sizeof(sBuildMenuBg_Pal));
+    LoadPalette(sTextWindowFrameThin_Pal, 15 * 0x10, 0x20);
 }
 
 static void CB2_BuildInfoScreen(void)
@@ -99,8 +105,16 @@ static void VBlankCB(void)
 #include "data/text/build_info.h"
 
 const u8 sText_BuildInfoHeader[] = _("- Version Info -");
-const u8 sText_BuildVersion[] = _("Build Version:");
-const u8 sText_SaveVersion[] = _("Save Version:");
+const u8 sText_BuildVersion[] = _("Build version:");
+const u8 sText_SaveVersion[] = _("Save version:");
+
+static u8 GetBuildInfoFontId()
+{
+    if (gSaveBlock2Ptr->optionsCurrentFont)
+        return FONT_NORMAL;
+    else
+        return FONT_SHORT;
+}
 
 static void Task_ShowBuildInfoPrompt(u8 taskId)
 {
@@ -111,22 +125,22 @@ static void Task_ShowBuildInfoPrompt(u8 taskId)
     switch (tState)
     {
     case 0:
-        DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x214, 0xE);
+        DrawStdFrameWithCustomTileAndPalette(0, FALSE, 532, 15);
 
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_BuildInfoHeader, GetStringCenterAlignXOffset(FONT_NORMAL, sText_BuildInfoHeader, 230) - 2, 1, TEXT_SKIP_DRAW, 0);
-        AddTextPrinterParameterized(0, FONT_NORMAL, gText_RepoBranch, 0, 33, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), sText_BuildInfoHeader, GetStringCenterAlignXOffset(GetBuildInfoFontId(), sText_BuildInfoHeader, 230) - 2, 1, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), gText_RepoBranch, 0, 33, TEXT_SKIP_DRAW, 0);
         if (gUncommitedChanges)
         {
             colors[1] = 4;
             colors[2] = 5;
         }
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_BuildVersion, 0, 57, TEXT_SKIP_DRAW, 0);
-        AddTextPrinterParameterized3(0, FONT_NORMAL, 75, 57, colors, TEXT_SKIP_DRAW, gText_BuildVersion);
-        AddTextPrinterParameterized(0, FONT_NORMAL, gText_BuildTime, 0, 73, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), sText_BuildVersion, 0, 57, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized3(0, GetBuildInfoFontId(), 75, 57, colors, TEXT_SKIP_DRAW, gText_BuildVersion);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), gText_BuildTime, 0, 73, TEXT_SKIP_DRAW, 0);
 
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_SaveVersion, 0, 97, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), sText_SaveVersion, 0, 97, TEXT_SKIP_DRAW, 0);
         ConvertIntToDecimalStringN(saveVer, VarGet(VAR_SAVE_VER), STR_CONV_MODE_LEADING_ZEROS, 1);
-        AddTextPrinterParameterized(0, FONT_NORMAL, saveVer, 73, 97, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, GetBuildInfoFontId(), saveVer, 73, 97, TEXT_SKIP_DRAW, 0);
 
         CopyWindowToVram(0, COPYWIN_GFX);
         ScheduleBgCopyTilemapToVram(0);
