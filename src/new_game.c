@@ -100,6 +100,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsShowFollowerPokemon  = 0;
     gSaveBlock2Ptr->optionsDisableMatchCall     = 0;
     gSaveBlock2Ptr->optionsFishReeling          = 0;
+    gSaveBlock2Ptr->optionsTextWindowColor      = 0;
     // Sound options
     gSaveBlock2Ptr->optionsSound        = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsSurfMusic    = 1;

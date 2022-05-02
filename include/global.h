@@ -495,7 +495,8 @@ struct SaveBlock2
     // Second u16
     u16 reserved2_1:1;
     u16 optionsExpBarSpeed:1;
-    u16 reserved2_2:3;
+    u16 optionsTextWindowColor:2;
+    u16 reserved2_2:1;
     u16 optionsFishReeling:1;
     u16 optionsDisableMatchCall:1;
     u16 optionsSkipBattleIntro:1;
@@ -1086,7 +1087,7 @@ struct MapPosition
 };
 
 #define TX_RANDOMIZER_AND_CHALLENGES    TRUE
-#define EMERALD_CROSS_INTERNAL_VERSION  8
+#define EMERALD_CROSS_INTERNAL_VERSION  9
 //#define JAIZU_DEBUG
 
 #endif // GUARD_GLOBAL_H

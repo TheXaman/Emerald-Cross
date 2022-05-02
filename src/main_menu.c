@@ -2448,5 +2448,8 @@ static void PatchSave(void)
                 }
             }
             VarSet(VAR_SAVE_VER, 8);
+        case 8:
+            gSaveBlock2Ptr->optionsTextWindowColor = 0;
+            VarSet(VAR_SAVE_VER, 9);
     }
 }

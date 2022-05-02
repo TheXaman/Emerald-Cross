@@ -30,6 +30,7 @@ enum
     MENUITEM_GAME_TEXTSPEED,
     MENUITEM_GAME_BUTTONMODE,
     MENUITEM_GAME_FRAMETYPE,
+    MENUITEM_GAME_WINDOWCOLOR,
     MENUITEM_GAME_FONT,
     MENUITEM_GAME_UNIT_SYSTEM,
     MENUITEM_GAME_FOLLOWER_PKMN,
@@ -186,6 +187,7 @@ static void DrawChoices_BattleScene(int selection, int y);
 static void DrawChoices_BattleStyle(int selection, int y);
 static void DrawChoices_Sound(int selection, int y);
 static void DrawChoices_ButtonMode(int selection, int y);
+static void DrawChoices_WindowColor(int selection, int y);
 static void DrawChoices_SurfBikeBGM(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
 static void DrawChoices_FollowerPkmn(int selection, int y);
@@ -228,6 +230,7 @@ static const u8 sText_BattleIntro[]     = _("BATTLE INTRO");
 static const u8 sText_HpBar[]           = _("HP BAR SPEED");
 static const u8 sText_ExpBar[]          = _("EXP BAR SPEED");
 static const u8 sText_LastBall[]        = _("LAST BALL");
+static const u8 sText_FrameColor[]      = _("FRAME COLOR");
 // Posible options
 static const u8 sText_TextSpeedSlow[]       = _("SLOW");
 static const u8 sText_TextSpeedMid[]        = _("MID");
@@ -251,6 +254,9 @@ static const u8 sText_BattleStyleShift[]    = _("SHIFT");
 static const u8 sText_BattleStyleSet[]      = _("SET");
 static const u8 sText_SoundMono[]           = _("MONO");
 static const u8 sText_SoundStereo[]         = _("STEREO");
+static const u8 sText_OptionGreen[]         = _("GREEN");
+static const u8 sText_OptionRed[]           = _("RED");
+static const u8 sText_OptionBlue[]          = _("BLUE");
 static const u8 sText_FrameTypeNumber[]     = _("");
 // Header text
 static const u8 sText_TopBar_Game[]     = _("{OPTION_BIG_DOT} {OPTION_SMALL_DOT} {OPTION_SMALL_DOT} GAME OPTIONS");
@@ -285,6 +291,7 @@ static const sItemFunctionsGame[MENUITEM_GAME_COUNT] =
     [MENUITEM_GAME_TEXTSPEED]       = {DrawChoices_TextSpeed,       ProcessInput_Options_Four},
     [MENUITEM_GAME_BUTTONMODE]      = {DrawChoices_ButtonMode,      ProcessInput_Options_Three},
     [MENUITEM_GAME_FRAMETYPE]       = {DrawChoices_FrameType,       ProcessInput_FrameType},
+    [MENUITEM_GAME_WINDOWCOLOR]     = {DrawChoices_WindowColor,     ProcessInput_Options_Three},
     [MENUITEM_GAME_FONT]            = {DrawChoices_EmeraldFRLG,     ProcessInput_Options_Two}, 
     [MENUITEM_GAME_UNIT_SYSTEM]     = {DrawChoices_UnitSystem,      ProcessInput_Options_Two},
     [MENUITEM_GAME_FOLLOWER_PKMN]   = {DrawChoices_FollowerPkmn,    ProcessInput_Options_Two},
@@ -333,6 +340,7 @@ static const u8 *const sOptionMenuItemsNamesGame[MENUITEM_GAME_COUNT] =
     [MENUITEM_GAME_TEXTSPEED]       = sText_TextSpeed,
     [MENUITEM_GAME_BUTTONMODE]      = sText_ButtonMode,
     [MENUITEM_GAME_FRAMETYPE]       = sText_Frame,
+    [MENUITEM_GAME_WINDOWCOLOR]     = sText_FrameColor,
     [MENUITEM_GAME_FONT]            = sText_Font,
     [MENUITEM_GAME_UNIT_SYSTEM]     = sText_UnitSystem,
     [MENUITEM_GAME_FOLLOWER_PKMN]   = sText_FollowerPkmn,
@@ -441,6 +449,7 @@ static const u8 sText_Desc_BattleIntroOff[] = _("POKéMON and TRAINERs will appe
 static const u8 sText_Desc_BattleHPBar[]    = _("Choose how the HP BAR will get\ndrained in battles.");
 static const u8 sText_Desc_BattleExpBar[]   = _("Choose how the EXP BAR will get\nfilled in battles.");
 static const u8 sText_Desc_BattleLastBall[] = _("Choose if you want a shortcut\nfor the last used BALL.");
+static const u8 sText_Desc_WindowColor[]    = _("Changes the color of the frame that\nappears when talking to NPCs.");
 
 
 static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_GAME_COUNT][4] =
@@ -448,6 +457,7 @@ static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_GAME_COUNT][4] =
     [MENUITEM_GAME_TEXTSPEED]       = {sText_Desc_TextSpeed,    NULL,   NULL,   NULL},
     [MENUITEM_GAME_BUTTONMODE]      = {sText_Desc_ButtonMode,   NULL,   NULL,   NULL},
     [MENUITEM_GAME_FRAMETYPE]       = {sText_Desc_FrameType,    NULL,   NULL,   NULL},
+    [MENUITEM_GAME_WINDOWCOLOR]     = {sText_Desc_WindowColor,  NULL,   NULL, NULL},
     [MENUITEM_GAME_FONT]            = {sText_Desc_FontType,     NULL,   NULL,   NULL},
     [MENUITEM_GAME_UNIT_SYSTEM]     = {sText_Desc_UnitSystemImperial,   sText_Desc_UnitSystemMetric,    NULL,   NULL},
     [MENUITEM_GAME_FOLLOWER_PKMN]   = {sText_Desc_FollowerPkmn, NULL,     NULL,   NULL},
@@ -492,7 +502,8 @@ static const u8 *const OptionTextDescription(void)
             || menuItem == MENUITEM_GAME_TEXTSPEED
             || menuItem == MENUITEM_GAME_BUTTONMODE
             || menuItem == MENUITEM_GAME_FONT
-            || menuItem == MENUITEM_GAME_FOLLOWER_PKMN)
+            || menuItem == MENUITEM_GAME_FOLLOWER_PKMN
+            || menuItem == MENUITEM_GAME_WINDOWCOLOR)
             return sOptionMenuItemDescriptionsGame[menuItem][0];
         else
             return sOptionMenuItemDescriptionsGame[menuItem][selection];
@@ -739,6 +750,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_GAME_TEXTSPEED]      = gSaveBlock2Ptr->optionsTextSpeed;
         sOptions->sel[MENUITEM_GAME_BUTTONMODE]     = gSaveBlock2Ptr->optionsButtonMode;
         sOptions->sel[MENUITEM_GAME_FRAMETYPE]      = gSaveBlock2Ptr->optionsWindowFrameType;
+        sOptions->sel[MENUITEM_GAME_WINDOWCOLOR]    = gSaveBlock2Ptr->optionsTextWindowColor;
         sOptions->sel[MENUITEM_GAME_FONT]           = gSaveBlock2Ptr->optionsCurrentFont;
         sOptions->sel[MENUITEM_GAME_UNIT_SYSTEM]    = gSaveBlock2Ptr->optionsUnitSystem;
         sOptions->sel[MENUITEM_GAME_FOLLOWER_PKMN]  = gSaveBlock2Ptr->optionsShowFollowerPokemon;
@@ -962,6 +974,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsTextSpeed            = sOptions->sel[MENUITEM_GAME_TEXTSPEED];
     gSaveBlock2Ptr->optionsButtonMode           = sOptions->sel[MENUITEM_GAME_BUTTONMODE];
     gSaveBlock2Ptr->optionsWindowFrameType      = sOptions->sel[MENUITEM_GAME_FRAMETYPE];
+    gSaveBlock2Ptr->optionsTextWindowColor      = sOptions->sel[MENUITEM_GAME_WINDOWCOLOR];
     gSaveBlock2Ptr->optionsCurrentFont          = sOptions->sel[MENUITEM_GAME_FONT];
     gSaveBlock2Ptr->optionsUnitSystem           = sOptions->sel[MENUITEM_GAME_UNIT_SYSTEM];
     gSaveBlock2Ptr->optionsShowFollowerPokemon  = sOptions->sel[MENUITEM_GAME_FOLLOWER_PKMN];
@@ -1246,6 +1259,17 @@ static void DrawChoices_ButtonMode(int selection, int y)
     DrawOptionMenuChoice(sText_ButtonTypeNormal, 104, y, styles[0], active);
     DrawOptionMenuChoice(sText_ButtonTypeLR, xMid, y, styles[1], active);
     DrawOptionMenuChoice(sText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, sText_ButtonTypeLEqualsA, 198), y, styles[2], active);
+}
+
+static void DrawChoices_WindowColor(int selection, int y)
+{
+    u8 styles[3] = {0};
+    int xMid = GetMiddleX(sText_OptionGreen, sText_OptionRed, sText_OptionBlue);
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(sText_OptionGreen, 104, y, styles[0], TRUE);
+    DrawOptionMenuChoice(sText_OptionRed, xMid, y, styles[1], TRUE);
+    DrawOptionMenuChoice(sText_OptionBlue, GetStringRightAlignXOffset(1, sText_OptionBlue, 198), y, styles[2], TRUE);
 }
 
 static void DrawChoices_SurfBikeBGM(int selection, int y)
