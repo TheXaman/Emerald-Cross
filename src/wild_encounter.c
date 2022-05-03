@@ -98,6 +98,10 @@ static u16 GetFeebasFishingSpotId(s16 targetX, s16 targetY, u8 section)
     u16 yMax = sRoute119WaterTileData[section * 3 + 1];
     u16 spotId = sRoute119WaterTileData[section * 3 + 2];
 
+    #ifdef GBA_PRINTF
+    mgba_printf(MGBA_LOG_DEBUG, "current x=%d, y=%d", targetX, targetY);
+    #endif
+
     for (y = yMin; y <= yMax; y++)
     {
         for (x = 0; x < gMapHeader.mapLayout->width; x++)
@@ -158,8 +162,14 @@ static bool8 CheckFeebas(void)
         // Check which fishing spot the player is at, and see if
         // it matches any of the Feebas spots.
         spotId = GetFeebasFishingSpotId(x, y, route119Section);
+        #ifdef GBA_PRINTF
+        mgba_printf(MGBA_LOG_DEBUG, "current spotId=%d", spotId);
+        #endif
         for (i = 0; i < NUM_FEEBAS_SPOTS; i++)
         {
+            #ifdef GBA_PRINTF
+            mgba_printf(MGBA_LOG_DEBUG, "feebasSpots[%d]=%d", i, feebasSpots[i]);
+            #endif
             if (spotId == feebasSpots[i])
                 return TRUE;
         }
