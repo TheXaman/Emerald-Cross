@@ -40,8 +40,8 @@
 #include "battle_setup.h"
 
 #ifdef GBA_PRINTF //tx_randomizer_and_challenges
-    //#include "printf.h"
-    //#include "mgba.h"
+    #include "printf.h"
+    #include "mgba.h"
 #endif
 
 /*

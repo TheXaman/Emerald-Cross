@@ -1089,5 +1089,6 @@ struct MapPosition
 #define TX_RANDOMIZER_AND_CHALLENGES    TRUE
 #define EMERALD_CROSS_INTERNAL_VERSION  9
 //#define JAIZU_DEBUG
+#define GBA_PRINTF
 
 #endif // GUARD_GLOBAL_H

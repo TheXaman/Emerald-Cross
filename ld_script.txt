@@ -337,6 +337,8 @@ SECTIONS {
         src/tx_challenges.o(.text);
         src/tx_randomizer.o(.text);
         src/build_info.o(.text);
+        src/mgba.o(.text);
+		src/printf.o(.text);
     } =0
 
     script_data :
@@ -702,6 +704,7 @@ SECTIONS {
         src/tx_challenges.o(.rodata);
         src/tx_randomizer.o(.rodata);
         src/build_info.o(.rodata);
+        src/printf.o(.rodata);
     } =0
 
     song_data :
