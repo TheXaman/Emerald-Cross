@@ -132,6 +132,7 @@ Route119_EventScript_DefeatedBrendan::
 	end
 
 Route119_EventScript_GiveFlyHM::
+	giveitem ITEM_LINKING_CORD
 	giveitem ITEM_HM02
 	setflag FLAG_RECEIVED_HM02
 	return
@@ -496,7 +497,8 @@ Route119_Text_MayDefeat:
 Route119_Text_MayPresentForYou:
 	.string "MAY: But I had absolutely nothing to\n"
 	.string "worry about! Keep it up!\p"
-	.string "And, here! I have a present for you.$"
+	.string "And, here! I have some presents\n"
+	.string "for you.$"
 
 Route119_Text_MayExplainFly:
 	.string "MAY: Use FLY, and your POKéMON will\n"
@@ -509,6 +511,10 @@ Route119_Text_MayExplainFly:
 	.string "LITTLEROOT for a change.\p"
 	.string "I bet your mom's worried about you,\n"
 	.string "{PLAYER}{KUN}.\p"
+	.string "About the LINKING CORD…\n"
+	.string "I don't really know {PLAYER}{KUN}!\p"
+	.string "You will figure it out, I am pretty sure\n"
+	.string "about that.\p"
 	.string "Well, let's meet again somewhere!$"
 
 Route119_Text_BrendanIntro:
@@ -527,7 +533,7 @@ Route119_Text_BrendanIllGiveYouThis:
 	.string "BRENDAN: I'd say you're good enough\n"
 	.string "to search for POKéMON anywhere.\p"
 	.string "Here, I'll give you this.\n"
-	.string "Try it out.$"
+	.string "Try those out.$"
 
 Route119_Text_BrendanExplainFly:
 	.string "BRENDAN: Use FLY, and your POKéMON\n"
@@ -535,6 +541,8 @@ Route119_Text_BrendanExplainFly:
 	.string "you've already visited.\p"
 	.string "But you need the FORTREE GYM BADGE \n"
 	.string "to do that.\p"
+	.string "I don't really know what the other\n"
+	.string "ITEM does though.\p"
 	.string "Anyway, I have to move along.$"
 
 Route119_Text_ScottWayToGoBeSeeingYou:
