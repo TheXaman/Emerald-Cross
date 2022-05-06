@@ -1656,6 +1656,7 @@ static const u8 sText_Challenges_PartyLimit_2[]  = _("2");
 static const u8 sText_Challenges_PartyLimit_3[]  = _("3");
 static const u8 sText_Challenges_PartyLimit_4[]  = _("4");
 static const u8 sText_Challenges_PartyLimit_5[]  = _("5");
+static const u8 sText_Challenges_PartyLimit_6[]  = _("6");
 
 static void DrawChoices_Challenges_PartyLimit(int selection, int y)
 {
@@ -1663,12 +1664,12 @@ static void DrawChoices_Challenges_PartyLimit(int selection, int y)
     u8 styles[6] = {0};
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(sText_Off, 104, y, styles[0], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_1, 130, y, styles[1], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_2, 146, y, styles[2], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_3, 161, y, styles[3], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_4, 176, y, styles[4], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_5, 192, y, styles[5], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_6, 104, y, styles[0], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_5, 122 , y, styles[1], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_4, 140, y, styles[2], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_3, 158, y, styles[3], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_2, 176, y, styles[4], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_1, 193, y, styles[5], active);
 }
 
 static const u8 sText_Challenges_LevelCap_Normal[]  = _("NORMAL");
