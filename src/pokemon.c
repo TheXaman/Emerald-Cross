@@ -13518,6 +13518,7 @@ u8 GetTypeEffectivenessRandom(u8 type)
 
     return sTypeEffectivenessList[type];
 }
+
 u16 PickRandomStarterForOneTypeChallenge(u16 *speciesList, u8 starterId)
 {
     u16 i, species;
@@ -13527,7 +13528,7 @@ u16 PickRandomStarterForOneTypeChallenge(u16 *speciesList, u8 starterId)
         mgba_printf(MGBA_LOG_DEBUG, "PickRandomStarterForOneTypeChallenge(starterId=%d)", starterId);
     #endif
 
-    if ((IsRandomizerActivated() && gSaveBlock1Ptr->tx_Random_Similar) || !IsRandomizerActivated())
+    if ((IsRandomizerActivated() && gSaveBlock1Ptr->tx_Random_PkmnTiers) || !IsRandomizerActivated())
     {
         u16 *stemp = Alloc(sizeof(gRandomSpeciesEvo0));
         DmaCopy16(3, gRandomSpeciesEvo0, stemp, sizeof(gRandomSpeciesEvo0));
@@ -13583,7 +13584,7 @@ u16 PickRandomStarter(u16 species)
     if (gSaveBlock1Ptr->tx_Random_Chaos)
         return sRandomSpeciesLegendary[RandomSeededModulo(species, RANDOM_SPECIES_COUNT_LEGENDARY)];
     
-    if (gSaveBlock1Ptr->tx_Random_Similar && !gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge)
+    if (gSaveBlock1Ptr->tx_Random_PkmnTiers && !gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge)
         return gRandomSpeciesEvo0[RandomSeededModulo(species*24593, RANDOM_SPECIES_EVO_0_COUNT)];
 
     if (gSaveBlock1Ptr->tx_Random_IncludeLegendaries)
@@ -13648,7 +13649,7 @@ u16 GetRandomSpecies(u16 species, u8 mapBased, u8 type) //INTERNAL use only!
         break;
     }
 
-    if (gSaveBlock1Ptr->tx_Random_Similar)
+    if (gSaveBlock1Ptr->tx_Random_PkmnTiers)
     {
         u16 result_species;
         slot = gSpeciesMapping[species];

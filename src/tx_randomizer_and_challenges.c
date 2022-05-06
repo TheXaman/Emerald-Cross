@@ -14,7 +14,7 @@ bool8 IsRandomizerActivated(void)
 {
     if (gSaveBlock1Ptr->tx_Random_Chaos
         || gSaveBlock1Ptr->tx_Random_WildPokemon
-        || gSaveBlock1Ptr->tx_Random_Similar
+        || gSaveBlock1Ptr->tx_Random_PkmnTiers
         || gSaveBlock1Ptr->tx_Random_MapBased
         || gSaveBlock1Ptr->tx_Random_IncludeLegendaries
         || gSaveBlock1Ptr->tx_Random_Type
@@ -196,6 +196,7 @@ u8 NuzlockeFlagSet(u16 mapsec) // @Kurausukun
 
     return 0;
 }
+
 u8 NuzlockeFlagClear(u16 mapsec) // @Kurausukun
 {
     u8 id = NuzlockeLUT[mapsec];
@@ -204,6 +205,7 @@ u8 NuzlockeFlagClear(u16 mapsec) // @Kurausukun
         * ptr &= ~(1 << (id & 7));
     return 0;
 }
+
 u8 NuzlockeFlagGet(u16 mapsec) // @Kurausukun
 {
     u8 id = NuzlockeLUT[mapsec];
@@ -277,6 +279,7 @@ enum LevelCap {
     LEVEL_CAP_BADGE_7,
     LEVEL_CAP_BADGE_8
 };
+
 static const u8 sLevelCapTable_Normal[] = 
 {
     [LEVEL_CAP_NO_BADGES]   = 15,
@@ -289,6 +292,7 @@ static const u8 sLevelCapTable_Normal[] =
     [LEVEL_CAP_BADGE_7]     = 46,
     [LEVEL_CAP_BADGE_8]     = 58,
 };
+
 static const u8 sLevelCapTable_Hard[] = 
 {
     [LEVEL_CAP_NO_BADGES]   = 12,
@@ -301,7 +305,9 @@ static const u8 sLevelCapTable_Hard[] =
     [LEVEL_CAP_BADGE_7]     = 41,
     [LEVEL_CAP_BADGE_8]     = 55,
 };
+
 #define TX_CHALLENGE_LEVEL_CAP_DEBUG 0
+
 u8 GetCurrentPartyLevelCap(void)
 {
     u8 badgeCount = GetCurrentBadgeCount();
@@ -379,7 +385,7 @@ void PrintTXSaveData(void)
     
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_WildPokemon"          , gSaveBlock1Ptr->tx_Random_WildPokemon);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Trainer"              , gSaveBlock1Ptr->tx_Random_Trainer);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Similar"              , gSaveBlock1Ptr->tx_Random_Similar);
+    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_PkmnTiers"              , gSaveBlock1Ptr->tx_Random_PkmnTiers);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_MapBased"             , gSaveBlock1Ptr->tx_Random_MapBased);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_IncludeLegendaries"   , gSaveBlock1Ptr->tx_Random_IncludeLegendaries);
     mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Type"                 , gSaveBlock1Ptr->tx_Random_Type);
@@ -425,7 +431,7 @@ void TestRandomizerValues(u8 type)
     //save saveblock values
     save_values[0]  = gSaveBlock1Ptr->tx_Random_Chaos;
     save_values[1]  = gSaveBlock1Ptr->tx_Random_WildPokemon;
-    save_values[2]  = gSaveBlock1Ptr->tx_Random_Similar;
+    save_values[2]  = gSaveBlock1Ptr->tx_Random_PkmnTiers;
     save_values[3]  = gSaveBlock1Ptr->tx_Random_MapBased;
     save_values[4]  = gSaveBlock1Ptr->tx_Random_IncludeLegendaries;
     save_values[5]  = gSaveBlock1Ptr->tx_Random_Type;
@@ -452,7 +458,7 @@ void TestRandomizerValues(u8 type)
     save_values[26] = gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming;
 
     gSaveBlock1Ptr->tx_Random_WildPokemon           = TRUE;
-    gSaveBlock1Ptr->tx_Random_Similar               = FALSE;
+    gSaveBlock1Ptr->tx_Random_PkmnTiers               = FALSE;
     gSaveBlock1Ptr->tx_Random_MapBased              = FALSE;
     gSaveBlock1Ptr->tx_Random_IncludeLegendaries    = FALSE;
 
@@ -477,7 +483,7 @@ void TestRandomizerValues(u8 type)
     //restore saveblock values
     gSaveBlock1Ptr->tx_Random_Chaos                 =   save_values[0];
     gSaveBlock1Ptr->tx_Random_WildPokemon           =   save_values[1];
-    gSaveBlock1Ptr->tx_Random_Similar               =   save_values[2];
+    gSaveBlock1Ptr->tx_Random_PkmnTiers               =   save_values[2];
     gSaveBlock1Ptr->tx_Random_MapBased              =   save_values[3];
     gSaveBlock1Ptr->tx_Random_IncludeLegendaries    =   save_values[4];
     gSaveBlock1Ptr->tx_Random_Type                  =   save_values[5];
@@ -507,11 +513,11 @@ void TestRandomizerValues(u8 type)
 
 void IsTradeRestrictedByChallenges(void)
 {
-    if (gSaveBlock1Ptr->tx_Challenges_EvoLimit != 0
-        || gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0
+    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0
         || gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore != 0
         || gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge != TX_CHALLENGE_TYPE_OFF
-        || gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer != 0)
+        || gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer != 0
+        || gSaveBlock1Ptr->tx_Challenges_Mirror != 0)
         gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;
@@ -519,19 +525,20 @@ void IsTradeRestrictedByChallenges(void)
 
 void IsTradeRestrictedByRandomizer(void)
 {
-    if (gSaveBlock1Ptr->tx_Random_Chaos != 0
-        || gSaveBlock1Ptr->tx_Random_WildPokemon != 0
-        || gSaveBlock1Ptr->tx_Random_Similar != 0
+    if (gSaveBlock1Ptr->tx_Random_WildPokemon != 0
+        || gSaveBlock1Ptr->tx_Random_Static !=0
         || gSaveBlock1Ptr->tx_Random_MapBased != 0
         || gSaveBlock1Ptr->tx_Random_IncludeLegendaries != 0
         || gSaveBlock1Ptr->tx_Random_Type != 0
-        || gSaveBlock1Ptr->tx_Random_TypeEffectiveness != 0
-        || gSaveBlock1Ptr->tx_Random_Abilities != 0
         || gSaveBlock1Ptr->tx_Random_Moves != 0
-        || gSaveBlock1Ptr->tx_Random_Trainer != 0
+        || gSaveBlock1Ptr->tx_Random_Abilities != 0
         || gSaveBlock1Ptr->tx_Random_Evolutions != 0
         || gSaveBlock1Ptr->tx_Random_EvolutionMethods != 0
-        || gSaveBlock1Ptr->tx_Random_OneForOne != 0)
+        || gSaveBlock1Ptr->tx_Random_TypeEffectiveness != 0
+        || gSaveBlock1Ptr->tx_Random_Items != 0
+        || gSaveBlock1Ptr->tx_Random_Trainer != 0
+        || gSaveBlock1Ptr->tx_Random_OneForOne != 0
+        || gSaveBlock1Ptr->tx_Random_Chaos != 0)
             gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;

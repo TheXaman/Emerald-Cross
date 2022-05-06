@@ -41,7 +41,7 @@ enum
     MENUITEM_RANDOM_WILD_PKMN,
     MENUITEM_RANDOM_TRAINER,
     MENUITEM_RANDOM_STATIC,
-    MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL,
+    MENUITEM_RANDOM_POKEMON_TIERS,
     MENUITEM_RANDOM_INCLUDE_LEGENDARIES,
     MENUITEM_RANDOM_TYPE,
     MENUITEM_RANDOM_MOVES,
@@ -275,7 +275,7 @@ struct // MENU_RANDOMIZER
     [MENUITEM_RANDOM_WILD_PKMN]               = {DrawChoices_Random_WildPkmn,           ProcessInput_Options_Two},
     [MENUITEM_RANDOM_TRAINER]                 = {DrawChoices_Random_Trainer,            ProcessInput_Options_Two},
     [MENUITEM_RANDOM_STATIC]                  = {DrawChoices_Random_Static,             ProcessInput_Options_Two},
-    [MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL] = {DrawChoices_Random_EvoStages,          ProcessInput_Options_Two},
+    [MENUITEM_RANDOM_POKEMON_TIERS] = {DrawChoices_Random_EvoStages,          ProcessInput_Options_Two},
     [MENUITEM_RANDOM_INCLUDE_LEGENDARIES]     = {DrawChoices_Random_Legendaries,        ProcessInput_Options_Two},
     [MENUITEM_RANDOM_TYPE]                    = {DrawChoices_Random_Types,              ProcessInput_Options_Two},
     [MENUITEM_RANDOM_MOVES]                   = {DrawChoices_Random_Moves,              ProcessInput_Options_Two},
@@ -347,7 +347,7 @@ static const u8 *const sOptionMenuItemsNamesRandom[MENUITEM_RANDOM_COUNT] =
     [MENUITEM_RANDOM_WILD_PKMN]                 = sText_WildPkmn,
     [MENUITEM_RANDOM_TRAINER]                   = sText_Trainer,
     [MENUITEM_RANDOM_STATIC]                    = sText_Static,
-    [MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL]   = sText_SimiliarEvolutionLevel,
+    [MENUITEM_RANDOM_POKEMON_TIERS]   = sText_SimiliarEvolutionLevel,
     [MENUITEM_RANDOM_INCLUDE_LEGENDARIES]       = sText_InlcudeLegendaries,
     [MENUITEM_RANDOM_TYPE]                      = sText_Type,
     [MENUITEM_RANDOM_MOVES]                     = sText_Moves,
@@ -432,7 +432,7 @@ static bool8 CheckConditions(int selection)
             case MENUITEM_RANDOM_WILD_PKMN:                 return TRUE;
             case MENUITEM_RANDOM_TRAINER:                   return TRUE;
             case MENUITEM_RANDOM_STATIC:                    return TRUE;
-            case MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL:   return (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
+            case MENUITEM_RANDOM_POKEMON_TIERS:   return (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER] 
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC])
                                                                 && !sOptions->sel_randomizer[MENUITEM_RANDOM_CHAOS];
@@ -511,7 +511,7 @@ static const u8 *const sOptionMenuItemDescriptionsRandomizer[MENUITEM_RANDOM_COU
     [MENUITEM_RANDOM_WILD_PKMN]                 = {sText_Description_WildPokemon_Off,              sText_Description_WildPokemon_On},
     [MENUITEM_RANDOM_TRAINER]                   = {sText_Description_Random_Trainer_Off,           sText_Description_Random_Trainer_On},
     [MENUITEM_RANDOM_STATIC]                    = {sText_Description_Random_Static_Off,            sText_Description_Random_Static_On},
-    [MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL]   = {sText_Description_SimiliarEvolutionLevel_On,    sText_Description_SimiliarEvolutionLevel_Off},
+    [MENUITEM_RANDOM_POKEMON_TIERS]   = {sText_Description_SimiliarEvolutionLevel_On,    sText_Description_SimiliarEvolutionLevel_Off},
     [MENUITEM_RANDOM_INCLUDE_LEGENDARIES]       = {sText_Description_IncludeLegendaries_Off,       sText_Description_IncludeLegendaries_On},
     [MENUITEM_RANDOM_TYPE]                      = {sText_Description_Random_Types_Off,             sText_Description_Random_Types_On},
     [MENUITEM_RANDOM_MOVES]                     = {sText_Description_Random_Moves_Off,             sText_Description_Random_Moves_On},
@@ -874,7 +874,7 @@ void CB2_InitTxRandomizerChallengesMenu(void)
         gSaveBlock1Ptr->tx_Random_WildPokemon               = TX_RANDOM_WILD_POKEMON;
         gSaveBlock1Ptr->tx_Random_Trainer                   = TX_RANDOM_TRAINER;
         gSaveBlock1Ptr->tx_Random_Static                    = TX_RANDOM_STATIC;
-        gSaveBlock1Ptr->tx_Random_Similar                   = TX_RANDOM_SIMILAR;
+        gSaveBlock1Ptr->tx_Random_PkmnTiers                   = TX_RANDOM_SIMILAR;
         gSaveBlock1Ptr->tx_Random_MapBased                  = TX_RANDOM_MAP_BASED;
         gSaveBlock1Ptr->tx_Random_IncludeLegendaries        = TX_RANDOM_INCLUDE_LEGENDARIES;
         gSaveBlock1Ptr->tx_Random_Type                      = TX_RANDOM_TYPE;
@@ -914,7 +914,7 @@ void CB2_InitTxRandomizerChallengesMenu(void)
         sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN]                  = gSaveBlock1Ptr->tx_Random_WildPokemon;
         sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER]                    = gSaveBlock1Ptr->tx_Random_Trainer;
         sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC]                     = gSaveBlock1Ptr->tx_Random_Static;
-        sOptions->sel_randomizer[MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL]    = !gSaveBlock1Ptr->tx_Random_Similar;
+        sOptions->sel_randomizer[MENUITEM_RANDOM_POKEMON_TIERS]              = !gSaveBlock1Ptr->tx_Random_PkmnTiers;
         sOptions->sel_randomizer[MENUITEM_RANDOM_INCLUDE_LEGENDARIES]        = gSaveBlock1Ptr->tx_Random_IncludeLegendaries;
         sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE]                       = gSaveBlock1Ptr->tx_Random_Type;
         sOptions->sel_randomizer[MENUITEM_RANDOM_MOVES]                      = gSaveBlock1Ptr->tx_Random_Moves;
@@ -1176,7 +1176,7 @@ void SaveData_TxRandomizerAndChallenges(void)
     gSaveBlock1Ptr->tx_Random_WildPokemon        = sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN];
     gSaveBlock1Ptr->tx_Random_Trainer            = sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER];
     gSaveBlock1Ptr->tx_Random_Static             = sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC];
-    gSaveBlock1Ptr->tx_Random_Similar            = !sOptions->sel_randomizer[MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL];
+    gSaveBlock1Ptr->tx_Random_PkmnTiers            = !sOptions->sel_randomizer[MENUITEM_RANDOM_POKEMON_TIERS];
     gSaveBlock1Ptr->tx_Random_MapBased           = TX_RANDOM_MAP_BASED;
     gSaveBlock1Ptr->tx_Random_IncludeLegendaries = sOptions->sel_randomizer[MENUITEM_RANDOM_INCLUDE_LEGENDARIES];
     gSaveBlock1Ptr->tx_Random_Type               = sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE];
@@ -1495,7 +1495,7 @@ static void DrawChoices_Random_Static(int selection, int y)
 }
 static void DrawChoices_Random_EvoStages(int selection, int y)
 {
-    bool8 active = CheckConditions(MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL);
+    bool8 active = CheckConditions(MENUITEM_RANDOM_POKEMON_TIERS);
     u8 styles[2] = {0};
     styles[selection] = 1;
 
@@ -1554,7 +1554,7 @@ static void DrawChoices_Random_OffChaos(int selection, int y)
     DrawOptionMenuChoice(sText_Random_Chaos, GetStringRightAlignXOffset(1, sText_Random_Chaos, 198), y, styles[1], active);
 
     if (selection == 1)
-        sOptions->sel_randomizer[MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL] = 1;
+        sOptions->sel_randomizer[MENUITEM_RANDOM_POKEMON_TIERS] = 1;
 }
 
 // MENU_NUZLOCKE

@@ -487,11 +487,9 @@ CableClub_Text_HopeYouEnjoyWirelessSystem:
 	.string "Communication System.$"
 
 CableClub_Text_CantBeUsedWithChallenges:
-	.string "I'm sorry but you can't use our\n"
-	.string "sevices when playing with\l"
-	.string "with challenges activated.$"
+	.string "Our services are not available to users\n"
+	.string "that play with your challenge settings.$"
 
 CableClub_Text_CantBeUsedWithRandomizer:
-	.string "I'm sorry but you can't use our\n"
-	.string "our sevices when playing with\l"
-	.string "randomizer mode activated.$"
+	.string "Our services are not available to users\n"
+	.string "that play with randomizer settings.$"
