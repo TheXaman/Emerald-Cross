@@ -20,6 +20,7 @@
 #include "battle_main.h"
 #include "tx_randomizer_and_challenges.h"
 #include "pokemon.h"
+#include "graphics.h"
 
 #ifdef GBA_PRINTF //tx_randomizer_and_challenges
     //#include "printf.h"
@@ -239,6 +240,9 @@ static void DrawChoices_Challenges_Mirror(int selection, int y);
 static void DrawChoices_Challenges_Mirror_Thief(int selection, int y);
 
 static void PrintCurrentSelections(void);
+
+static const u16 *GetWindowPal(int selection);
+static void DrawBgWindowFramesDescription(void);
 
 // EWRAM vars
 EWRAM_DATA static struct OptionMenu *sOptions = NULL;
@@ -800,8 +804,27 @@ static void HighlightOptionMenuItem(void)
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(cursor * Y_DIFF + 24, cursor * Y_DIFF + 40));
 }
 
+static const u16 *GetWindowPal(int selection)
+{
+    switch (selection)
+    {
+        default:
+        case 0:
+            return gMessageBox_Pal;
+            break;
+        case 1:
+            return gMessageBoxRed_Pal;
+            break;
+        case 2:
+            return gMessageBoxBlue_Pal;
+            break;
+    }
+}
+
+
 void CB2_InitTxRandomizerChallengesMenu(void)
 {
+    u8 windowColor = gSaveBlock2Ptr->optionsTextWindowColor;
     u32 i, taskId;
     switch (gMain.state)
     {
@@ -840,6 +863,8 @@ void CB2_InitTxRandomizerChallengesMenu(void)
         gMain.state++;
         break;
     case 3:
+        LoadBgTiles(GetWindowAttribute(WIN_DESCRIPTION, WINDOW_BG), gMessageBox_Gfx, 0x1C0, 436);
+        LoadPalette(GetWindowPal(windowColor), 0x90, 0x20);
         LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
         gMain.state++;
         break;
@@ -1114,8 +1139,10 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(R_BUTTON))
     {
-        if (sOptions->submenu != MENU_COUNT-1)
+        if (sOptions->submenu != MENU_CHALLENGES)
             sOptions->submenu++;
+        else
+            sOptions->submenu = MENU_RANDOMIZER;
 
         DrawTopBarText();
         ReDrawAll();
@@ -1124,8 +1151,10 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(L_BUTTON))
     {
-        if (sOptions->submenu != 0)
+        if (sOptions->submenu != MENU_RANDOMIZER)
             sOptions->submenu--;
+        else
+            sOptions->submenu = MENU_CHALLENGES;
         
         DrawTopBarText();
         ReDrawAll();
@@ -1780,32 +1809,43 @@ static void DrawChoices_Challenges_Mirror_Thief(int selection, int y)
 #define TILE_BOT_EDGE     0x1A9 // 425
 #define TILE_BOT_CORNER_R 0x1AA // 426
 
+#define WINDOW_NPC_OFFSET (TILE_TOP_CORNER_L + 19)
+
 static void DrawBgWindowFrames(void)
 {
-    //                     bg, tile,              x, y, width, height, palNum
-    // Option Texts window
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,  1,  2,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2,  2, 26,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R, 28,  2,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1,  3,  1, 16,  7);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28,  3,  1, 16,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,  1, 13,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,      2, 13, 26,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R, 28, 13,  1,  1,  7);
+    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,   1,   2,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,       2,   2, 26,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R,   28,  2,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE ,      1,   3,  1, 10,7);
+    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,     28,  3,  1, 10, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,   1,  13,  1,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,       2,  13, 26,  1, 7);
+    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R,   28, 13,  1,  1, 7);
 
+    DrawBgWindowFramesDescription();
+}
+
+static void DrawBgWindowFramesDescription(void)
+{
     // Description window
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,  1, 14,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2, 14, 27,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R, 28, 14,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1, 15,  1,  2,  7);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28, 15,  1,  2,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,  1, 19,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,      2, 19, 27,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R, 28, 19,  1,  1,  7);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET,                       1 , 14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 2,                   2,  14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 3 ,                  3,  14, 24, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 4,                   27 , 14,  1, 1, 9);
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 5,                   28,  14,  1, 1, 9);
+
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 6,                    1 , 15,  1, 4, 9);
+
+    FillBgTilemapBufferRect(1, WINDOW_NPC_OFFSET + 9,                    28 , 15,  1, 4, 9);
+
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 2),   2,  19, 24, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 3),   3,  19, 24, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET),       1 , 19,  1, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 4),   27 , 19,  1, 1, 9);
+    FillBgTilemapBufferRect(1, BG_TILE_V_FLIP(WINDOW_NPC_OFFSET + 5),   28,  19,  1, 1, 9);
 
     CopyBgTilemapBufferToVram(1);
 }
-
 
 // Debug
 static void PrintCurrentSelections(void)
