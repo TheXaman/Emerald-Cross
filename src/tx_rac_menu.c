@@ -1698,10 +1698,10 @@ static void DrawChoices_Challenges_PartyLimit(int selection, int y)
 
     DrawOptionMenuChoice(sText_Off, 104, y, styles[0], active);
     DrawOptionMenuChoice(sText_Challenges_PartyLimit_1, 130, y, styles[1], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_2, 145, y, styles[2], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_3, 160, y, styles[3], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_4, 175, y, styles[4], active);
-    DrawOptionMenuChoice(sText_Challenges_PartyLimit_5, 190, y, styles[5], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_2, 146, y, styles[2], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_3, 161, y, styles[3], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_4, 176, y, styles[4], active);
+    DrawOptionMenuChoice(sText_Challenges_PartyLimit_5, 192, y, styles[5], active);
 }
 
 static const u8 sText_Challenges_LevelCap_Normal[]  = _("NORMAL");
