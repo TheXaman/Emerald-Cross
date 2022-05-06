@@ -70,10 +70,10 @@
 #include "tx_randomizer_and_challenges.h"
 #include "pokemon_storage_system.h" //tx_randomizer_and_challenges
 
-//#ifdef GBA_PRINTF //tx_randomizer_and_challenges
-//    #include "printf.h"
-//    #include "mgba.h"
-//#endif
+#ifdef GBA_PRINTF //tx_randomizer_and_challenges
+    //#include "printf.h"
+    //#include "mgba.h"
+#endif
 
 struct CableClubPlayer
 {
@@ -372,13 +372,13 @@ static void (*const gMovementStatusHandler[])(struct LinkPlayerObjectEvent *, st
 // code
 void DoWhiteOut(void)
 {
-    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke) //tx_randomizer_and_challenges
+    if (IsNuzlockeActive()) //tx_randomizer_and_challenges
     {
         if (GetFirstBoxPokemon() == IN_BOX_COUNT * TOTAL_BOXES_COUNT)
             DoSoftReset();
     }
     ScriptContext2_RunNewScript(EventScript_WhiteOut);
-    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke) //tx_randomizer_and_challenges
+    if (IsNuzlockeActive()) //tx_randomizer_and_challenges
         MoveFirstBoxPokemon();
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();
@@ -1618,7 +1618,7 @@ void CB2_WhiteOut(void)
     {
         FieldClearVBlankHBlankCallbacks();
         StopMapMusic();
-        if (gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore) //tx_randomizer_and_challenges
+        if (gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore && !FlagGet(FLAG_IS_CHAMPION)) //tx_randomizer_and_challenges
         {
             ClearSaveData();
             DoSoftReset();

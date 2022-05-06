@@ -90,4 +90,9 @@ enum ItemObtainFlags
     FLAG_SET_OBTAINED,
 };
 
+//tx_randomizer_and_challenges
+u16 RandomItemId(u16 itemId);
+u16 RandomItem(void);
+u16 RandomItemHidden(void);
+
 #endif // GUARD_ITEM_H

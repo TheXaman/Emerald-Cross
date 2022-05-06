@@ -79,12 +79,13 @@ EWRAM_DATA static u8 sLearningMoveTableID = 0;
 EWRAM_DATA u8 gPlayerPartyCount = 0;
 EWRAM_DATA u8 gEnemyPartyCount = 0;
 EWRAM_DATA struct Pokemon gPlayerParty[PARTY_SIZE] = {0};
+EWRAM_DATA struct Pokemon gPlayerPartyBackup[PARTY_SIZE] = {0}; //tx_randomizer_and_challenges
 EWRAM_DATA struct Pokemon gEnemyParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct SpriteTemplate gMultiuseSpriteTemplate = {0};
 EWRAM_DATA static struct MonSpritesGfxManager *sMonSpritesGfxManagers[MON_SPR_GFX_MANAGERS_COUNT] = {NULL};
 
 //tx_randomizer_and_challenges
-EWRAM_DATA static u16 sSpeciesList[NUM_SPECIES] = {0};
+EWRAM_DATA static u16 sSpeciesList[1] = {0}; //[NUM_SPECIES] = {0};
 EWRAM_DATA static u8 sTypeEffectivenessList[NUMBER_OF_MON_TYPES] = {0};
 
 // const rom data
@@ -2165,7 +2166,7 @@ static const struct SpriteTemplate sSpriteTemplate_64x64 =
 #define EVO_TYPE_SELF 3
 #define EVO_TYPE_LEGENDARY 4
 
-const u8 gRandomizationTypes[6][25] =
+const u8 gRandomizationTypes[7][25] =
 {
     [TX_RANDOM_T_WILD_POKEMON]    = _("TX RANDOM WILD PKMN"),
     [TX_RANDOM_T_TRAINER]         = _("TX RANDOM TRAINER  "),
@@ -2173,6 +2174,7 @@ const u8 gRandomizationTypes[6][25] =
     [TX_RANDOM_T_ABILITY]         = _("TX RANDOM ABILITY  "),
     [TX_RANDOM_T_EVO]             = _("TX RANDOM EVO      "),
     [TX_RANDOM_T_EVO_METH]        = _("TX RANDOM EVO METH "),
+    [TX_RANDOM_T_STATIC]          = _("TX RANDOM STATIC   "),
 };
 const u8 gEvoStages[5][20] = 
 {
@@ -10611,13 +10613,13 @@ u8 GiveMonToPlayer(struct Pokemon *mon, bool8 isStevensBeldum)
         SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
     }
 
-    for (i = 0; i < GetPartySize(); i++) //tx_randomizer_and_challenges
+    for (i = 0; i < GetMaxPartySize(); i++) //tx_randomizer_and_challenges
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_NONE)
             break;
     }
 
-    if (i >= GetPartySize()) //tx_randomizer_and_challenges
+    if (i >= GetMaxPartySize()) //tx_randomizer_and_challenges
         return SendMonToPC(mon);
 
     if (typeChallenge != TX_CHALLENGE_TYPE_OFF && 
@@ -10668,7 +10670,7 @@ u8 CalculatePlayerPartyCount(void)
 {
     gPlayerPartyCount = 0;
 
-    while (gPlayerPartyCount < GetPartySize() //tx_randomizer_and_challenges
+    while (gPlayerPartyCount < GetMaxPartySize() //tx_randomizer_and_challenges
         && GetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_SPECIES, NULL) != SPECIES_NONE)
     {
         gPlayerPartyCount++;
@@ -10805,7 +10807,7 @@ bool8 IsPlayerPartyAndPokemonStorageFull(void)
 {
     s32 i;
 
-    for (i = 0; i < GetPartySize(); i++)
+    for (i = 0; i < GetMaxPartySize(); i++)
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_NONE)
             return FALSE;
 
@@ -12194,6 +12196,9 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
     u8 holdEffect;
     int i, multiplier;
 
+    if (gSaveBlock1Ptr->tx_Challenges_NoEVs && !FlagGet(FLAG_IS_CHAMPION))
+        return;
+
     for (i = 0; i < NUM_STATS; i++)
     {
         evs[i] = GetMonData(mon, MON_DATA_HP_EV + i, 0);
@@ -12452,8 +12457,6 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
     const u8 *learnableMoves;
     
     //tx_randomizer_and_challenges
-    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke && (tm >= ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) )
-        return TRUE;
     if (gSaveBlock1Ptr->tx_Random_Moves)
         species = GetSpeciesRandomSeeded(species, TX_RANDOM_T_MOVES);
 
@@ -12476,8 +12479,6 @@ u32 CanSpeciesLearnTMHM(u16 species, u8 tm)
 {
     const u8 *learnableMoves;
     //tx_randomizer_and_challenges
-    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke && (tm >= ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) )
-        return TRUE;
     if (gSaveBlock1Ptr->tx_Random_Moves)
         species = GetSpeciesRandomSeeded(species, TX_RANDOM_T_MOVES);
 
@@ -13517,6 +13518,64 @@ u8 GetTypeEffectivenessRandom(u8 type)
 
     return sTypeEffectivenessList[type];
 }
+u16 PickRandomStarterForOneTypeChallenge(u16 *speciesList, u8 starterId)
+{
+    u16 i, species;
+    u8 typeChallenge = gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge;
+
+    #ifdef GBA_PRINTF
+        mgba_printf(MGBA_LOG_DEBUG, "PickRandomStarterForOneTypeChallenge(starterId=%d)", starterId);
+    #endif
+
+    if ((IsRandomizerActivated() && gSaveBlock1Ptr->tx_Random_Similar) || !IsRandomizerActivated())
+    {
+        u16 *stemp = Alloc(sizeof(gRandomSpeciesEvo0));
+        DmaCopy16(3, gRandomSpeciesEvo0, stemp, sizeof(gRandomSpeciesEvo0));
+        ShuffleListU16(stemp, RANDOM_SPECIES_EVO_0_COUNT, (starterId+13)*12289);
+        for (i=0; i<RANDOM_SPECIES_EVO_0_COUNT; i++)
+        {
+            species = stemp[i];
+            if ((GetTypeBySpecies(species, 1) == typeChallenge || GetTypeBySpecies(species, 2) == typeChallenge) 
+                && species != speciesList[0] && species != speciesList[1] && species != speciesList[2])
+                break;
+        }
+        free(stemp);
+    }
+    else if (gSaveBlock1Ptr->tx_Random_IncludeLegendaries)
+    {
+        u16 *stemp = Alloc(sizeof(sRandomSpeciesLegendary));
+        DmaCopy16(3, sRandomSpeciesLegendary, stemp, sizeof(sRandomSpeciesLegendary));
+        ShuffleListU16(stemp, RANDOM_SPECIES_COUNT_LEGENDARY, (starterId+13)*12289);
+        for (i=0; i<RANDOM_SPECIES_COUNT_LEGENDARY; i++)
+        {
+            species = stemp[i];
+            if ((GetTypeBySpecies(species, 1) == typeChallenge || GetTypeBySpecies(species, 2) == typeChallenge) 
+                && species != speciesList[0] && species != speciesList[1] && species != speciesList[2])
+                break;
+        }
+        free(stemp);
+    }
+    else
+    {
+        u16 *stemp = Alloc(sizeof(sRandomSpecies));
+        DmaCopy16(3, sRandomSpecies, stemp, sizeof(sRandomSpecies));
+        ShuffleListU16(stemp, RANDOM_SPECIES_COUNT, (starterId+13)*12289);
+        for (i=0; i<RANDOM_SPECIES_COUNT; i++)
+        {
+            species = stemp[i];
+            if ((GetTypeBySpecies(species, 1) == typeChallenge || GetTypeBySpecies(species, 2) == typeChallenge) 
+                && species != speciesList[0] && species != speciesList[1] && species != speciesList[2])
+                break;
+        }
+        free(stemp);
+    }
+
+    #ifdef GBA_PRINTF
+        mgba_printf(MGBA_LOG_DEBUG, "starterId=%d; species=%d; iterations=%d", starterId, species, i);
+    #endif
+
+    return species;
+}
 
 //******* non EWRAM functions
 u16 PickRandomStarter(u16 species)
@@ -13524,7 +13583,7 @@ u16 PickRandomStarter(u16 species)
     if (gSaveBlock1Ptr->tx_Random_Chaos)
         return sRandomSpeciesLegendary[RandomSeededModulo(species, RANDOM_SPECIES_COUNT_LEGENDARY)];
     
-    if (gSaveBlock1Ptr->tx_Random_Similar)
+    if (gSaveBlock1Ptr->tx_Random_Similar && !gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge)
         return gRandomSpeciesEvo0[RandomSeededModulo(species*24593, RANDOM_SPECIES_EVO_0_COUNT)];
 
     if (gSaveBlock1Ptr->tx_Random_IncludeLegendaries)
@@ -13533,30 +13592,27 @@ u16 PickRandomStarter(u16 species)
     return sRandomSpecies[RandomSeededModulo(species*24593, RANDOM_SPECIES_COUNT)];
 }
 
-u8 GetTypeBySpecies(u16 species, u8 type)
+u8 GetTypeBySpecies(u16 species, u8 typeNum)
 {
-    u8 result;
-    u16 input_species = species;
+    u8 result, type;
 
-    if (gSaveBlock1Ptr->tx_Random_Type)
-        species = sRandomSpecies[RandomSeededModulo(species + type*193, RANDOM_SPECIES_COUNT)];
+    if (typeNum == 1)
+        type = gBaseStats[species].type1;
+    else
+        type = gBaseStats[species].type2;
 
-    switch (type)
-    {
-    case 1:
-        result = gBaseStats[species].type1;
-        break;
-    case 2:
-        result = gBaseStats[species].type2;
-        break;
-    }
+    if (!gSaveBlock1Ptr->tx_Random_Type)
+        return type;
+
+    result = sRandomSpecies[RandomSeededModulo(type*12289 + typeNum*species*24593, NUMBER_OF_MON_TYPES-1)];
+    type = sOneTypeChallengeValidTypes[result];
 
     #ifdef GBA_PRINTF
     if (gSaveBlock1Ptr->tx_Random_Type)
-        mgba_printf(MGBA_LOG_DEBUG, "TX RANDOM TYPE: species=%d=%s; new species=%d=%s, type=%d=%s", input_species , ConvertToAscii(gSpeciesNames[input_species]), species , ConvertToAscii(gSpeciesNames[species]), result, ConvertToAscii(gTypeNames[result]));
+        mgba_printf(MGBA_LOG_DEBUG, "TX RANDOM TYPE%d: species=%d; type=%d=%s", typeNum, species , type, ConvertToAscii(gTypeNames[type]));
     #endif
 
-    return result;
+    return type;
 }
 
 u16 GetRandomSpecies(u16 species, u8 mapBased, u8 type) //INTERNAL use only!
@@ -13586,6 +13642,9 @@ u16 GetRandomSpecies(u16 species, u8 mapBased, u8 type) //INTERNAL use only!
         break;
     case TX_RANDOM_T_EVO_METH:
         multiplier = 12289;
+        break;
+    case TX_RANDOM_T_STATIC:
+        multiplier = 49157;
         break;
     }
 
@@ -13668,6 +13727,9 @@ u16 GetSpeciesRandomSeeded(u16 species, u8 type)
     case TX_RANDOM_T_EVO_METH:
         result_species = GetRandomSpecies(species, mapBased, type);
         break;
+    case TX_RANDOM_T_STATIC:
+        result_species = GetRandomSpecies(species, mapBased, type);
+        break;
     }
 
     return result_species;
@@ -13685,45 +13747,7 @@ u16 GetRandomMove(u16 move, u16 species)
     return final;
 }
 
-// Nuzlocke
-void NuzlockeDeletePartyMon(u8 position)
-{
-    PurgeMonOrBoxMon(TOTAL_BOXES_COUNT, position);
-}
-void NuzlockeDeleteFaintedPartyPokemon(void) // @Kurausukun
-{
-    u8 i;
-    struct Pokemon *pokemon;
-    u32 monItem;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        pokemon = &gPlayerParty[i];
-        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES, NULL) && !GetMonData(pokemon, MON_DATA_IS_EGG, NULL))
-        {
-            if (GetMonAilment(pokemon) == AILMENT_FNT)
-            {
-                monItem = GetMonData(pokemon, MON_DATA_HELD_ITEM, NULL);
-
-                if (monItem != ITEM_NONE)
-                    AddBagItem(monItem, 1);
-                NuzlockeDeletePartyMon(i);
-            }
-        }
-    }
-    CompactPartySlots();
-}
-
 // Challenges
-u8 GetPartySize(void)
-{
-    return (6 - gSaveBlock1Ptr->tx_Challenges_PartyLimit);
-}
-u8 PickRandomOneTypeChallengeType(void)
-{
-    u16 type = (RandomSeeded(1, TRUE) % (NUMBER_OF_MON_TYPES-1));
-    type = sOneTypeChallengeValidTypes[type];
-}
 u8 EvolutionBlockedByEvoLimit(u16 species)
 {
     u8 slot = gSpeciesMapping[species];
@@ -13733,177 +13757,8 @@ u8 EvolutionBlockedByEvoLimit(u16 species)
     return FALSE;
 }
 
-enum LevelCap {
-    LEVEL_CAP_NO_BADGES,
-    LEVEL_CAP_BADGE_1,
-    LEVEL_CAP_BADGE_2,
-    LEVEL_CAP_BADGE_3,
-    LEVEL_CAP_BADGE_4,
-    LEVEL_CAP_BADGE_5,
-    LEVEL_CAP_BADGE_6,
-    LEVEL_CAP_BADGE_7,
-    LEVEL_CAP_BADGE_8
-};
-const u8 gLevelCapTable_Normal[] = 
+u8 PickRandomOneTypeChallengeType(void)
 {
-    [LEVEL_CAP_NO_BADGES] = 15,
-    [LEVEL_CAP_BADGE_1] = 19,
-    [LEVEL_CAP_BADGE_2] = 24,
-    [LEVEL_CAP_BADGE_3] = 29,
-    [LEVEL_CAP_BADGE_4] = 31,
-    [LEVEL_CAP_BADGE_5] = 33,
-    [LEVEL_CAP_BADGE_6] = 42,
-    [LEVEL_CAP_BADGE_7] = 46,
-    [LEVEL_CAP_BADGE_8] = 58,
-};
-const u8 gLevelCapTable_Hard[] = 
-{
-    [LEVEL_CAP_NO_BADGES] = 12,
-    [LEVEL_CAP_BADGE_1] = 16,
-    [LEVEL_CAP_BADGE_2] = 20,
-    [LEVEL_CAP_BADGE_3] = 24,
-    [LEVEL_CAP_BADGE_4] = 27,
-    [LEVEL_CAP_BADGE_5] = 29,
-    [LEVEL_CAP_BADGE_6] = 41,
-    [LEVEL_CAP_BADGE_7] = 41,
-    [LEVEL_CAP_BADGE_8] = 55,
-};
-#define TX_CHALLENGE_LEVEL_CAP_DEBUG 0
-u8 GetCurrentPartyLevelCap(void)
-{
-    u16 i, badgeCount = 0;
-
-    if (TX_CHALLENGE_LEVEL_CAP_DEBUG != 0) //debug allways overwrites the rest
-        return TX_CHALLENGE_LEVEL_CAP_DEBUG;
-
-    if (FlagGet(FLAG_IS_CHAMPION)) //after beating the E4 remove the cap
-        return MAX_LEVEL;
-
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++) //count badges
-    {
-        if (FlagGet(i))
-            badgeCount++;
-    }
-
-    if (gSaveBlock1Ptr->tx_Challenges_LevelCap == 1) //normal level cap
-        return gLevelCapTable_Normal[badgeCount];
-
-    if (gSaveBlock1Ptr->tx_Challenges_LevelCap == 2) //hard level cap
-        return gLevelCapTable_Hard[badgeCount];
-
-    return MAX_LEVEL;
-}
-
-// DEBUG
-void PrintTXSaveData(void)
-{
-    #ifdef GBA_PRINTF
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Chaos"                , gSaveBlock1Ptr->tx_Random_Chaos);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_WildPokemon"          , gSaveBlock1Ptr->tx_Random_WildPokemon);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Similar"              , gSaveBlock1Ptr->tx_Random_Similar);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_MapBased"             , gSaveBlock1Ptr->tx_Random_MapBased);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_IncludeLegendaries"   , gSaveBlock1Ptr->tx_Random_IncludeLegendaries);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Type"                 , gSaveBlock1Ptr->tx_Random_Type);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_TypeEffectiveness"    , gSaveBlock1Ptr->tx_Random_TypeEffectiveness);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Abilities"            , gSaveBlock1Ptr->tx_Random_Abilities);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Moves"                , gSaveBlock1Ptr->tx_Random_Moves);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Trainer"              , gSaveBlock1Ptr->tx_Random_Trainer);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_Evolutions"           , gSaveBlock1Ptr->tx_Random_Evolutions);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_EvolutionMethods"     , gSaveBlock1Ptr->tx_Random_EvolutionMethods);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_EvoLimit"         , gSaveBlock1Ptr->tx_Challenges_EvoLimit);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_Nuzlocke"         , gSaveBlock1Ptr->tx_Challenges_Nuzlocke);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_NuzlockeHardcore" , gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_NoItemPlayer"     , gSaveBlock1Ptr->tx_Challenges_NoItemPlayer);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_NoItemTrainer"    , gSaveBlock1Ptr->tx_Challenges_NoItemTrainer);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_OneTypeChallenge" , gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_PartyLimit"       , gSaveBlock1Ptr->tx_Challenges_PartyLimit);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_PkmnCenter"       , gSaveBlock1Ptr->tx_Challenges_PkmnCenter);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Random_OneForOne"            , gSaveBlock1Ptr->tx_Random_OneForOne);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_BaseStatEqualizer", gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer);
-    mgba_printf(MGBA_LOG_DEBUG, "%d tx_Challenges_LevelCap"         , gSaveBlock1Ptr->tx_Challenges_LevelCap);
-    #endif
-}
-
-void TestRandomizerValues(u8 type)
-{
-    #ifdef GBA_PRINTF
-    u16 i, j;
-    u8 real_j;
-    u16 tmp;
-    u16 array[10];
-    u8 save_values[23];
-
-    //save saveblock values
-    save_values[0]  = gSaveBlock1Ptr->tx_Random_Chaos;
-    save_values[1]  = gSaveBlock1Ptr->tx_Random_WildPokemon;
-    save_values[2]  = gSaveBlock1Ptr->tx_Random_Similar;
-    save_values[3]  = gSaveBlock1Ptr->tx_Random_MapBased;
-    save_values[4]  = gSaveBlock1Ptr->tx_Random_IncludeLegendaries;
-    save_values[5]  = gSaveBlock1Ptr->tx_Random_Type;
-    save_values[6]  = gSaveBlock1Ptr->tx_Random_TypeEffectiveness;
-    save_values[7]  = gSaveBlock1Ptr->tx_Random_Abilities;
-    save_values[8]  = gSaveBlock1Ptr->tx_Random_Moves;
-    save_values[9]  = gSaveBlock1Ptr->tx_Random_Trainer;
-    save_values[10] = gSaveBlock1Ptr->tx_Random_Evolutions;
-    save_values[11] = gSaveBlock1Ptr->tx_Random_EvolutionMethods;
-    save_values[12] = gSaveBlock1Ptr->tx_Challenges_EvoLimit;
-    save_values[13] = gSaveBlock1Ptr->tx_Challenges_Nuzlocke;
-    save_values[14] = gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore;
-    save_values[15] = gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge;
-    save_values[16] = gSaveBlock1Ptr->tx_Challenges_PartyLimit;
-    save_values[17] = gSaveBlock1Ptr->tx_Challenges_NoItemPlayer;
-    save_values[18] = gSaveBlock1Ptr->tx_Challenges_NoItemTrainer;
-    save_values[19] = gSaveBlock1Ptr->tx_Challenges_PkmnCenter;
-    save_values[20] = gSaveBlock1Ptr->tx_Random_OneForOne;
-    save_values[21] = gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer;
-    save_values[22] = gSaveBlock1Ptr->tx_Challenges_LevelCap;
-
-    gSaveBlock1Ptr->tx_Random_WildPokemon           = TRUE;
-    gSaveBlock1Ptr->tx_Random_Similar               = FALSE;
-    gSaveBlock1Ptr->tx_Random_MapBased              = FALSE;
-    gSaveBlock1Ptr->tx_Random_IncludeLegendaries    = FALSE;
-
-
-    for (i=0; i<10; i++)
-    {
-        for (j=0; j<NUM_SPECIES; j++)
-        {
-        //tmp = RandomSeededModulo(j, NUM_SPECIES);
-        tmp = GetSpeciesRandomSeeded(j, type);
-        
-        real_j = j % 10;
-        array[real_j] = tmp;
-        if (real_j == 9)
-            mgba_printf(MGBA_LOG_DEBUG, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", array[0],array[1],array[2],array[3],array[4],array[5],array[6],array[7],array[8],array[9]);
-        }
-    }
-
-
-
-
-    //restore saveblock values
-    gSaveBlock1Ptr->tx_Random_Chaos                 =   save_values[0];
-    gSaveBlock1Ptr->tx_Random_WildPokemon           =   save_values[1];
-    gSaveBlock1Ptr->tx_Random_Similar               =   save_values[2];
-    gSaveBlock1Ptr->tx_Random_MapBased              =   save_values[3];
-    gSaveBlock1Ptr->tx_Random_IncludeLegendaries    =   save_values[4];
-    gSaveBlock1Ptr->tx_Random_Type                  =   save_values[5];
-    gSaveBlock1Ptr->tx_Random_TypeEffectiveness     =   save_values[6];
-    gSaveBlock1Ptr->tx_Random_Abilities             =   save_values[7];
-    gSaveBlock1Ptr->tx_Random_Moves                 =   save_values[8];
-    gSaveBlock1Ptr->tx_Random_Trainer               =   save_values[9];
-    gSaveBlock1Ptr->tx_Random_Evolutions            =   save_values[10];
-    gSaveBlock1Ptr->tx_Random_EvolutionMethods      =   save_values[11];
-    gSaveBlock1Ptr->tx_Challenges_EvoLimit          =   save_values[12];
-    gSaveBlock1Ptr->tx_Challenges_Nuzlocke          =   save_values[13];
-    gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore  =   save_values[14];
-    gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge  =   save_values[15];
-    gSaveBlock1Ptr->tx_Challenges_PartyLimit        =   save_values[16];
-    gSaveBlock1Ptr->tx_Challenges_NoItemPlayer      =   save_values[17];
-    gSaveBlock1Ptr->tx_Challenges_NoItemTrainer     =   save_values[18];
-    gSaveBlock1Ptr->tx_Challenges_PkmnCenter        =   save_values[19];
-    gSaveBlock1Ptr->tx_Random_OneForOne             =   save_values[20];
-    gSaveBlock1Ptr->tx_Challenges_BaseStatEqualizer =   save_values[21];
-    gSaveBlock1Ptr->tx_Challenges_LevelCap          =   save_values[22];
-    #endif
+    u16 type = (RandomSeeded(1, TRUE) % (NUMBER_OF_MON_TYPES-1));
+    type = sOneTypeChallengeValidTypes[type];
 }

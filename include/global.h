@@ -1074,6 +1074,15 @@ struct SaveBlock1
     u8 tx_Challenges_LevelCap:2;
     u8 tx_Random_Items:1;
     u8 tx_Challenges_ExpMultiplier:2;
+    u8 tx_Nuzlocke_SpeciesClause:1;
+    u8 tx_Nuzlocke_ShinyClause:1;
+    u8 tx_Nuzlocke_Nicknaming:1;
+    u8 tx_Challenges_Mirror:1;
+    u8 tx_Challenges_Mirror_Thief:1;
+    u8 tx_Random_Static:1;
+    u8 tx_Challenges_NoEVs:1;
+    u8 tx_Challenges_TrainerScalingIVs:1;
+    u8 tx_Challenges_TrainerScalingEVs:1;
 };
 
 

@@ -1601,7 +1601,7 @@ u8 AI_TypeCalc(u16 move, u16 targetSpecies, u8 targetAbility)
 {
     s32 i = 0;
     u8 flags = 0;
-    u8 type1 = gBaseStats[targetSpecies].type1, type2 = gBaseStats[targetSpecies].type2;
+    u8 type1 = GetTypeBySpecies(targetSpecies, 1), type2 = GetTypeBySpecies(targetSpecies, 2);
     u8 moveType;
 
     if (move == MOVE_STRUGGLE)
@@ -3337,7 +3337,7 @@ static void Cmd_getexp(void)
             {
                 if (TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER) //special for Jaizu
                 {
-                    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke || IsRandomizerActivated())
+                    if (IsNuzlockeActive() || IsRandomizerActivated())
                     {
                         if (gSaveBlock1Ptr->tx_Challenges_ExpMultiplier == 3)
                             calculatedExp = 0;
@@ -3376,7 +3376,7 @@ static void Cmd_getexp(void)
             {
                 if (TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER) //special for Jaizu
                 {
-                    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke || IsRandomizerActivated())
+                    if (IsNuzlockeActive() || IsRandomizerActivated())
                     {
                         *exp = 0;
                         gExpShareExp = 0;
@@ -4693,8 +4693,8 @@ static void Cmd_switchindataupdate(void)
     for (i = 0; i < sizeof(struct BattlePokemon); i++)
         monData[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-    gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-    gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    gBattleMons[gActiveBattler].type1 = GetTypeBySpecies(gBattleMons[gActiveBattler].species, 1);
+    gBattleMons[gActiveBattler].type2 = GetTypeBySpecies(gBattleMons[gActiveBattler].species, 2);
     gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
 
     // check knocked off item
@@ -9740,9 +9740,9 @@ static void Cmd_pickup(void)
             heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
 
             if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gBaseStats[species].abilities[1];
+                ability = GetAbilityBySpecies(species, 1);
             else
-                ability = gBaseStats[species].abilities[0];
+                ability = GetAbilityBySpecies(species, 0);
 
             if (ability == ABILITY_PICKUP
                 && species != SPECIES_NONE
@@ -9763,9 +9763,9 @@ static void Cmd_pickup(void)
             heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
 
             if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gBaseStats[species].abilities[1];
+                ability = GetAbilityBySpecies(species, 1);
             else
-                ability = gBaseStats[species].abilities[0];
+                ability = GetAbilityBySpecies(species, 0);
 
             if (ability == ABILITY_PICKUP
                 && species != SPECIES_NONE
@@ -10323,7 +10323,7 @@ static void Cmd_trygivecaughtmonnick(void)
     case 0:
         HandleBattleWindow(24, 8, 29, 13, 0);
 
-        if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke) //tx_randomizer_and_challenges
+        if (IsNuzlockeNicknamingActive()) //tx_randomizer_and_challenges
         {
             gBattleCommunication[MULTIUSE_STATE]++;
             BeginFastPaletteFade(3);
@@ -10337,7 +10337,7 @@ static void Cmd_trygivecaughtmonnick(void)
         }
         break;
     case 1:
-        if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke) //tx_randomizer_and_challenges
+        if (IsNuzlockeNicknamingActive()) //tx_randomizer_and_challenges
             gBattleCommunication[MULTIUSE_STATE]++;
 
         if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)
@@ -10396,7 +10396,7 @@ static void Cmd_trygivecaughtmonnick(void)
         }
         break;
     case 4:
-        if (CalculatePlayerPartyCount() == GetPartySize()) //tx_randomizer_and_challenges
+        if (CalculatePlayerPartyCount() == GetMaxPartySize()) //tx_randomizer_and_challenges
             gBattlescriptCurrInstr += 5;
         else if (typeChallenge != TX_CHALLENGE_TYPE_OFF && //tx_randomizer_and_challenges
                             GetTypeBySpecies(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_SPECIES), 1) != typeChallenge && 

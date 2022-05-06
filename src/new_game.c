@@ -146,8 +146,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    tx_randomizer_SaveData();
-    tx_challenges_SaveData();
+    SaveData_TxRandomizerAndChallenges();
     SetWarpDestination(MAP_GROUP(INSIDE_OF_TRUCK), MAP_NUM(INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
     WarpIntoMap();
 }

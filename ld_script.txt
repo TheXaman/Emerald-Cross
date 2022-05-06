@@ -334,8 +334,8 @@ SECTIONS {
         src/gym_leader_rematch.o(.text);
         src/battle_transition_frontier.o(.text);
         src/international_string_util.o(.text);
-        src/tx_challenges.o(.text);
-        src/tx_randomizer.o(.text);
+        src/tx_rac_menu.o(.text);
+        src/tx_randomizer_and_challenges.o(.text);
         src/build_info.o(.text);
     } =0
 
@@ -699,8 +699,8 @@ SECTIONS {
         data/mystery_gift.o(.rodata);
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
-        src/tx_challenges.o(.rodata);
-        src/tx_randomizer.o(.rodata);
+        src/tx_rac_menu.o(.rodata);
+        src/tx_randomizer_and_challenges.o(.rodata);
         src/build_info.o(.rodata);
     } =0
 
