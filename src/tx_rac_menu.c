@@ -679,7 +679,7 @@ static const u8 sText_TopBar_Right[]        = _("{L_BUTTON}{R_BUTTON} PAGE");
 static void DrawTopBarText(void)
 {
     const u8 color[3] = { TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_OPTIONS_GRAY_FG };
-    u8 x = GetStringRightAlignXOffset(FONT_SMALL, sText_TopBar_Right, 224);
+    u8 x = GetStringRightAlignXOffset(FONT_SMALL, sText_TopBar_Right, 232);
 
     FillWindowPixelBuffer(WIN_TOPBAR, PIXEL_FILL(15));
     AddTextPrinterParameterized3(WIN_TOPBAR, FONT_SMALL, x, 1, color, 0, sText_TopBar_Right);
