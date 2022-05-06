@@ -1172,7 +1172,9 @@ static void Cmd_accuracycheck(void)
         if (holdEffect == HOLD_EFFECT_EVASION_UP)
             calc = (calc * (100 - param)) / 100;
 
-		if (gBattleMons[gBattlerTarget].friendship >= 255 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+		if (gBattleMons[gBattlerTarget].friendship >= 255
+        && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
+        && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 			calc = (calc * 90) / 100;
 
         // final calculation
@@ -1280,7 +1282,9 @@ static void Cmd_critcalc(void)
 
 	critChance = sCriticalHitChance[critChance];
 
-	if (gBattleMons[gBattlerTarget].friendship >= 255 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	if (gBattleMons[gBattlerTarget].friendship >= 255
+    && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
+    && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 		critChance /= 2;
 
     if ((gBattleMons[gBattlerTarget].ability != ABILITY_BATTLE_ARMOR && gBattleMons[gBattlerTarget].ability != ABILITY_SHELL_ARMOR)
@@ -1786,7 +1790,7 @@ static void Cmd_adjustnormaldamage2(void) // The same as adjustnormaldamage exce
 				friendEndured = TRUE;
 		}
 
-		if (friendEndured)
+		if ((friendEndured == TRUE) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 		{
 			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
 			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
@@ -5998,7 +6002,7 @@ static void Cmd_adjustsetdamage(void) // The same as adjustnormaldamage, except 
 				friendEndured = TRUE;
 		}
 
-		if (friendEndured)
+		if ((friendEndured == TRUE) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 		{
 			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
 			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
@@ -7636,7 +7640,7 @@ static void Cmd_tryKO(void)
 						friendEndured = TRUE;
 				}
 
-				if (friendEndured)
+				if ((friendEndured == TRUE) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 				{
 					gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
 					gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;

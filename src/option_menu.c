@@ -62,6 +62,7 @@ enum
     MENUITEM_BATTLE_HP_BAR,
     MENUITEM_BATTLE_EXP_BAR,
     MENUITEM_BATTLE_LAST_BALL,
+    MENUITEM_BATTLE_FRIENSHIP_BONUS,
     MENUITEM_BATTLE_CANCEL,
     MENUITEM_BATTLE_COUNT,
 };
@@ -234,6 +235,7 @@ static const u8 sText_BattleIntro[]     = _("BATTLE INTRO");
 static const u8 sText_HpBar[]           = _("HP BAR SPEED");
 static const u8 sText_ExpBar[]          = _("EXP BAR SPEED");
 static const u8 sText_LastBall[]        = _("LAST BALL");
+static const u8 sText_FriendshipBonus[] = _("FRIENDSHIP BONUS");
 // Posible options
 static const u8 sText_TextSpeedSlow[]       = _("SLOW");
 static const u8 sText_TextSpeedMid[]        = _("MID");
@@ -328,13 +330,14 @@ struct
 
 static const sItemFunctionsBattle[MENUITEM_BATTLE_COUNT] =
 {
-    [MENUITEM_BATTLE_SCENE]     = {DrawChoices_BattleScene, ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_STYLE]     = {DrawChoices_BattleStyle, ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_INTRO]     = {DrawChoices_OffOn,       ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_HP_BAR]    = {DrawChoices_NormalFast,  ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_EXP_BAR]   = {DrawChoices_NormalFast,  ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_LAST_BALL] = {DrawChoices_OnOff,       ProcessInput_Options_Two},
-    [MENUITEM_BATTLE_CANCEL]    = {NULL, NULL},
+    [MENUITEM_BATTLE_SCENE]             = {DrawChoices_BattleScene, ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_STYLE]             = {DrawChoices_BattleStyle, ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_INTRO]             = {DrawChoices_OffOn,       ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_HP_BAR]            = {DrawChoices_NormalFast,  ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_EXP_BAR]           = {DrawChoices_NormalFast,  ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_LAST_BALL]         = {DrawChoices_OnOff,       ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_FRIENSHIP_BONUS]   = {DrawChoices_OnOff, ProcessInput_Options_Two},
+    [MENUITEM_BATTLE_CANCEL]            = {NULL, NULL},
 };
 
 // Menu left side option names text
@@ -371,6 +374,7 @@ static const u8 *const sOptionMenuItemsNamesBattle[MENUITEM_BATTLE_COUNT] =
     [MENUITEM_BATTLE_HP_BAR]    = sText_HpBar,
     [MENUITEM_BATTLE_EXP_BAR]   = sText_ExpBar,
     [MENUITEM_BATTLE_LAST_BALL] = sText_LastBall,
+    [MENUITEM_BATTLE_FRIENSHIP_BONUS] = sText_FriendshipBonus,
     [MENUITEM_BATTLE_CANCEL]    = sText_OptionMenuSave,
 };
 
@@ -457,6 +461,8 @@ static const u8 sText_Desc_BattleIntroOff[] = _("POKéMON and TRAINERs will appe
 static const u8 sText_Desc_BattleHPBar[]    = _("Choose how the HP BAR will get\ndrained in battles.");
 static const u8 sText_Desc_BattleExpBar[]   = _("Choose how the EXP BAR will get\nfilled in battles.");
 static const u8 sText_Desc_BattleLastBall[] = _("Choose if you want a shortcut\nfor the last used BALL.");
+static const u8 sText_Desc_FriendshipBonuses_On[] = _("Choose if your POKéMON will be\neligible for friendship bonuses.");
+static const u8 sText_Desc_FriendshipBonuses_Off[] = _("Choose if your POKéMON will be\neligible for friendship bonuses.");
 static const u8 sText_Desc_WindowColor[]    = _("Changes the color of the frame that\nappears when talking to NPCs.");
 
 
@@ -493,7 +499,8 @@ static const u8 *const sOptionMenuItemDescriptionsBattle[MENUITEM_BATTLE_COUNT][
     [MENUITEM_BATTLE_HP_BAR]    = {sText_Desc_BattleHPBar,      NULL, NULL, NULL},
     [MENUITEM_BATTLE_EXP_BAR]   = {sText_Desc_BattleExpBar,     NULL, NULL, NULL},
     [MENUITEM_BATTLE_LAST_BALL] = {sText_Desc_BattleLastBall,   NULL, NULL, NULL},
-    [MENUITEM_SOUND_CANCEL]     = {sText_Save, NULL, NULL, NULL},
+    [MENUITEM_BATTLE_FRIENSHIP_BONUS] = {sText_Desc_FriendshipBonuses_On,   sText_Desc_FriendshipBonuses_Off, NULL, NULL},
+    [MENUITEM_BATTLE_CANCEL]     = {sText_Save, NULL, NULL, NULL},
 };
 
 static const u8 *const OptionTextDescription(void)
@@ -779,6 +786,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel_battle[MENUITEM_BATTLE_HP_BAR]    = gSaveBlock2Ptr->optionsHpBarSpeed;
         sOptions->sel_battle[MENUITEM_BATTLE_EXP_BAR]   = gSaveBlock2Ptr->optionsExpBarSpeed;
         sOptions->sel_battle[MENUITEM_BATTLE_LAST_BALL] = gSaveBlock2Ptr->optionsLastBall;
+        sOptions->sel_battle[MENUITEM_BATTLE_FRIENSHIP_BONUS] = gSaveBlock2Ptr->optionsFriendshipBonuses;
 
         sOptions->submenu = MENU_GAME;
 
@@ -997,13 +1005,14 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsTrainerBGM   = sOptions->sel_sound[MENUITEM_SOUND_TRAINER];
     gSaveBlock2Ptr->optionsGrassSound   = sOptions->sel_sound[MENUITEM_SOUND_GRASS];
 
-    gSaveBlock2Ptr->optionsBattleSceneOff   = sOptions->sel_battle[MENUITEM_BATTLE_SCENE];
-    gSaveBlock2Ptr->optionsBattleStyle      = sOptions->sel_battle[MENUITEM_BATTLE_STYLE];
-    gSaveBlock2Ptr->optionsSkipBattleIntro  = sOptions->sel_battle[MENUITEM_BATTLE_INTRO];
-    gSaveBlock2Ptr->optionsHpBarSpeed       = sOptions->sel_battle[MENUITEM_BATTLE_HP_BAR];
-    gSaveBlock2Ptr->optionsExpBarSpeed      = sOptions->sel_battle[MENUITEM_BATTLE_EXP_BAR];
-    gSaveBlock2Ptr->optionsLastBall         = sOptions->sel_battle[MENUITEM_BATTLE_LAST_BALL];
-
+    gSaveBlock2Ptr->optionsBattleSceneOff       = sOptions->sel_battle[MENUITEM_BATTLE_SCENE];
+    gSaveBlock2Ptr->optionsBattleStyle          = sOptions->sel_battle[MENUITEM_BATTLE_STYLE];
+    gSaveBlock2Ptr->optionsSkipBattleIntro      = sOptions->sel_battle[MENUITEM_BATTLE_INTRO];
+    gSaveBlock2Ptr->optionsHpBarSpeed           = sOptions->sel_battle[MENUITEM_BATTLE_HP_BAR];
+    gSaveBlock2Ptr->optionsExpBarSpeed          = sOptions->sel_battle[MENUITEM_BATTLE_EXP_BAR];
+    gSaveBlock2Ptr->optionsLastBall             = sOptions->sel_battle[MENUITEM_BATTLE_LAST_BALL];
+    gSaveBlock2Ptr->optionsFriendshipBonuses    = sOptions->sel_battle[MENUITEM_BATTLE_FRIENSHIP_BONUS];
+ 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
 }

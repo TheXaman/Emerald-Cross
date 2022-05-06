@@ -493,7 +493,7 @@ struct SaveBlock2
     u16 optionsHpBarSpeed:1;
     u16 reserved1:2;
     // Second u16
-    u16 reserved2_1:1;
+    u16 optionsFriendshipBonuses:1;
     u16 optionsExpBarSpeed:1;
     u16 optionsTextWindowColor:2;
     u16 reserved2_2:1;

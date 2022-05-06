@@ -109,12 +109,13 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsTrainerBGM   = 0;
     gSaveBlock2Ptr->optionsGrassSound   = 0;
     // Batle options
-    gSaveBlock2Ptr->optionsBattleSceneOff   = 0;
-    gSaveBlock2Ptr->optionsBattleStyle      = OPTIONS_BATTLE_STYLE_SHIFT;
-    gSaveBlock2Ptr->optionsSkipBattleIntro  = 0;
-    gSaveBlock2Ptr->optionsHpBarSpeed       = 0;
-    gSaveBlock2Ptr->optionsExpBarSpeed      = 0;
-    gSaveBlock2Ptr->optionsLastBall         = 1;
+    gSaveBlock2Ptr->optionsBattleSceneOff       = 0;
+    gSaveBlock2Ptr->optionsBattleStyle          = OPTIONS_BATTLE_STYLE_SHIFT;
+    gSaveBlock2Ptr->optionsSkipBattleIntro      = 0;
+    gSaveBlock2Ptr->optionsHpBarSpeed           = 0;
+    gSaveBlock2Ptr->optionsExpBarSpeed          = 0;
+    gSaveBlock2Ptr->optionsLastBall             = 1;
+    gSaveBlock2Ptr->optionsFriendshipBonuses    = OPTION_FRIENDSHIP_BONUS_ON;
 
 }
 
