@@ -15,6 +15,7 @@
 #include "international_string_util.h"
 #include "strings.h"
 #include "graphics.h"
+#include "event_data.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
 
@@ -394,6 +395,11 @@ static bool8 CheckConditions(int selection)
         case MENU_GAME:
             switch(selection)
             {
+                case MENUITEM_GAME_FOLLOWER_PKMN:
+                    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0 && !FlagGet(FLAG_IS_CHAMPION))
+                        return FALSE;
+                    else
+                        return TRUE;
                 default:
                     return TRUE;
             }
