@@ -337,6 +337,7 @@ SECTIONS {
         src/tx_rac_menu.o(.text);
         src/tx_randomizer_and_challenges.o(.text);
         src/build_info.o(.text);
+        src/ec_initial_screen.o(.text);
     } =0
 
     script_data :
@@ -702,6 +703,7 @@ SECTIONS {
         src/tx_rac_menu.o(.rodata);
         src/tx_randomizer_and_challenges.o(.rodata);
         src/build_info.o(.rodata);
+        src/ec_initial_screen.o(.rodata);
     } =0
 
     song_data :

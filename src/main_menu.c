@@ -38,6 +38,7 @@
 #include "mystery_gift_menu.h"
 #include "tx_randomizer_and_challenges.h"
 #include "battle_setup.h"
+#include "ec_initial_screen.h"
 
 #ifdef GBA_PRINTF //tx_randomizer_and_challenges
     //#include "printf.h"
@@ -1068,7 +1069,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 // gPlttBufferFaded[0] = RGB_BLACK;
                 // gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
                 gMain.savedCallback = CB2_NewGameBirchSpeech_ReturnFromTxRandomizerChallengesOptions;
-                SetMainCallback2(CB2_InitTxRandomizerChallengesMenu);
+                SetMainCallback2(CB2_InitECInitialScreen);
                 DestroyTask(taskId);
                 break;
             case ACTION_CONTINUE:
