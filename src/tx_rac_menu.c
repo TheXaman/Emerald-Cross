@@ -38,7 +38,6 @@ enum
 // Menu items
 enum
 {
-    MENUITEM_RANDOM_OFF_ON,
     MENUITEM_RANDOM_WILD_PKMN,
     MENUITEM_RANDOM_TRAINER,
     MENUITEM_RANDOM_STATIC,
@@ -201,7 +200,6 @@ static void DrawBgWindowFrames(void);
 
 static void DrawChoices_Random_OffOn(int selection, int y, bool8 active);
 static void DrawChoices_Random_OffRandom(int selection, int y, bool8 active);
-static void DrawChoices_Random_Toggle(int selection, int y);
 static void DrawChoices_Random_WildPkmn(int selection, int y);
 static void DrawChoices_Random_Trainer(int selection, int y);
 static void DrawChoices_Random_Static(int selection, int y);
@@ -274,7 +272,6 @@ struct // MENU_RANDOMIZER
     int (*processInput)(int selection);
 } static const sItemFunctionsRandom[MENUITEM_RANDOM_COUNT] =
 {
-    [MENUITEM_RANDOM_OFF_ON]                  = {DrawChoices_Random_Toggle,             ProcessInput_Options_Two},
     [MENUITEM_RANDOM_WILD_PKMN]               = {DrawChoices_Random_WildPkmn,           ProcessInput_Options_Two},
     [MENUITEM_RANDOM_TRAINER]                 = {DrawChoices_Random_Trainer,            ProcessInput_Options_Two},
     [MENUITEM_RANDOM_STATIC]                  = {DrawChoices_Random_Static,             ProcessInput_Options_Two},
@@ -347,7 +344,6 @@ static const u8 sText_Next[] =                      _("NEXT");
 
 static const u8 *const sOptionMenuItemsNamesRandom[MENUITEM_RANDOM_COUNT] =
 {
-    [MENUITEM_RANDOM_OFF_ON]                    = sText_Randomizer,
     [MENUITEM_RANDOM_WILD_PKMN]                 = sText_WildPkmn,
     [MENUITEM_RANDOM_TRAINER]                   = sText_Trainer,
     [MENUITEM_RANDOM_STATIC]                    = sText_Static,
@@ -433,26 +429,24 @@ static bool8 CheckConditions(int selection)
     case MENU_RANDOMIZER:
         switch(selection)
         {
-            case MENUITEM_RANDOM_WILD_PKMN:                 return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_TRAINER:                   return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_STATIC:                    return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL:   return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON] 
-                                                                && (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
+            case MENUITEM_RANDOM_WILD_PKMN:                 return TRUE;
+            case MENUITEM_RANDOM_TRAINER:                   return TRUE;
+            case MENUITEM_RANDOM_STATIC:                    return TRUE;
+            case MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL:   return (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER] 
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC])
                                                                 && !sOptions->sel_randomizer[MENUITEM_RANDOM_CHAOS];
-            case MENUITEM_RANDOM_INCLUDE_LEGENDARIES:       return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON] 
-                                                                && (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
+            case MENUITEM_RANDOM_INCLUDE_LEGENDARIES:       return (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN] 
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER]
                                                                     || sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC]);
-            case MENUITEM_RANDOM_TYPE:                      return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_MOVES:                     return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_ABILITIES:                 return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_EVOLUTIONS:                return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_EVOLUTIONS_METHODS:        return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_TYPE_EFFEC:                return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_ITEMS:                     return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON];
-            case MENUITEM_RANDOM_CHAOS:                     return sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON] && (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN]
+            case MENUITEM_RANDOM_TYPE:                      return TRUE;
+            case MENUITEM_RANDOM_MOVES:                     return TRUE;
+            case MENUITEM_RANDOM_ABILITIES:                 return TRUE;
+            case MENUITEM_RANDOM_EVOLUTIONS:                return TRUE;
+            case MENUITEM_RANDOM_EVOLUTIONS_METHODS:        return TRUE;
+            case MENUITEM_RANDOM_TYPE_EFFEC:                return TRUE;
+            case MENUITEM_RANDOM_ITEMS:                     return TRUE;
+            case MENUITEM_RANDOM_CHAOS:                     return (sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN]
                                                                 || sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER]
                                                                 || sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC]
                                                                 || sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE]
@@ -515,7 +509,6 @@ static const u8 sText_Description_Chaos_Mode_On[]              = _("Every above 
 static const u8 sText_Description_Random_Next[]                = _("Continue to Nuzlocke options.");
 static const u8 *const sOptionMenuItemDescriptionsRandomizer[MENUITEM_RANDOM_COUNT][2] =
 {
-    [MENUITEM_RANDOM_OFF_ON]                    = {sText_Description_Randomizer_Off,               sText_Description_Randomizer_On},
     [MENUITEM_RANDOM_WILD_PKMN]                 = {sText_Description_WildPokemon_Off,              sText_Description_WildPokemon_On},
     [MENUITEM_RANDOM_TRAINER]                   = {sText_Description_Random_Trainer_Off,           sText_Description_Random_Trainer_On},
     [MENUITEM_RANDOM_STATIC]                    = {sText_Description_Random_Static_Off,            sText_Description_Random_Static_On},
@@ -919,7 +912,6 @@ void CB2_InitTxRandomizerChallengesMenu(void)
                
 
         sOptions = AllocZeroed(sizeof(*sOptions));
-        sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON]                     = FALSE;
         sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN]                  = gSaveBlock1Ptr->tx_Random_WildPokemon;
         sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER]                    = gSaveBlock1Ptr->tx_Random_Trainer;
         sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC]                     = gSaveBlock1Ptr->tx_Random_Static;
@@ -1182,40 +1174,20 @@ static void Task_RandomizerChallengesMenuFadeOut(u8 taskId)
 void SaveData_TxRandomizerAndChallenges(void)
 {
     PrintCurrentSelections();
-    // MENU_RANDOMIZER
-    if (sOptions->sel_randomizer[MENUITEM_RANDOM_OFF_ON] == TRUE)
-    {
-        gSaveBlock1Ptr->tx_Random_WildPokemon        = sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN];
-        gSaveBlock1Ptr->tx_Random_Trainer            = sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER];
-        gSaveBlock1Ptr->tx_Random_Static             = sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC];
-        gSaveBlock1Ptr->tx_Random_Similar            = !sOptions->sel_randomizer[MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL];
-        gSaveBlock1Ptr->tx_Random_MapBased           = TX_RANDOM_MAP_BASED;
-        gSaveBlock1Ptr->tx_Random_IncludeLegendaries = sOptions->sel_randomizer[MENUITEM_RANDOM_INCLUDE_LEGENDARIES];
-        gSaveBlock1Ptr->tx_Random_Type               = sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE];
-        gSaveBlock1Ptr->tx_Random_Moves              = sOptions->sel_randomizer[MENUITEM_RANDOM_MOVES];
-        gSaveBlock1Ptr->tx_Random_Abilities          = sOptions->sel_randomizer[MENUITEM_RANDOM_ABILITIES];
-        gSaveBlock1Ptr->tx_Random_Evolutions         = sOptions->sel_randomizer[MENUITEM_RANDOM_EVOLUTIONS];
-        gSaveBlock1Ptr->tx_Random_EvolutionMethods   = sOptions->sel_randomizer[MENUITEM_RANDOM_EVOLUTIONS_METHODS];
-        gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE_EFFEC];
-        gSaveBlock1Ptr->tx_Random_Items              = sOptions->sel_randomizer[MENUITEM_RANDOM_ITEMS];
-        gSaveBlock1Ptr->tx_Random_Chaos              = sOptions->sel_randomizer[MENUITEM_RANDOM_CHAOS];
-    }
-    else
-    {
-        gSaveBlock1Ptr->tx_Random_WildPokemon        = FALSE;
-        gSaveBlock1Ptr->tx_Random_Trainer            = FALSE;
-        gSaveBlock1Ptr->tx_Random_Static             = FALSE;
-        gSaveBlock1Ptr->tx_Random_Similar            = FALSE;
-        gSaveBlock1Ptr->tx_Random_MapBased           = FALSE;
-        gSaveBlock1Ptr->tx_Random_IncludeLegendaries = FALSE;
-        gSaveBlock1Ptr->tx_Random_Type               = FALSE;
-        gSaveBlock1Ptr->tx_Random_Moves              = FALSE;
-        gSaveBlock1Ptr->tx_Random_Abilities          = FALSE;
-        gSaveBlock1Ptr->tx_Random_Evolutions         = FALSE;
-        gSaveBlock1Ptr->tx_Random_EvolutionMethods   = FALSE;
-        gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = FALSE;
-        gSaveBlock1Ptr->tx_Random_Chaos              = FALSE;
-    } 
+    gSaveBlock1Ptr->tx_Random_WildPokemon        = sOptions->sel_randomizer[MENUITEM_RANDOM_WILD_PKMN];
+    gSaveBlock1Ptr->tx_Random_Trainer            = sOptions->sel_randomizer[MENUITEM_RANDOM_TRAINER];
+    gSaveBlock1Ptr->tx_Random_Static             = sOptions->sel_randomizer[MENUITEM_RANDOM_STATIC];
+    gSaveBlock1Ptr->tx_Random_Similar            = !sOptions->sel_randomizer[MENUITEM_RANDOM_SIMILAR_EVOLUTION_LEVEL];
+    gSaveBlock1Ptr->tx_Random_MapBased           = TX_RANDOM_MAP_BASED;
+    gSaveBlock1Ptr->tx_Random_IncludeLegendaries = sOptions->sel_randomizer[MENUITEM_RANDOM_INCLUDE_LEGENDARIES];
+    gSaveBlock1Ptr->tx_Random_Type               = sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE];
+    gSaveBlock1Ptr->tx_Random_Moves              = sOptions->sel_randomizer[MENUITEM_RANDOM_MOVES];
+    gSaveBlock1Ptr->tx_Random_Abilities          = sOptions->sel_randomizer[MENUITEM_RANDOM_ABILITIES];
+    gSaveBlock1Ptr->tx_Random_Evolutions         = sOptions->sel_randomizer[MENUITEM_RANDOM_EVOLUTIONS];
+    gSaveBlock1Ptr->tx_Random_EvolutionMethods   = sOptions->sel_randomizer[MENUITEM_RANDOM_EVOLUTIONS_METHODS];
+    gSaveBlock1Ptr->tx_Random_TypeEffectiveness  = sOptions->sel_randomizer[MENUITEM_RANDOM_TYPE_EFFEC];
+    gSaveBlock1Ptr->tx_Random_Items              = sOptions->sel_randomizer[MENUITEM_RANDOM_ITEMS];
+    gSaveBlock1Ptr->tx_Random_Chaos              = sOptions->sel_randomizer[MENUITEM_RANDOM_CHAOS];
     //MENU_NUZLOCKE
     switch (sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE])
     {
@@ -1507,11 +1479,6 @@ static void DrawChoices_Random_OffRandom(int selection, int y, bool8 active)
     DrawOptionMenuChoice(sText_Random, GetStringRightAlignXOffset(1, sText_Random, 198), y, styles[1], active);
 }
 
-static void DrawChoices_Random_Toggle(int selection, int y)
-{
-    bool8 active = CheckConditions(MENUITEM_RANDOM_OFF_ON);
-    DrawChoices_Random_OffOn(selection, y, active);
-}
 static void DrawChoices_Random_WildPkmn(int selection, int y)
 {
     bool8 active = CheckConditions(MENUITEM_RANDOM_WILD_PKMN);
