@@ -1606,6 +1606,8 @@ void CB2_NewGame(void)
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
     SetFieldVBlankCallback();
+    if (gSaveBlock1Ptr->tx_Challenges_Nuzlocke != 0)
+        gSaveBlock2Ptr->optionsShowFollowerPokemon = 0;
     SetMainCallback1(CB1_Overworld);
     SetMainCallback2(CB2_Overworld);
 }
