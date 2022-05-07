@@ -2,9 +2,9 @@
 .set AMOUNT, VAR_0x8001
 
 Std_ObtainItem::
-	copyvar VAR_0x8006, ITEMID
 	specialvar VAR_RESULT, IsRandomItemsActivated
 	call_if_eq VAR_RESULT, TRUE, Std_RandomItem
+	copyvar VAR_0x8006, ITEMID
 	additem ITEMID, AMOUNT
 	copyvar VAR_0x8007, VAR_RESULT
 	call EventScript_ObtainItemMessage
