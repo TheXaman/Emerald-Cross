@@ -3,6 +3,7 @@
 
 u8 ScriptGiveMon(u16, u8, u16, u32, u32, u8);
 u8 ScriptGiveBeldum(void);
+u8 ScriptGiveGligar(void);
 u8 ScriptGiveEgg(u16);
 void CreateScriptedWildMon(u16, u8, u16);
 void ScriptSetMonMoveSlot(u8, u16, u8);

@@ -2401,3 +2401,9 @@ bool8 ScrCmd_givebeldum(struct ScriptContext *ctx)
     gSpecialVar_Result = ScriptGiveBeldum();
     return FALSE;
 }
+
+bool8 ScrCmd_givegligar(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = ScriptGiveGligar();
+    return FALSE;
+}

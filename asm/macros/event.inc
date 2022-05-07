@@ -1757,6 +1757,10 @@
   .4byte \func
   .endm
 
+	.macro givegligar
+	.byte 0xe7
+	.endm
+
 
 @ Supplementary
 

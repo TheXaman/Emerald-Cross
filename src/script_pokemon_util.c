@@ -114,6 +114,79 @@ u8 ScriptGiveBeldum()
     return sentToPc;
 }
 
+#define gcnLCGa 0x000343FDu
+#define gcnLCGc 0x00269EC3u
+
+u8 ScriptGiveGligar(void)
+{
+    struct Pokemon mon;
+	u32 personality, gcnRng, otId;
+	u16 iv, iv1, iv2, hId, lId, tid, sid, nationalDexNum, item;
+	u8 otGender, sentToPc, version, language, location;
+    bool8 nationalRibbon;
+    u8 otName[] = _("JAIZU");
+	
+    gcnRng = Random();
+    iv1 = gcnRng >> 16;
+    gcnRng = gcnRng * gcnLCGa + gcnLCGc;
+    iv2 = gcnRng >> 16;
+    gcnRng = gcnRng * gcnLCGa + gcnLCGc;
+    gcnRng = gcnRng * gcnLCGa + gcnLCGc;
+    hId = gcnRng >> 16;
+    gcnRng = gcnRng * gcnLCGa + gcnLCGc;
+    lId = gcnRng >> 16;
+    gcnRng = gcnRng * gcnLCGa + gcnLCGc;
+	personality = (hId << 16) | lId;
+	otGender = MALE;
+    tid = 00000;
+    sid = 00000;
+	otId = (sid << 16) | tid;
+	language = LANGUAGE_ENGLISH;
+	location = 133;
+	item = ITEM_SALAC_BERRY;
+	version = VERSION_GAMECUBE;
+    nationalRibbon = TRUE;
+
+	CreateMon(&mon, SPECIES_GLIGAR, 43, 32, TRUE, personality, OT_ID_PRESET, otId);
+	SetMonData(&mon, MON_DATA_MET_GAME, &version);
+	SetMonData(&mon, MON_DATA_OT_NAME, &otName);
+	SetMonData(&mon, MON_DATA_OT_GENDER, &otGender);
+	SetMonData(&mon, MON_DATA_LANGUAGE, &language);
+	SetMonData(&mon, MON_DATA_MET_LOCATION, &location);
+    SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
+    iv = iv1 & MAX_IV_MASK;
+    SetMonData(&mon, MON_DATA_HP_IV, &iv);
+    iv = (iv1 & (MAX_IV_MASK << 5)) >> 5;
+    SetMonData(&mon, MON_DATA_ATK_IV, &iv);
+    iv = (iv1 & (MAX_IV_MASK << 10)) >> 10;
+    SetMonData(&mon, MON_DATA_DEF_IV, &iv);
+    iv = iv2 & MAX_IV_MASK;
+    SetMonData(&mon, MON_DATA_SPEED_IV, &iv);
+    iv = (iv2 & (MAX_IV_MASK << 5)) >> 5;
+    SetMonData(&mon, MON_DATA_SPATK_IV, &iv);
+    iv = (iv2 & (MAX_IV_MASK << 10)) >> 10;
+    SetMonData(&mon, MON_DATA_SPDEF_IV, &iv);
+    SetMonData(&mon, MON_DATA_NATIONAL_RIBBON, &nationalRibbon);
+    SetMonMoveSlot(&mon, MOVE_FAINT_ATTACK, 0);
+    SetMonMoveSlot(&mon, MOVE_SAND_ATTACK, 1);
+    SetMonMoveSlot(&mon, MOVE_POISON_STING, 2);
+    SetMonMoveSlot(&mon, MOVE_SLASH, 3);
+    CalculateMonStats(&mon);
+    sentToPc = GiveMonToPlayer(&mon, TRUE);
+    nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_GLIGAR);
+
+    // Don't set Pokédex flag for MON_CANT_GIVE
+    switch(sentToPc)
+    {
+    case MON_GIVEN_TO_PARTY:
+    case MON_GIVEN_TO_PC:
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
+        break;
+    }
+    return sentToPc;
+}
+
 u8 ScriptGiveEgg(u16 species)
 {
     struct Pokemon mon;
