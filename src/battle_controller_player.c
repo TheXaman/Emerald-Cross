@@ -2287,22 +2287,48 @@ static void PlayerHandleDrawTrainerPic(void)
 {
     s16 xPos, yPos;
     u32 trainerPicId;
+    bool8 foundMatch = FALSE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
+        switch (gLinkPlayers[GetMultiplayerId()].versionModifier)
         {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
+            //case DEV_SOLITAIRI:
+            //    if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_EMERALD)
+            //    {
+            //        foundMatch = TRUE;
+            //        trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_HELIODOR_BRENDAN;
+            //    }
+            //    break;
+            //case DEV_SOLITAIRI_2:
+            //    if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED)
+            //    {
+            //        foundMatch = TRUE;
+            //        trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_GOLD;
+            //    }
+            //    break;
+            case DEV_TEST:
+                foundMatch = TRUE;
+                trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_WALLY;
+                break;
         }
-        else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY
-                 || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE)
+        
+        if (!foundMatch)
         {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
-        }
-        else
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
+            if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
+                || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
+            {
+                trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
+            }
+            else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY
+                    || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE)
+            {
+                trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
+            }
+            else
+            {
+                trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
+            }
         }
     }
     else
@@ -2375,23 +2401,49 @@ static void PlayerHandleDrawTrainerPic(void)
 static void PlayerHandleTrainerSlide(void)
 {
     u32 trainerPicId;
+    bool8 foundMatch = FALSE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
-        }
-        else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY
-                 || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
-        }
-        else
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
-        }
+        switch (gLinkPlayers[GetMultiplayerId()].versionModifier)
+		{
+			//case DEV_SOLITAIRI:
+			//	if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_EMERALD)
+			//	{
+			//		foundMatch = TRUE;
+			//		trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_HELIODOR_BRENDAN;
+			//	}
+			//	break;
+			//case DEV_SOLITAIRI_2:
+			//	if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED)
+			//	{
+			//		foundMatch = TRUE;
+			//		trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_GOLD;
+			//	}
+			//	break;
+			case DEV_TEST:
+				foundMatch = TRUE;
+				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_WALLY;
+				break;
+		}
+		
+		if (!foundMatch)
+		{
+			if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
+				|| (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
+			{
+				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
+			}
+			else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY
+					|| (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE)
+			{
+				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
+			}
+			else
+			{
+				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
+			}
+		}
     }
     else
     {

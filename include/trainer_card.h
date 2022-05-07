@@ -6,6 +6,16 @@
 
 enum
 {
+    TRAINER_FRLG,
+    TRAINER_RS,
+    TRAINER_EMERALD,
+    TRAINER_HELIODOR,
+    TRAINER_CRYSTALDUST,
+    TRAINER_TEST
+};
+
+enum
+{
     CARD_TYPE_FRLG,
     CARD_TYPE_RS,
     CARD_TYPE_EMERALD,
@@ -44,6 +54,7 @@ struct TrainerCard
     /*0x28*/ u16 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH];
     /*0x30*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x38*/ u8 version;
+    /*0x39*/ u8 crystalDustVersion;
     /*0x3A*/ bool16 linkHasAllFrontierSymbols;
     /*0x3C*/ union {
                 u32 berryCrush;
@@ -56,6 +67,7 @@ struct TrainerCard
     /*0x4E*/ u8 monIconTint; // FRLG only
     /*0x4F*/ u8 facilityClass;
     /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES]; // FRLG only
+    /*0x53*/ u8 versionModifier;
     /*0x54*/ u16 monSpecies[PARTY_SIZE]; // FRLG only
              // Note: Link players use linkHasAllFrontierSymbols, not the field below,
              // which they use for a Wonder Card flag id instead (see CreateTrainerCardInBuffer)
