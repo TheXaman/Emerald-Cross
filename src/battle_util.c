@@ -4029,7 +4029,7 @@ bool8 FriendshipStatusRecover(void)
 	else
 		mon = &gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker]];
 
-	if (GetMonData(mon, MON_DATA_FRIENDSHIP) >= 220 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	if (GetMonData(mon, MON_DATA_FRIENDSHIP) >= 220 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 	{
 		if (gBattleMons[gActiveBattler].status1 & STATUS1_ANY && Random() % 100 < 20)
 		{

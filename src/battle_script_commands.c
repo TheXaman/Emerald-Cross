@@ -1723,7 +1723,7 @@ static void Cmd_adjustnormaldamage(void)
 				friendEndured = TRUE;
 		}
 
-		if (friendEndured)
+		if ((friendEndured == TRUE) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 		{
 			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
 			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
@@ -3444,7 +3444,7 @@ static void Cmd_getexp(void)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-                	if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FRIENDSHIP) >= 220)
+                	if ((GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FRIENDSHIP) >= 220) && gSaveBlock2Ptr->optionsFriendshipBonuses == OPTION_FRIENDSHIP_BONUS_ON)
 						gBattleMoveDamage = (gBattleMoveDamage * 120) / 100;
 
                     if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
