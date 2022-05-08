@@ -1543,7 +1543,6 @@ void CB2_OverworldBasic(void)
 
 void CB2_Overworld(void)
 {
-    u32 *debugPtr = (u32*) 0x0203de00;
     bool32 fading = (gPaletteFade.active != 0);
     if (fading)
         SetVBlankCallback(NULL);
