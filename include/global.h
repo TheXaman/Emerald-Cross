@@ -529,6 +529,7 @@ struct SaveBlock2
     /*0x64C*/ struct BattleFrontier frontier;
     u8 itemFlags[ITEM_FLAGS_COUNT];
     bool8 autoRun;
+    u16 lastUsedBall;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

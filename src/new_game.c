@@ -229,6 +229,7 @@ void NewGameInitData(void)
     memset(&gSaveBlock2Ptr->itemFlags, 0, sizeof(gSaveBlock2Ptr->itemFlags));
     gSaveBlock2Ptr->autoRun = FALSE;
     VarSet(VAR_SAVE_VER, EMERALD_CROSS_INTERNAL_VERSION);
+    gSaveBlock2Ptr->lastUsedBall = 0;
 }
 
 static void ResetMiniGamesRecords(void)
