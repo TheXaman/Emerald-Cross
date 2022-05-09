@@ -77,7 +77,7 @@ const u8 sText_EC_Speech[] = _("Welcome to {COLOR GREEN}Pokémon Emerald Cross{C
 const u8 sText_EC_Speech_2[] = _("Next you will be able to set randomizer,\n"
                                     "difficulty and challenge modes.\n\n"
                                     "You {COLOR RED}can't{COLOR DARK_GRAY} change those later!\n\n"
-                                    "This settings {COLOR RED}disable{COLOR DARK_GRAY} link features:\nRandomization, nuzlocke, one types,\nstat equalizer and mirror mode.");
+                                    "These settings {COLOR RED}disable{COLOR DARK_GRAY} link features:\nRandomization, nuzlocke, one types,\nstat equalizer and mirror mode.");
 
 void CB2_InitECInitialScreen(void)
 {
