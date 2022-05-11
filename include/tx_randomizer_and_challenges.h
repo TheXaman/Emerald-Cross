@@ -24,6 +24,7 @@
 #define TX_NUZLOCKE_SPECIES_CLAUSE 1
 #define TX_NUZLOCKE_SHINY_CLAUSE 1
 #define TX_NUZLOCKE_NICKNAMING 1
+#define TX_NUZLOCKE_DELETION 0
 
 #define TX_DIFFICULTY_PARTY_LIMIT 0
 #define TX_DIFFICULTY_LEVEL_CAP 0
@@ -82,5 +83,7 @@ extern struct tx_randomizer_OptionsMenu *sRandomizerOptions;
 extern struct tx_challenges_OptionsMenu *sChallengesOptions;
 
 #define TX_EXP_MULTIPLER_ONLY_ON_NUZLOCKE_AND_RANDOMIZER FALSE
+
+#define TX_NUZLOCKE_CEMETERY_ICON_GRAY TRUE
 
 #endif // GUARD_DIFFICULTY_H
