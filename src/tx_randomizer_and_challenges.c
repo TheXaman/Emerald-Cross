@@ -92,6 +92,7 @@ bool8 HMsOverwriteOptionActive(void)
 {
     return (gSaveBlock1Ptr->tx_Challenges_Nuzlocke 
             || gSaveBlock1Ptr->tx_Challenges_Mirror 
+            || gSaveBlock1Ptr->tx_Random_Moves
             || gSaveBlock1Ptr->tx_Challenges_OneTypeChallenge);
 }
 
@@ -225,6 +226,14 @@ u8 NuzlockeFlagGet(u16 mapsec) // @Kurausukun
 
 void NuzlockeDeletePartyMon(u8 position)
 {
+    if (!gSaveBlock1Ptr->tx_Nuzlocke_Deletion)
+    {
+        struct Pokemon *pokemon = &gPlayerParty[position];
+        u8 val[1] = {TRUE};
+        
+        SetMonData(pokemon, MON_DATA_NUZLOCKE_RIBBON, val);
+        SendMonToPC(&gPlayerParty[position]);
+    }
     PurgeMonOrBoxMon(TOTAL_BOXES_COUNT, position);
 }
 void NuzlockeDeleteFaintedPartyPokemon(void) // @Kurausukun
