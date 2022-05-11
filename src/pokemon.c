@@ -13610,7 +13610,7 @@ u16 PickRandomStarter(u16 *speciesList, u8 starterId)
     if (gSaveBlock1Ptr->tx_Random_Chaos)
         return sRandomSpeciesLegendary[RandomSeededModulo(species, RANDOM_SPECIES_COUNT_LEGENDARY)];
     
-    if (gSaveBlock1Ptr->tx_Random_Similar)
+    if (gSaveBlock1Ptr->tx_Random_PkmnTiers)
     {
         u16 *stemp = Alloc(sizeof(sRandomSpeciesEvo0));
         DmaCopy16(3, sRandomSpeciesEvo0, stemp, sizeof(sRandomSpeciesEvo0));

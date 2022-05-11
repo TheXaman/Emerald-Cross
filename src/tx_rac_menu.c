@@ -318,6 +318,7 @@ struct // MENU_CHALLENGES
     [MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]   = {DrawChoices_Nuzlocke_SpeciesClause,  ProcessInput_Options_Two},
     [MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]     = {DrawChoices_Nuzlocke_ShinyClause,    ProcessInput_Options_Two},
     [MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]       = {DrawChoices_Nuzlocke_Nicknaming,     ProcessInput_Options_Two},
+    [MENUITEM_CHALLENGES_NUZLOCKE_DELETION]         = {DrawChoices_Nuzlocke_Deletion,       ProcessInput_Options_Two},
     [MENUITEM_CHALLENGES_EVO_LIMIT]                 = {DrawChoices_Challenges_EvoLimit,             ProcessInput_Options_Three},
     [MENUITEM_CHALLENGES_ONE_TYPE_CHALLENGE]        = {DrawChoices_Challenges_OneTypeChallenge,     ProcessInput_Options_OneTypeChallenge},
     [MENUITEM_CHALLENGES_BASE_STAT_EQUALIZER]       = {DrawChoices_Challenges_BaseStatEqualizer,    ProcessInput_Options_Four},
@@ -405,6 +406,7 @@ static const u8 *const sOptionMenuItemsNamesChallenges[MENUITEM_CHALLENGES_COUNT
     [MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]  = sText_SpeciesClause,
     [MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]    = sText_ShinyClause,
     [MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]      = sText_Nicknaming,
+    [MENUITEM_CHALLENGES_NUZLOCKE_DELETION]        = sText_Deletion,
     [MENUITEM_CHALLENGES_EVO_LIMIT]             = sText_EvoLimit,
     [MENUITEM_CHALLENGES_ONE_TYPE_CHALLENGE]    = sText_OneTypeChallenge,
     [MENUITEM_CHALLENGES_BASE_STAT_EQUALIZER]   = sText_BaseStatEqualizer,
@@ -470,6 +472,7 @@ static bool8 CheckConditions(int selection)
         case MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE:  return sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE];
         case MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE:    return sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE];
         case MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING:      return sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE];
+        case MENUITEM_CHALLENGES_NUZLOCKE_DELETION:        return sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE];
         case MENUITEM_CHALLENGES_MIRROR_THIEF:  return sOptions->sel_challenges[MENUITEM_CHALLENGES_MIRROR];
         default:                                return TRUE;
         }
@@ -591,10 +594,11 @@ static const u8 sText_Description_TXC_MirrorThief_Off[]             = _("The pla
 static const u8 sText_Description_TXC_MirrorThief_On[]              = _("The player keeps the enemies party\nafter battle!");
 static const u8 *const sOptionMenuItemDescriptionsChallenges[MENUITEM_CHALLENGES_COUNT][4] =
 {
-    [MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE]            = {sText_Description_TXC_Nuzlocke_Base,             sText_Description_TXC_Nuzlocke_Normal,              sText_Description_TXC_Nuzlocke_Hard,        sText_Empty},
-    [MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]      = {sText_Description_TXC_Nuzlocke_SpeciesClause_On, sText_Description_TXC_Nuzlocke_SpeciesClause_Off,   sText_Empty,                                sText_Empty},
-    [MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]        = {sText_Description_TXC_Nuzlocke_ShinyClause_On,  sText_Description_TXC_Nuzlocke_ShinyClause_Off,      sText_Empty,                                sText_Empty},
-    [MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]          = {sText_Description_TXC_Nuzlocke_Nicknaming_On,   sText_Description_TXC_Nuzlocke_Nicknaming_Off,       sText_Empty},   
+    [MENUITEM_CHALLENGES_NUZLOCKE_NUZLOCKE]            = {sText_Description_TXC_Nuzlocke_Base,             sText_Description_TXC_Nuzlocke_Normal,               sText_Description_TXC_Nuzlocke_Hard,        sText_Empty},
+    [MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]      = {sText_Description_TXC_Nuzlocke_SpeciesClause_On, sText_Description_TXC_Nuzlocke_SpeciesClause_Off,    sText_Empty,                                sText_Empty},
+    [MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]        = {sText_Description_TXC_Nuzlocke_ShinyClause_On,    sText_Description_TXC_Nuzlocke_ShinyClause_Off,     sText_Empty,                                sText_Empty},
+    [MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]          = {sText_Description_TXC_Nuzlocke_Nicknaming_On,     sText_Description_TXC_Nuzlocke_Nicknaming_Off,      sText_Empty},   
+    [MENUITEM_CHALLENGES_NUZLOCKE_DELETION]            = {sText_Description_TXC_Nuzlocke_Deletion_Cemetery, sText_Description_TXC_Nuzlocke_Deletion_Deletion,   sText_Empty,                                sText_Empty},
     [MENUITEM_CHALLENGES_EVO_LIMIT]             = {sText_Description_TXC_EvoLimit_Base,             sText_Description_TXC_EvoLimit_First,           sText_Description_TXC_EvoLimit_All,         sText_Empty},
     [MENUITEM_CHALLENGES_ONE_TYPE_CHALLENGE]    = {sText_Description_TXC_OneTypeChallenge,          sText_Empty,                                    sText_Empty,                                sText_Empty},
     [MENUITEM_CHALLENGES_BASE_STAT_EQUALIZER]   = {sText_Description_TXC_BaseStatEqualizer_Base,    sText_Description_TXC_BaseStatEqualizer_100,    sText_Description_TXC_BaseStatEqualizer_255,sText_Description_TXC_BaseStatEqualizer_500},
@@ -940,7 +944,7 @@ void CB2_InitTxRandomizerChallengesMenu(void)
         sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]   = !gSaveBlock1Ptr->tx_Nuzlocke_SpeciesClause;
         sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]     = !gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause;
         sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]       = !gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming;
-        sOptions->sel_nuzlocke[MENUITEM_NUZLOCKE_DELETION]                      = gSaveBlock1Ptr->tx_Nuzlocke_Deletion;        
+        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_DELETION]         = gSaveBlock1Ptr->tx_Nuzlocke_Deletion;        
         // MENU_DIFFICULTY
         sOptions->sel_difficulty[MENUITEM_DIFFICULTY_PARTY_LIMIT]    = gSaveBlock1Ptr->tx_Challenges_PartyLimit;
         sOptions->sel_difficulty[MENUITEM_DIFFICULTY_LEVEL_CAP]      = gSaveBlock1Ptr->tx_Challenges_LevelCap;
@@ -1213,7 +1217,7 @@ void SaveData_TxRandomizerAndChallenges(void)
         gSaveBlock1Ptr->tx_Nuzlocke_SpeciesClause   = !sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE];
         gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause     = !sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE];
         gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming      = !sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING];
-        gSaveBlock1Ptr->tx_Nuzlocke_Deletion        = sOptions->sel_nuzlocke[MENUITEM_NUZLOCKE_DELETION];
+        gSaveBlock1Ptr->tx_Nuzlocke_Deletion        = sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_DELETION];
     }
     else
     {
@@ -1589,10 +1593,10 @@ static void DrawChoices_Challenges_Nuzlocke(int selection, int y)
 
     if (selection == 0)
     {
-        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]    = !TX_NUZLOCKE_SPECIES_CLAUSE;
-        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]      = !TX_NUZLOCKE_SHINY_CLAUSE; 
-        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]        = !TX_NUZLOCKE_NICKNAMING;
-        sOptions->sel_nuzlocke[MENUITEM_NUZLOCKE_DELETION]          = TX_NUZLOCKE_DELETION; 
+        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SPECIES_CLAUSE]   = !TX_NUZLOCKE_SPECIES_CLAUSE;
+        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_SHINY_CLAUSE]     = !TX_NUZLOCKE_SHINY_CLAUSE; 
+        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_NICKNAMING]       = !TX_NUZLOCKE_NICKNAMING;
+        sOptions->sel_challenges[MENUITEM_CHALLENGES_NUZLOCKE_DELETION]         = TX_NUZLOCKE_DELETION; 
     }
 }
 
@@ -1615,7 +1619,7 @@ static const u8 sText_Nuzlocke_Cemetery[]  = _("CEMETERY");
 static const u8 sText_Nuzlocke_Deletion[]  = _("RELEASE");
 static void DrawChoices_Nuzlocke_Deletion(int selection, int y)
 {
-    bool8 active = CheckConditions(MENUITEM_NUZLOCKE_DELETION);
+    bool8 active = CheckConditions(MENUITEM_CHALLENGES_NUZLOCKE_DELETION);
     u8 styles[2] = {0};
     styles[selection] = 1;
     DrawOptionMenuChoice(sText_Nuzlocke_Cemetery, 104, y, styles[0], active);
