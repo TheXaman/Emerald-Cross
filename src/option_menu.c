@@ -495,7 +495,7 @@ static const u8 *const sOptionMenuItemDescriptionsBattle[MENUITEM_BATTLE_COUNT][
 {
     [MENUITEM_BATTLE_SCENE]     = {sText_Desc_BattleScene,      NULL, NULL, NULL},
     [MENUITEM_BATTLE_STYLE]     = {sText_Desc_BattleStyle,      NULL, NULL, NULL},
-    [MENUITEM_BATTLE_INTRO]     = {sText_Desc_BattleIntroOn,    sText_Desc_BattleIntroOff, NULL, NULL},
+    [MENUITEM_BATTLE_INTRO]     = {sText_Desc_BattleIntroOff,    sText_Desc_BattleIntroOn, NULL, NULL},
     [MENUITEM_BATTLE_HP_BAR]    = {sText_Desc_BattleHPBar,      NULL, NULL, NULL},
     [MENUITEM_BATTLE_EXP_BAR]   = {sText_Desc_BattleExpBar,     NULL, NULL, NULL},
     [MENUITEM_BATTLE_LAST_BALL] = {sText_Desc_BattleLastBall,   NULL, NULL, NULL},
